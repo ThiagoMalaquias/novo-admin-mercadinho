@@ -1,0 +1,326 @@
+<div class="space-y-6" data-controller="home">
+  <!-- Page Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Bem-vindo de volta! Aqui está um resumo das suas atividades.</p>
+    </div>
+    <div class="mt-4 sm:mt-0 flex space-x-3">
+      <button class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        Exportar
+      </button>
+      <button class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        Nova Venda
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- Total Revenue -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+      <div class="flex items-center justify-between">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Receita Total</p>
+          <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">R$ 124.580</p>
+          <div class="mt-2 flex items-center">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              +12.5%
+            </span>
+            <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">vs mês anterior</span>
+          </div>
+        </div>
+        <div class="ml-4 flex-shrink-0">
+          <div class="flex items-center justify-center w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg">
+            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Orders -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+      <div class="flex items-center justify-between">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Novos Pedidos</p>
+          <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">1.234</p>
+          <div class="mt-2 flex items-center">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              +8.2%
+            </span>
+            <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">vs mês anterior</span>
+          </div>
+        </div>
+        <div class="ml-4 flex-shrink-0">
+          <div class="flex items-center justify-center w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg">
+            <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Products -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+      <div class="flex items-center justify-between">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Produtos Ativos</p>
+          <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">2.567</p>
+          <div class="mt-2 flex items-center">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              +24
+            </span>
+            <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">este mês</span>
+          </div>
+        </div>
+        <div class="ml-4 flex-shrink-0">
+          <div class="flex items-center justify-center w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg">
+            <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Orders -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+      <div class="flex items-center justify-between">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Pedidos Pendentes</p>
+          <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">89</p>
+          <div class="mt-2 flex items-center">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+              Requer atenção
+            </span>
+          </div>
+        </div>
+        <div class="ml-4 flex-shrink-0">
+          <div class="flex items-center justify-center w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg">
+            <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Revenue Chart -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Receita Mensal</h3>
+        <select id="revenuePeriod" data-action="change->home#updatePeriod" class="text-sm border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+          <option value="6">Últimos 6 meses</option>
+          <option value="12">Últimos 12 meses</option>
+          <option value="year">Este ano</option>
+        </select>
+      </div>
+      <div class="h-64">
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Sales by Category -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Vendas por Categoria</h3>
+      <div class="space-y-4">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Eletrônicos</span>
+            <span class="text-sm font-semibold text-gray-900 dark:text-white">45%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div class="bg-blue-600 h-2 rounded-full" style="width: 45%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Roupas</span>
+            <span class="text-sm font-semibold text-gray-900 dark:text-white">30%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div class="bg-green-600 h-2 rounded-full" style="width: 30%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Alimentos</span>
+            <span class="text-sm font-semibold text-gray-900 dark:text-white">15%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div class="bg-purple-600 h-2 rounded-full" style="width: 15%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Outros</span>
+            <span class="text-sm font-semibold text-gray-900 dark:text-white">10%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div class="bg-orange-600 h-2 rounded-full" style="width: 10%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Orders Table -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Pedidos Recentes</h3>
+      <a href="#" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">Ver todos</a>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-900">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cliente</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Produto</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Data</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">#001</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-semibold mr-3">JS</div>
+                <span class="text-sm text-gray-900 dark:text-white">João Silva</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Notebook Dell</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">R$ 3.450,00</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Concluído</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">15/01/2024</td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <a href="#" class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">Ver</a>
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">#002</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-xs font-semibold mr-3">MS</div>
+                <span class="text-sm text-gray-900 dark:text-white">Maria Santos</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">iPhone 15 Pro</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">R$ 6.999,00</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Pendente</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">14/01/2024</td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <a href="#" class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">Ver</a>
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">#003</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-semibold mr-3">PC</div>
+                <span class="text-sm text-gray-900 dark:text-white">Pedro Costa</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Monitor Samsung</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">R$ 1.299,00</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Concluído</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">14/01/2024</td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <a href="#" class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">Ver</a>
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">#004</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="w-8 h-8 bg-pink-600 rounded-full flex items-center justify-center text-white text-xs font-semibold mr-3">AO</div>
+                <span class="text-sm text-gray-900 dark:text-white">Ana Oliveira</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Teclado Mecânico</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">R$ 450,00</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Processando</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">13/01/2024</td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <a href="#" class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">Ver</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="text-lg font-semibold">Novo Produto</h4>
+        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+      </div>
+      <p class="text-blue-100 text-sm mb-4">Adicione um novo produto ao catálogo com facilidade</p>
+      <button class="w-full bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition">
+        Adicionar Produto
+      </button>
+    </div>
+
+    <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="text-lg font-semibold">Nova Venda</h4>
+        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <p class="text-green-100 text-sm mb-4">Registre uma nova venda rapidamente</p>
+      <button class="w-full bg-white text-green-600 px-4 py-2 rounded-lg font-medium hover:bg-green-50 transition">
+        Registrar Venda
+      </button>
+    </div>
+
+    <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="text-lg font-semibold">Relatórios</h4>
+        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+        </svg>
+      </div>
+      <p class="text-purple-100 text-sm mb-4">Visualize relatórios e análises detalhadas</p>
+      <button class="w-full bg-white text-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-50 transition">
+        Ver Relatórios
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+# test/fixtures/terms_of_uses.yml
+
+one:
+  company: rani_passos
+  content: "<h1>Termos de Uso</h1><p>Ao utilizar nossa plataforma, você concorda com os seguintes termos...</p>"
+
+two:
+  company: rani_passos
+  content: "<h1>Política de Privacidade</h1><p>Seus dados estão seguros conosco...</p>"

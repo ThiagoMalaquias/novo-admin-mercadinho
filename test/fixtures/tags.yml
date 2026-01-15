@@ -1,0 +1,11 @@
+# test/fixtures/tags.yml
+
+tag_programacao:
+  company: rani_passos
+  name: "Programação"
+  id_whatsapp_bot: 12345
+
+tag_concurso:
+  company: rani_passos
+  name: "Concurso Público"
+  id_whatsapp_bot: 67890

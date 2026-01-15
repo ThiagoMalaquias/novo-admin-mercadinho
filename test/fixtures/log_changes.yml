@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  manager: one
+  title: MyString
+  content: MyText
+  move: MyText
+  model: MyString
+
+two:
+  manager: two
+  title: MyString
+  content: MyText
+  move: MyText
+  model: MyString

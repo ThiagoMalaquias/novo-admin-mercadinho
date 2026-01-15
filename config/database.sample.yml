@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  database: pdv_legal_development
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username:
+  password:
+
+development:
+  <<: *default
+  database: pdv_legal_development
+
+test:
+  <<: *default
+  database: pdv_legal_test
+
+production:
+  <<: *default
+  database: pdv_legal_production
+  username: danilo
+  password: <%= ENV['pdv_legal_DATABASE_PASSWORD'] %>

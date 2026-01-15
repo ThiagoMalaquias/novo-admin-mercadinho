@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  course_link: one
+  metadata: MyString
+
+two:
+  course_link: two
+  metadata: MyString

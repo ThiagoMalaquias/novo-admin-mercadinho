@@ -1,0 +1,21 @@
+# test/fixtures/course_essays.yml
+
+one:
+  course: curso_rails_ativo
+  capsule: one
+  sent_type: User
+  sent_id: 1
+  received_type: Manager
+  received_id: 1
+  viewed: false
+  material: "<p>Redação sobre Ruby on Rails enviada pelo aluno</p>"
+
+two:
+  course: curso_premium_lifetime
+  capsule: two
+  sent_type: User
+  sent_id: 2
+  received_type: Manager
+  received_id: 2
+  viewed: true
+  material: "<p>Redação corrigida e comentada pelo professor</p>"

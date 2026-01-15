@@ -1,0 +1,41 @@
+# test/fixtures/teachers.yml
+
+one:
+  company: rani_passos
+  name: "Prof. João Silva"
+  email: "joao.silva@ranipasso.com.br"
+  phone: "(11) 98765-4321"
+  about: "Professor especialista em programação com 10 anos de experiência"
+  sense: "Ensinar é transformar vidas através do conhecimento"
+  motivational_phrase: "Nunca desista dos seus sonhos!"
+  motivational_content: "Continue estudando e você chegará lá"
+  facebook: "facebook.com/profjoao"
+  instagram: "@profjoao"
+  youtube: "youtube.com/profjoao"
+  telegram: "@profjoao"
+  platform: "Udemy"
+  genre: "Masculino"
+  color: "#3498db"
+  slogan: "Educação é o caminho"
+  link_area_hotmart: "https://hotmart.com/profjoao"
+  link_area_aluno: "https://area.ranipasso.com.br/profjoao"
+
+two:
+  company: rani_passos
+  name: "Profa. Maria Santos"
+  email: "maria.santos@ranipasso.com.br"
+  phone: "(11) 97654-3210"
+  about: "Professora especialista em concursos públicos"
+  sense: "Acreditar é o primeiro passo para conquistar"
+  motivational_phrase: "Você é capaz de muito mais!"
+  motivational_content: "Foco, força e fé no seu potencial"
+  facebook: "facebook.com/profmaria"
+  instagram: "@profmaria"
+  youtube: "youtube.com/profmaria"
+  telegram: "@profmaria"
+  platform: "Hotmart"
+  genre: "Feminino"
+  color: "#e74c3c"
+  slogan: "Educação transforma"
+  link_area_hotmart: "https://hotmart.com/profmaria"
+  link_area_aluno: "https://area.ranipasso.com.br/profmaria"

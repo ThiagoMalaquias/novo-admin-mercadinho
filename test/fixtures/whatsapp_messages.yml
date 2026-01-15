@@ -1,0 +1,23 @@
+# test/fixtures/whatsapp_messages.yml
+
+one:
+  company: rani_passos
+  purchase_completed: "Parabéns! Sua compra foi aprovada! 🎉"
+  purchase_pending_billet: "Seu boleto foi gerado. Aguardamos o pagamento."
+  purchase_pending_pix: "Seu Pix está pendente. Escaneie o QR Code para pagar."
+  purchase_cancelled_status: "Sua compra foi cancelada. Entre em contato conosco."
+  billet_generated_site: "Boleto gerado com sucesso! Acesse seu email."
+  acquired_free_course: "Bem-vindo! Você tem acesso ao curso gratuito."
+  abandoned_purchase_cart: "Você deixou itens no carrinho. Finalize sua compra!"
+  pix_and_billet_overdue: "Seu pagamento está vencido. Gere um novo boleto."
+
+two:
+  company: rani_passos
+  purchase_completed: "Compra confirmada! Acesse a plataforma agora."
+  purchase_pending_billet: "Aguardando pagamento do boleto."
+  purchase_pending_pix: "Aguardando confirmação do Pix."
+  purchase_cancelled_status: "Compra cancelada."
+  billet_generated_site: "Boleto disponível no seu email."
+  acquired_free_course: "Curso gratuito liberado!"
+  abandoned_purchase_cart: "Complete sua compra agora!"
+  pix_and_billet_overdue: "Pagamento vencido."

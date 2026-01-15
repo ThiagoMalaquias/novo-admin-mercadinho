@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  start_date: 2023-04-18
+  end_date: 2023-04-18
+  content: MyText
+  viewed: false
+
+two:
+  user: two
+  start_date: 2023-04-18
+  end_date: 2023-04-18
+  content: MyText
+  viewed: false

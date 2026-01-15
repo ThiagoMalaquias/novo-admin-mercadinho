@@ -1,0 +1,63 @@
+# test/fixtures/subscriptions.yml
+
+assinatura_ativa:
+  company: rani_passos
+  user: usuario_ativo
+  amount: 4700.0 # em centavos: R$ 47,00
+  method: "card"
+  duration: "monthly"
+  token: "sub_token_123"
+  status: 1 # paid
+  invoice_id: "INV-SUB-001"
+  log_return_transaction: "Assinatura ativa"
+  code: "SUB001"
+  installments: "1"
+  send_message_pix_pending: false
+  send_message_overdue: false
+
+assinatura_pendente:
+  company: rani_passos
+  user: usuario_inativo
+  amount: 9700.0 # em centavos: R$ 97,00
+  method: "card"
+  duration: "monthly"
+  token: "sub_token_456"
+  status: 0 # pending
+  invoice_id: "INV-SUB-002"
+  log_return_transaction: "Aguardando pagamento"
+  code: "SUB002"
+  installments: "1"
+  send_message_pix_pending: false
+  send_message_overdue: false
+
+assinatura_cancelada:
+  company: rani_passos
+  user: usuario_sem_chat
+  amount: 4700.0
+  method: "card"
+  duration: "monthly"
+  token: "sub_token_789"
+  status: 2 # canceled
+  invoice_id: "INV-SUB-003"
+  log_return_transaction: "Assinatura cancelada"
+  code: "SUB003"
+  error: "Cartão recusado"
+  installments: "1"
+  send_message_pix_pending: false
+  send_message_overdue: false
+
+assinatura_vencida:
+  company: rani_passos
+  user: usuario_admin
+  amount: 4700.0
+  method: "card"
+  duration: "monthly"
+  token: "sub_token_999"
+  status: 5 # expired
+  invoice_id: "INV-SUB-004"
+  log_return_transaction: "Assinatura vencida"
+  code: "SUB004"
+  installments: "1"
+  send_message_pix_pending: false
+  send_message_overdue: true
+  date_overdue: <%= 5.days.ago %>

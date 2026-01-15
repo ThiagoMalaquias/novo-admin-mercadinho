@@ -1,0 +1,28 @@
+# test/fixtures/order_installments.yml
+
+parcela_paga:
+  order: pedido_cartao_pago
+  payment: pagamento_cartao_aprovado
+  date_generate_payment: <%= 1.day.ago %>
+  marker: 1
+  amount: 497.00
+
+parcela_pendente:
+  order: pedido_pix_pendente
+  payment: pagamento_pix_pendente
+  date_generate_payment: <%= 1.day.ago %>
+  marker: 1
+  amount: 997.00
+
+parcela_sem_pagamento:
+  order: pedido_boleto_recorrente
+  date_generate_payment: <%= 30.days.from_now %>
+  marker: 2
+  amount: 47.00
+
+parcela_com_erro:
+  order: pedido_cancelado
+  date_generate_payment: <%= 7.days.ago %>
+  marker: 1
+  amount: 297.00
+  error: "Erro ao gerar pagamento"

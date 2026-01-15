@@ -1,0 +1,23 @@
+one:
+  title: "Avaliação de Ruby Básico"
+  description: "Teste seus conhecimentos em Ruby básico"
+  start_date: <%= 1.day.ago %>
+  end_date: <%= 30.days.from_now %>
+  video: "https://youtube.com/exemplo1"
+  instructions: "Leia as instruções antes de começar"
+  clicks: 10
+  segmented: false
+  slug: "avaliacao-ruby-basico"
+  tag: tag_programacao
+
+two:
+  title: "Avaliação de Rails Avançado"
+  description: "Teste seus conhecimentos em Rails avançado"
+  start_date: <%= 7.days.ago %>
+  end_date: <%= 60.days.from_now %>
+  video: "https://youtube.com/exemplo2"
+  instructions: "Responda todas as questões"
+  clicks: 25
+  segmented: true
+  slug: "avaliacao-rails-avancado"
+  tag: tag_programacao

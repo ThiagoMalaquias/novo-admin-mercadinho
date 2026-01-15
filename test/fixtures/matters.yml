@@ -1,0 +1,11 @@
+# test/fixtures/matters.yml
+
+one:
+  title: "Matemática Básica"
+  course: curso_rails_ativo
+  instructor: one
+
+two:
+  title: "Português Avançado"
+  course: curso_premium_lifetime
+  instructor: two

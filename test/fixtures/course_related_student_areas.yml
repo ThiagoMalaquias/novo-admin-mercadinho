@@ -1,0 +1,11 @@
+# test/fixtures/course_related_student_areas.yml
+
+one:
+  course: curso_rails_ativo
+  linked_type: Course
+  linked_id: 1
+
+two:
+  course: curso_premium_lifetime
+  linked_type: Course
+  linked_id: 2

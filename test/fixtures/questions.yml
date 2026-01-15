@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  subject: one
+  year: MyString
+  stall: one
+  exam: one
+  position: one
+  level: one
+  item_public_notice: MyString
+  comment: MyText
+
+two:
+  subject: two
+  year: MyString
+  stall: two
+  exam: two
+  position: two
+  level: two
+  item_public_notice: MyString
+  comment: MyText

@@ -1,0 +1,83 @@
+# test/fixtures/user_courses.yml
+
+user_course_ativo_pago:
+  user: usuario_ativo
+  course: curso_rails_ativo
+  payment: pagamento_cartao_aprovado
+  status: "active"
+  access_start: <%= 30.days.ago.to_date %>
+  access_until: <%= 11.months.from_now.to_date %>
+  lifetime: false
+  discount: ""
+  amount: 497.00
+  authenticate: true
+
+user_course_lifetime:
+  user: usuario_ativo
+  course: curso_premium_lifetime
+  payment: pagamento_cartao_aprovado
+  status: "active"
+  access_start: <%= 60.days.ago.to_date %>
+  access_until: ~
+  lifetime: true
+  discount: ""
+  amount: 997.00
+  authenticate: true
+
+user_course_com_desconto:
+  user: usuario_inativo
+  course: curso_rails_ativo
+  payment: pagamento_pix_pendente
+  status: "active"
+  access_start: <%= 10.days.ago.to_date %>
+  access_until: <%= 11.months.from_now.to_date %>
+  lifetime: false
+  discount: "Black Friday 2024"
+  amount: 248.50
+  authenticate: true
+
+user_course_nao_autenticado:
+  user: usuario_sem_chat
+  course: curso_simulado
+  payment: pagamento_pix_pendente
+  status: "active"
+  access_start: <%= 5.days.ago.to_date %>
+  access_until: <%= 3.months.from_now.to_date %>
+  lifetime: false
+  discount: ""
+  amount: 97.00
+  authenticate: false
+
+user_course_expirado:
+  user: usuario_inativo
+  course: curso_gratuito
+  status: "active"
+  access_start: <%= 90.days.ago.to_date %>
+  access_until: <%= 5.days.ago.to_date %>
+  lifetime: false
+  discount: ""
+  amount: 0.0
+  authenticate: true
+
+user_course_assinatura:
+  user: usuario_admin
+  course: curso_recorrente
+  subscription: assinatura_ativa
+  status: "active"
+  access_start: <%= 30.days.ago.to_date %>
+  access_until: <%= 11.months.from_now.to_date %>
+  lifetime: false
+  discount: ""
+  amount: 47.00
+  authenticate: true
+
+user_course_inativo:
+  user: usuario_inativo
+  course: curso_inativo
+  status: "inactive"
+  access_start: <%= 60.days.ago.to_date %>
+  access_until: <%= 30.days.ago.to_date %>
+  lifetime: false
+  discount: ""
+  amount: 297.00
+  authenticate: false

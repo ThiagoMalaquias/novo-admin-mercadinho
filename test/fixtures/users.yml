@@ -1,0 +1,59 @@
+# test/fixtures/users.yml
+
+usuario_ativo:
+  company: rani_passos
+  name: "João da Silva"
+  birth_date: "1990-05-15"
+  cpf: "365.834.210-20" # CPF válido
+  phone: "(11) 98765-4321"
+  status: "active"
+  email: "joao.silva@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  sign_in_count: 10
+  use_chat: true
+  thread_chat: "thread_12345"
+  last_ip: "192.168.1.1"
+  validate_ip: true
+
+usuario_inativo:
+  company: rani_passos
+  name: "Maria Santos"
+  birth_date: "1985-08-20"
+  cpf: "182.042.740-41" # CPF válido
+  phone: "(21) 91234-5678"
+  status: "inactive"
+  email: "maria.santos@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  sign_in_count: 5
+  use_chat: false
+  last_ip: "192.168.1.2"
+  validate_ip: true
+
+usuario_sem_chat:
+  company: rani_passos
+  name: "Carlos Oliveira"
+  birth_date: "1995-03-10"
+  cpf: "929.337.130-80" # CPF válido testado
+  phone: "(31) 99999-8888"
+  status: "active"
+  email: "carlos.oliveira@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  sign_in_count: 2
+  use_chat: false
+  last_ip: "192.168.1.3"
+  validate_ip: false
+
+usuario_admin:
+  company: rani_passos
+  name: "Admin User"
+  birth_date: "1980-01-01"
+  cpf: "797.739.340-98" # CPF válido
+  phone: "(11) 97777-6666"
+  status: "active"
+  email: "admin@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'admin123') %>
+  sign_in_count: 100
+  use_chat: true
+  thread_chat: "thread_admin"
+  last_ip: "192.168.1.100"
+  validate_ip: true

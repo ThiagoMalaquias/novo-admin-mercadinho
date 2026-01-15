@@ -1,0 +1,13 @@
+# test/fixtures/course_announcements.yml
+
+one:
+  course: curso_rails_ativo
+  start_date: <%= 1.day.ago.to_date %>
+  end_date: <%= 30.days.from_now.to_date %>
+  image: "https://exemplo.com/anuncio1.jpg"
+
+two:
+  course: curso_premium_lifetime
+  start_date: <%= 7.days.ago.to_date %>
+  end_date: <%= 60.days.from_now.to_date %>
+  image: "https://exemplo.com/anuncio2.jpg"

@@ -1,0 +1,10 @@
+rani_passos:
+  name: "Rani Passos"
+  corporate_name: "Rani Passos Educação LTDA"
+  cnpj: "12.345.678/0001-90"
+  adress: "Rua dos Estudos"
+  number: "123"
+  complement: "Sala 01"
+  neighborhood: "Centro"
+  city: "São Paulo"
+  phone: "(11) 98765-4321"

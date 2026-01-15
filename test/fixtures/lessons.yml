@@ -1,0 +1,41 @@
+# test/fixtures/lessons.yml
+
+aula_introducao:
+  capsule: one
+  title: "Aula 01 - Introdução ao Ruby"
+  description: "Primeira aula sobre fundamentos de Ruby"
+  status: "active"
+  release_period: 0
+  order_sequences: 1
+  videos: []
+  medias: []
+
+aula_avancada:
+  capsule: one
+  title: "Aula 02 - Ruby Avançado"
+  description: "Conceitos avançados de Ruby on Rails"
+  status: "active"
+  release_period: 7
+  order_sequences: 2
+  videos: ["https://youtube.com/video1", "https://youtube.com/video2"]
+  medias: []
+
+aula_inativa:
+  capsule: two
+  title: "Aula 03 - Aula Inativa"
+  description: "Esta aula está inativa"
+  status: "inactive"
+  release_period: 0
+  order_sequences: 3
+  videos: []
+  medias: []
+
+aula_programada:
+  capsule: one
+  title: "Aula 04 - Aula Programada"
+  description: "Aula que será liberada após 30 dias"
+  status: "active"
+  release_period: 30
+  order_sequences: 4
+  videos: ["https://vimeo.com/video1"]
+  medias: []

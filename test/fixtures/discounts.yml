@@ -1,0 +1,15 @@
+# test/fixtures/discounts.yml
+
+desconto_black_friday:
+  company: rani_passos
+  title: "Black Friday 2024"
+  value: 50
+  status: "active"
+  validate_user: false
+
+desconto_lancamento:
+  company: rani_passos
+  title: "Desconto de Lançamento"
+  value: 30
+  status: "active"
+  validate_user: false

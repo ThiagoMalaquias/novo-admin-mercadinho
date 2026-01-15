@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assessment: one
+  user: one
+  joined_at: 2025-09-30 08:54:31
+
+two:
+  assessment: two
+  user: two
+  joined_at: 2025-09-30 08:54:31

@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  course: one
+  title: MyString
+  status: MyString
+  link: MyString
+  image: MyText
+  content: MyText
+  start_date: 2024-07-04 23:56:36
+  end_date: 2024-07-04 23:56:36
+
+two:
+  course: two
+  title: MyString
+  status: MyString
+  link: MyString
+  image: MyText
+  content: MyText
+  start_date: 2024-07-04 23:56:36
+  end_date: 2024-07-04 23:56:36

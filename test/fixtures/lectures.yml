@@ -1,0 +1,11 @@
+one:
+  component: one
+  title: "Aula 01 - Introdução"
+  order_sequences: 1
+  status: "active"
+
+two:
+  component: two
+  title: "Aula 02 - Conceitos Avançados"
+  order_sequences: 2
+  status: "active"

@@ -1,0 +1,125 @@
+# test/fixtures/payments.yml
+
+pagamento_cartao_aprovado:
+  company: rani_passos
+  course: curso_rails_ativo
+  user: one
+  amount: 49700.0 # em centavos: R$ 497,00
+  method: "card"
+  duration: "12"
+  token: "tok_card_123456"
+  status: 1 # paid
+  invoice_id: "INV-CARD-001"
+  log_return_transaction: "Pagamento aprovado com sucesso"
+  code: "PAY-CARD-001"
+  installments: "12"
+  charge_id: "ch_card_123"
+  handmade: false
+  send_message_pix_pending: false
+  send_message_overdue: false
+  closed: false
+
+pagamento_pix_pendente:
+  company: rani_passos
+  course: curso_premium_lifetime
+  user: two
+  amount: 99700.0 # em centavos: R$ 997,00
+  method: "pix"
+  duration: "1"
+  token: "tok_pix_789"
+  status: 0 # pending
+  invoice_id: "INV-PIX-002"
+  log_return_transaction: "Aguardando pagamento PIX"
+  code: "PAY-PIX-002"
+  installments: "1"
+  charge_id: "ch_pix_456"
+  handmade: false
+  send_message_pix_pending: true
+  send_message_overdue: false
+  closed: false
+  pix_qrcode: "00020126580014br.gov.bcb.pix..."
+  pix_qrcode_text: "00020126580014br.gov.bcb.pix..."
+  pix_expires_at: <%= 1.day.from_now %>
+
+pagamento_boleto_pendente:
+  company: rani_passos
+  course: curso_simulado
+  user: one
+  amount: 9700.0
+  method: "billet"
+  duration: "1"
+  token: "tok_billet_999"
+  status: 0
+  invoice_id: "INV-BOL-003"
+  log_return_transaction: "Boleto gerado com sucesso"
+  code: "PAY-BOL-003"
+  installments: "1"
+  charge_id: "ch_bol_789"
+  handmade: false
+  send_message_pix_pending: false
+  send_message_overdue: false
+  date_overdue: <%= 3.days.from_now %>
+  closed: false
+  billet_line: "34191.79001 01043.510047 91020.150008 1 84350000009700"
+  billet_barcode: "34191790010104351004091020150001843500000097"
+  billet_qr_code: "https://boleto.example.com/qrcode"
+  billet_pdf: "https://boleto.example.com/pdf/BOL-003.pdf"
+  billet_expiry_date: <%= 3.days.from_now %>
+
+pagamento_cancelado:
+  company: rani_passos
+  course: curso_gratuito
+  user: two
+  amount: 0.0
+  method: "card"
+  duration: "1"
+  token: "tok_canceled_111"
+  discount: nil
+  status: 2 # canceled
+  invoice_id: "INV-CANCEL-004"
+  log_return_transaction: "Pagamento cancelado pelo usuário"
+  code: "PAY-CANCEL-004"
+  error: "Cartão recusado pela operadora"
+  installments: "1"
+  charge_id: "ch_cancel_111"
+  handmade: false
+  send_message_pix_pending: false
+  send_message_overdue: false
+  closed: false
+
+pagamento_bonus:
+  company: rani_passos
+  course: curso_gratuito
+  user: one
+  amount: 0.0
+  method: "bonus"
+  duration: "1"
+  status: 1 # paid
+  invoice_id: "INV-BONUS-005"
+  log_return_transaction: "Curso liberado por bônus"
+  code: "PAY-BONUS-005"
+  installments: "1"
+  handmade: true
+  send_message_pix_pending: false
+  send_message_overdue: false
+  closed: false
+
+pagamento_reembolsado:
+  company: rani_passos
+  course: curso_rails_ativo
+  user: two
+  amount: 49700.0
+  method: "card"
+  duration: "12"
+  token: "tok_refund_222"
+  status: 4 # refunded
+  invoice_id: "INV-REFUND-006"
+  log_return_transaction: "Pagamento reembolsado"
+  code: "PAY-REFUND-006"
+  error: nil
+  installments: "12"
+  charge_id: "ch_refund_222"
+  handmade: false
+  send_message_pix_pending: false
+  send_message_overdue: false
+  closed: true

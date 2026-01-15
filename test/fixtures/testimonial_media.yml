@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nature: MyString
+  url: MyString
+  banner: MyText
+  company: one
+
+two:
+  nature: MyString
+  url: MyString
+  banner: MyText
+  company: two

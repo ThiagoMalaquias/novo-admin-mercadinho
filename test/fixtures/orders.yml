@@ -1,0 +1,106 @@
+# test/fixtures/orders.yml
+
+pedido_cartao_pago:
+  user: usuario_ativo
+  manager: one
+  payment_method: "card"
+  payment_installments: "12"
+  card_number: "4111111111111111"
+  card_name: "JOAO DA SILVA"
+  card_expiry: "12/2025"
+  card_cvv: "123"
+  amount: 497.00
+  installment_amount: 41.42
+  discount: 0.0
+  code: "ORDER-CARD-001"
+  status: "Pago"
+  observation: "Pedido aprovado com sucesso"
+  first_installment_amount: 50.00
+  lifetime: false
+  additional_time: 0
+
+pedido_pix_pendente:
+  user: usuario_inativo
+  manager: two
+  payment_method: "pix"
+  payment_installments: "1"
+  amount: 997.00
+  installment_amount: 997.00
+  discount: 0.0
+  code: "ORDER-PIX-002"
+  status: "Pendente"
+  observation: "Aguardando pagamento PIX"
+  first_installment_amount: 0.0
+  lifetime: false
+  additional_time: 0
+
+pedido_boleto_recorrente:
+  user: usuario_ativo
+  manager: one
+  payment_method: "billet"
+  payment_installments: "recorrente"
+  amount: 47.00
+  installment_amount: 47.00
+  discount: 0.0
+  code: "ORDER-BOL-003"
+  status: "Ativo"
+  observation: "Assinatura mensal ativa"
+  first_installment_amount: 0.0
+  lifetime: false
+  additional_time: 0
+
+pedido_cancelado:
+  user: usuario_inativo
+  manager: two
+  payment_method: "card"
+  payment_installments: "6"
+  card_number: "5555555555554444"
+  card_name: "MARIA SANTOS"
+  card_expiry: "08/2024"
+  amount: 297.00
+  installment_amount: 49.50
+  discount: 50.0
+  code: "ORDER-CANCEL-004"
+  status: "Cancelado"
+  observation: "Cancelado pelo cliente"
+  canceled_at: <%= 2.days.ago %>
+  canceled_name: "Admin User"
+  first_installment_amount: 0.0
+  lifetime: false
+  additional_time: 0
+
+pedido_com_desconto:
+  user: usuario_ativo
+  manager: one
+  payment_method: "card"
+  payment_installments: "3"
+  card_number: "4111111111111111"
+  card_name: "JOAO DA SILVA"
+  card_expiry: "12/2025"
+  amount: 400.00
+  installment_amount: 133.33
+  discount: 97.00
+  code: "ORDER-DISCOUNT-005"
+  status: "Pago"
+  observation: "Pedido com desconto aplicado"
+  first_installment_amount: 0.0
+  lifetime: false
+  additional_time: 0
+
+pedido_lifetime:
+  user: usuario_admin
+  manager: one
+  payment_method: "card"
+  payment_installments: "1"
+  card_number: "4111111111111111"
+  card_name: "ADMIN USER"
+  card_expiry: "12/2026"
+  amount: 997.00
+  installment_amount: 997.00
+  discount: 0.0
+  code: "ORDER-LIFETIME-006"
+  status: "Pago"
+  observation: "Pedido com acesso vitalício"
+  first_installment_amount: 0.0
+  lifetime: true
+  additional_time: 0

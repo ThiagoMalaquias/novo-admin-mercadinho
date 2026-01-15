@@ -1,0 +1,21 @@
+# test/fixtures/blogs.yml
+
+one:
+  title: "Como Aprender Ruby on Rails em 2024"
+  slug: "como-aprender-ruby-on-rails-2024"
+  status: "published"
+  image: "https://exemplo.com/imagem1.jpg"
+  content: "<p>Conteúdo completo do blog post sobre Ruby on Rails...</p>"
+  manager: one
+  favorite: 10
+  clicks: 150
+
+two:
+  title: "10 Dicas para Passar em Concursos"
+  slug: "10-dicas-para-passar-em-concursos"
+  status: "published"
+  image: "https://exemplo.com/imagem2.jpg"
+  content: "<p>Conteúdo completo do blog post sobre concursos...</p>"
+  manager: two
+  favorite: 5
+  clicks: 75

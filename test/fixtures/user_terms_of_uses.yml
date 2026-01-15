@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  terms_of_use: one
+
+two:
+  user: two
+  terms_of_use: two

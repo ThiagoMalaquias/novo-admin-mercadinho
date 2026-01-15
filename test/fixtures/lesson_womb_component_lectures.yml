@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lesson: one
+  womb: one
+  component: one
+  lecture: one
+
+two:
+  lesson: two
+  womb: two
+  component: two
+  lecture: two

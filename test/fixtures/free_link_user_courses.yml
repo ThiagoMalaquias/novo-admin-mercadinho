@@ -1,0 +1,9 @@
+# test/fixtures/free_link_user_courses.yml
+
+one:
+  course_free_link: one
+  user_course: one
+
+two:
+  course_free_link: two
+  user_course: two

@@ -1,0 +1,31 @@
+# test/fixtures/categories.yml
+
+web_development:
+  company: rani_passos
+  title: "Desenvolvimento Web"
+  slug: "desenvolvimento-web"
+  sub_category_id: nil
+  description: "Categoria para cursos de desenvolvimento web"
+  photo: nil
+  order_sequences: 1
+  status_disclosure: "active"
+
+backend:
+  company: rani_passos
+  title: "Backend"
+  slug: "backend"
+  sub_category_id: nil
+  description: "Categoria para cursos de backend"
+  photo: nil
+  order_sequences: 2
+  status_disclosure: "active"
+
+frontend:
+  company: rani_passos
+  title: "Frontend"
+  slug: "frontend"
+  sub_category_id: nil
+  description: "Categoria para cursos de frontend"
+  photo: nil
+  order_sequences: 3
+  status_disclosure: "active"

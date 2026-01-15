@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  purchase_cancelled_status: false
+  acquired_free_course: false
+  order_generated_successfully: false
+  new_installment_order_generated: false
+  purchase_completed: false
+  purchase_completed: false
+  billet_generated_site: false
+  loss_access_delinquency: false
+  outstanding_installment: false
+  purchase_pending_billet: false
+  purchase_pending_pix: false
+  abandoned_purchase_cart: false
+  pix_and_billet_overdue: false
+  thirty_days_finish_access: false
+  ten_days_finish_access: false
+  one_day_finish_access: false
+  one_day_finish_access: false
+
+two:
+  purchase_cancelled_status: false
+  acquired_free_course: false
+  order_generated_successfully: false
+  new_installment_order_generated: false
+  purchase_completed: false
+  purchase_completed: false
+  billet_generated_site: false
+  loss_access_delinquency: false
+  outstanding_installment: false
+  purchase_pending_billet: false
+  purchase_pending_pix: false
+  abandoned_purchase_cart: false
+  pix_and_billet_overdue: false
+  thirty_days_finish_access: false
+  ten_days_finish_access: false
+  one_day_finish_access: false
+  one_day_finish_access: false

@@ -1,0 +1,171 @@
+# test/fixtures/courses.yml
+
+curso_rails_ativo:
+  company: rani_passos
+  title: "Curso Completo de Ruby on Rails"
+  slug: "curso-completo-ruby-on-rails"
+  featured: "yes"
+  status_disclosure: "active"
+  status_access: "active"
+  nature: "paid"
+  value_of: "997,00"
+  value_cash: "497,00"
+  value_installment: "49,70"
+  installments: "12"
+  duration: "12 meses"
+  supplementary_material: "PDFs, exercícios e projetos práticos"
+  vacancies: "100"
+  description: "<p>Aprenda Ruby on Rails do zero ao avançado</p>"
+  url: "https://www.youtube.com/watch?v=exemplo"
+  tags: "ruby, rails, web, backend"
+  period_access: 12
+  signature: false
+  essay_mentoring: "no"
+  recurrent: false
+  use_chat: true
+  count_message_chat_gpt: 100
+  kind: "usual"
+  modal_discount: true
+  lifetime: false
+  thirty_days_finish_access: "<p>Seu acesso expira em 30 dias!</p>"
+  ten_days_finish_access: "<p>Últimos 10 dias de acesso!</p>"
+  one_day_finish_access: "<p>Último dia de acesso!</p>"
+  tag: tag_programacao
+
+curso_premium_lifetime:
+  company: rani_passos
+  title: "Curso Premium com Acesso Vitalício"
+  slug: "curso-premium-lifetime"
+  featured: "yes"
+  status_disclosure: "active"
+  status_access: "active"
+  nature: "paid"
+  value_of: "1997,00"
+  value_cash: "997,00"
+  value_installment: "99,70"
+  installments: "12"
+  duration: "Ilimitado"
+  supplementary_material: "Todo material incluso + mentorias"
+  description: "<p>Acesso vitalício a todo conteúdo</p>"
+  period_access: 0
+  signature: true
+  essay_mentoring: "yes"
+  recurrent: false
+  use_chat: true
+  count_message_chat_gpt: 999
+  kind: "usual"
+  modal_discount: false
+  lifetime: true
+  tag: tag_programacao
+
+curso_gratuito:
+  company: rani_passos
+  title: "Curso Gratuito de Introdução"
+  slug: "curso-gratuito-introducao"
+  featured: "no"
+  status_disclosure: "active"
+  status_access: "active"
+  nature: "free"
+  value_of: ""
+  value_cash: ""
+  value_installment: ""
+  installments: ""
+  duration: "2 meses"
+  supplementary_material: "Material básico em PDF"
+  description: "<p>Introdução gratuita ao mundo da programação</p>"
+  period_access: 2
+  signature: false
+  essay_mentoring: "no"
+  recurrent: false
+  use_chat: false
+  count_message_chat_gpt: 0
+  kind: "usual"
+  modal_discount: false
+  lifetime: false
+
+curso_simulado:
+  company: rani_passos
+  title: "Simulado ENEM 2024"
+  slug: "simulado-enem-2024"
+  featured: "yes"
+  status_disclosure: "active"
+  status_access: "active"
+  nature: "paid"
+  value_of: "197,00"
+  value_cash: "97,00"
+  value_installment: "97,00"
+  installments: "1"
+  duration: "3 meses"
+  supplementary_material: "Apostila PDF"
+  description: "<p>Simulado completo estilo ENEM</p>"
+  period_access: 3
+  signature: false
+  essay_mentoring: "yes"
+  recurrent: false
+  use_chat: false
+  count_message_chat_gpt: 0
+  kind: "simulated"
+  modal_discount: true
+  lifetime: false
+
+curso_recorrente:
+  company: rani_passos
+  title: "Assinatura Mensal Premium"
+  slug: "assinatura-mensal-premium"
+  featured: "yes"
+  status_disclosure: "active"
+  status_access: "active"
+  nature: "paid"
+  value_of: "97,00"
+  value_cash: "47,00"
+  value_installment: "47,00"
+  installments: "1"
+  duration: "Mensal"
+  supplementary_material: "Acesso a todos os cursos"
+  description: "<p>Assinatura mensal com acesso total</p>"
+  period_access: 1
+  signature: true
+  essay_mentoring: "no"
+  recurrent: true
+  use_chat: true
+  count_message_chat_gpt: 50
+  kind: "usual"
+  modal_discount: false
+  lifetime: false
+
+curso_inativo:
+  company: rani_passos
+  title: "Curso Inativo"
+  slug: "curso-inativo"
+  featured: "no"
+  status_disclosure: "inactive"
+  status_access: "inactive"
+  nature: "paid"
+  value_of: "497,00"
+  value_cash: "297,00"
+  duration: "6 meses"
+  supplementary_material: "Material completo"
+  description: "<p>Curso que não está mais disponível</p>"
+  period_access: 6
+  signature: false
+  essay_mentoring: "no"
+  recurrent: false
+  use_chat: false
+  count_message_chat_gpt: 0
+  kind: "usual"
+  modal_discount: false
+  lifetime: false
+
+curso_sem_slug:
+  company: rani_passos
+  title: "Curso Para Testar Slug Automático"
+  slug: ""
+  featured: "no"
+  status_disclosure: "active"
+  status_access: "active"
+  nature: "free"
+  duration: "1 mês"
+  period_access: 1
+  signature: false
+  recurrent: false
+  lifetime: false

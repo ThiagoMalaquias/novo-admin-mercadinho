@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title>Admin Skal Mercado 24hrs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+      <!-- Sidebar -->
+      <aside 
+        id="sidebar"
+        class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out lg:transition-none"
+      >
+        <div class="flex flex-col h-full">
+          <!-- Logo -->
+          <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-800">
+            <h1 class="text-xl font-bold text-gray-900 dark:text-white">Skal Admin</h1>
+            <button onclick="closeSidebar()" class="lg:hidden text-gray-500 dark:text-gray-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Navigation -->
+          <%= render 'partials/menu' %>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+          <div class="flex items-center justify-between h-16 px-6">
+            <button onclick="openSidebar()" class="lg:hidden text-gray-500 dark:text-gray-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+
+            <div class="flex items-center space-x-4">
+              <!-- Search -->
+              <div class="hidden md:block relative">
+                <input 
+                  type="text" 
+                  placeholder="Buscar..." 
+                  class="w-64 pl-10 pr-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                <svg class="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+
+              <!-- Dark Mode Toggle -->
+              <button onclick="toggleDarkMode()" class="p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+                <svg id="dark-mode-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+                <svg id="light-mode-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+              </button>
+
+              <!-- Notifications -->
+              <button class="relative p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                </svg>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              </button>
+
+              <!-- User Menu -->
+              <div class="flex items-center space-x-3">
+                <div class="text-right hidden sm:block">
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">Admin User</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">admin@skal.com</p>
+                </div>
+                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+                  AU
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="flex-1 overflow-y-auto p-6">
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div 
+      id="sidebar-overlay"
+      onclick="closeSidebar()"
+      class="fixed inset-0 bg-gray-600 bg-opacity-75 z-40 lg:hidden hidden"
+    ></div>
+
+    <script>
+      function openSidebar() {
+        document.getElementById('sidebar').classList.remove('-translate-x-full');
+        document.getElementById('sidebar-overlay').classList.remove('hidden');
+      }
+
+      function closeSidebar() {
+        document.getElementById('sidebar').classList.add('-translate-x-full');
+        document.getElementById('sidebar-overlay').classList.add('hidden');
+      }
+
+      function toggleDarkMode() {
+        const html = document.documentElement;
+        const isDark = html.classList.contains('dark');
+        const darkIcon = document.getElementById('dark-mode-icon');
+        const lightIcon = document.getElementById('light-mode-icon');
+        
+        if (isDark) {
+          html.classList.remove('dark');
+          darkIcon.classList.remove('hidden');
+          lightIcon.classList.add('hidden');
+          localStorage.setItem('darkMode', 'false');
+        } else {
+          html.classList.add('dark');
+          darkIcon.classList.add('hidden');
+          lightIcon.classList.remove('hidden');
+          localStorage.setItem('darkMode', 'true');
+        }
+      }
+
+      // Restore dark mode preference on load
+      document.addEventListener('DOMContentLoaded', function() {
+        const darkMode = localStorage.getItem('darkMode');
+        if (darkMode === 'true') {
+          document.documentElement.classList.add('dark');
+          document.getElementById('dark-mode-icon').classList.add('hidden');
+          document.getElementById('light-mode-icon').classList.remove('hidden');
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+# test/fixtures/invoices.yml
+
+one:
+  subscription: one
+  amount: 497.00
+  status: 1
+  invoice_id: "INV-001-2024"
+  log_return_transaction: "Transação aprovada"
+
+two:
+  subscription: two
+  amount: 997.00
+  status: 1
+  invoice_id: "INV-002-2024"
+  log_return_transaction: "Transação aprovada"
