@@ -1,0 +1,141 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <%= link_to vendas_path, class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Voltar
+      <% end %>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Detalhes da Venda</h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Informações completas da venda</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Informações da Venda -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Informações Gerais</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Filial</dt>
+        <dd class="mt-1 text-base font-semibold text-gray-900 dark:text-white">
+          <%= @venda.filial.nome_fantasia %>
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Método de Pagamento</dt>
+        <dd class="mt-1">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+            <%= @venda.metodo %>
+          </span>
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Valor Total</dt>
+        <dd class="mt-1 text-2xl font-bold text-gray-900 dark:text-white">
+          <%= number_to_currency(@venda.valor) %>
+        </dd>
+      </div>
+    </div>
+  </div>
+
+  <!-- Produtos da Venda -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Produtos da Venda</h2>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <%= @venda.produtos.count %> produto(s) nesta venda
+      </p>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-900/50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              Código
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              Produto
+            </th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              Quantidade
+            </th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              Valor Unitário
+            </th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              Valor Total
+            </th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              Estoque Atual
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <% if @venda.produtos.any? %>
+            <% @venda.produtos.each do |produto| %>
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-mono text-gray-900 dark:text-white">
+                    <%= produto.produto_id %>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">
+                    <%= produto.produto.descricao_cupom %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <div class="text-sm text-gray-900 dark:text-white">
+                    <%= produto.quantidade %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <div class="text-sm text-gray-900 dark:text-white">
+                    <%= number_to_currency(produto.valor_unitario) %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                    <%= number_to_currency(produto.valor_total) %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <% estoque = produto.total_estoque || 0 %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= estoque > 0 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' %>">
+                    <%= estoque %>
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+            <!-- Total Row -->
+            <tr class="bg-gray-50 dark:bg-gray-900/50 font-semibold">
+              <td colspan="4" class="px-6 py-4 text-right text-sm text-gray-700 dark:text-gray-300">
+                Total:
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-base text-gray-900 dark:text-white">
+                <%= number_to_currency(@venda.valor) %>
+              </td>
+              <td class="px-6 py-4"></td>
+            </tr>
+          <% else %>
+            <tr>
+              <td colspan="6" class="px-6 py-12 text-center">
+                <div class="flex flex-col items-center justify-center">
+                  <svg class="w-12 h-12 text-gray-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                  </svg>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">Nenhum produto encontrado</p>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

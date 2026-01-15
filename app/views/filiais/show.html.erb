@@ -1,0 +1,191 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <%= link_to filiais_path, class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Voltar
+      <% end %>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white"><%= @filial.nome_fantasia %></h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Detalhes da filial</p>
+      </div>
+    </div>
+    <%= link_to edit_filial_path(@filial), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm' do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+      </svg>
+      Editar
+    <% end %>
+  </div>
+
+  <!-- Informações Principais -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Card: Informações Básicas -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+        Informações Básicas
+      </h2>
+      <dl class="space-y-4">
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Nome Fantasia</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.nome_fantasia %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Razão Social</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.razao_social %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">CPF/CNPJ</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.cpf_cnpj %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Tipo de Negócio</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.tipo_negocio %></dd>
+        </div>
+        <% if @filial.detalhes.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Detalhes</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.detalhes %></dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+
+    <!-- Card: Contato -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+        Contato
+      </h2>
+      <dl class="space-y-4">
+        <% if @filial.responsavel.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Responsável</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.responsavel %></dd>
+          </div>
+        <% end %>
+        <% if @filial.contato.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Contato</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.contato %></dd>
+          </div>
+        <% end %>
+        <% if @filial.email.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Email</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white">
+              <a href="mailto:<%= @filial.email %>" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                <%= @filial.email %>
+              </a>
+            </dd>
+          </div>
+        <% end %>
+        <% if @filial.telefone.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Telefone</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.telefone %></dd>
+          </div>
+        <% end %>
+        <% if @filial.celular.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Celular</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.celular %></dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Endereço -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      Endereço
+    </h2>
+    <dl class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% if @filial.cep.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">CEP</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.cep %></dd>
+        </div>
+      <% end %>
+      <% if @filial.endereco.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Endereço</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.endereco %></dd>
+        </div>
+      <% end %>
+      <% if @filial.numero.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Número</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.numero %></dd>
+        </div>
+      <% end %>
+      <% if @filial.bairro.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Bairro</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.bairro %></dd>
+        </div>
+      <% end %>
+      <% if @filial.cidade.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Cidade</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.cidade %></dd>
+        </div>
+      <% end %>
+      <% if @filial.estado.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Estado</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.estado %></dd>
+        </div>
+      <% end %>
+      <% if @filial.codigo_ibge.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Código IBGE</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.codigo_ibge %></dd>
+        </div>
+      <% end %>
+    </dl>
+  </div>
+
+  <!-- Informações Fiscais e Observações -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Card: Informações Fiscais -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+        Informações Fiscais
+      </h2>
+      <dl class="space-y-4">
+        <% if @filial.codigo_regime_tributario.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Código Regime Tributário</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.codigo_regime_tributario %></dd>
+          </div>
+        <% end %>
+        <% if @filial.inscricao_estadual.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Inscrição Estadual</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.inscricao_estadual %></dd>
+          </div>
+        <% end %>
+        <% if @filial.inscricao_municipal.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Inscrição Municipal</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @filial.inscricao_municipal %></dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+
+    <!-- Card: Observações -->
+    <% if @filial.observacoes.present? %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+          Observações
+        </h2>
+        <p class="text-sm text-gray-900 dark:text-white whitespace-pre-wrap"><%= @filial.observacoes %></p>
+      </div>
+    <% end %>
+  </div>
+</div>

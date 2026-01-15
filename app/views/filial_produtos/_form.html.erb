@@ -1,0 +1,92 @@
+<%= form_for([@filial, @filial_produto], html: { class: "space-y-6", role: "form" }) do |f| %>
+  <% if @filial_produto.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4" role="alert">
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3 flex-1">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-200">Confira os erros abaixo:</h3>
+          <ul class="mt-2 text-sm text-red-700 dark:text-red-300 list-disc list-inside">
+            <% @filial_produto.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Produto (desabilitado) -->
+  <div>
+    <%= f.label :produto, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+    <%= f.select :produto_id, Produto.all.collect{|produto| [produto.descricao_cupom, produto.id]}, {:selected => @filial_produto.produto_id, :include_blank => false}, {:class => 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed', disabled: true} %>
+    <%= f.hidden_field :produto_id %>
+    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">O produto não pode ser alterado</p>
+  </div>
+
+  <!-- Campos de valores e quantidades -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div>
+      <%= f.label :valor, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+      <%= f.text_field :valor, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", id: "filial_produto_valor", placeholder: "0,00" %>
+    </div>
+    <div>
+      <%= f.label :quantidade_alerta, "Quantidade de Alerta", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+      <%= f.number_field :quantidade_alerta, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", min: 0 %>
+    </div>
+    <div>
+      <%= f.label :quantidade_minima, "Quantidade Mínima", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+      <%= f.number_field :quantidade_minima, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", min: 0 %>
+    </div>
+  </div>
+
+  <!-- Botão Submit -->
+  <div class="flex justify-end gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <%= link_to filial_filial_produtos_path(@filial), class: 'px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium' do %>
+      Cancelar
+    <% end %>
+    <%= f.submit "Salvar", class: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm" %>
+  </div>
+<% end %>
+
+<script>
+  // Função para mascarar moeda
+  function mascaraMoeda(campo, separadorDecimal, separadorMilhar, evento) {
+    var tecla = evento.keyCode || evento.which;
+    var valor = campo.value.replace(/[^\d]/g, '');
+    
+    if (tecla == 8) { // Backspace
+      return true;
+    }
+    
+    if (valor.length == 0) {
+      campo.value = '';
+      return false;
+    }
+    
+    if (valor.length == 1) {
+      campo.value = '0' + separadorDecimal + '0' + valor;
+    } else if (valor.length == 2) {
+      campo.value = '0' + separadorDecimal + valor;
+    } else {
+      var inteiro = valor.slice(0, -2);
+      var decimal = valor.slice(-2);
+      campo.value = inteiro.replace(/\B(?=(\d{3})+(?!\d))/g, separadorMilhar) + separadorDecimal + decimal;
+    }
+    
+    return false;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const valorInput = document.getElementById('filial_produto_valor');
+    
+    if (valorInput) {
+      valorInput.addEventListener('keypress', function(e) {
+        return mascaraMoeda(this, ',', '.', e);
+      });
+    }
+  });
+</script>

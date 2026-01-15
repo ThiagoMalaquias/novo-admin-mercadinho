@@ -32,7 +32,6 @@ gem "simple_xlsx_reader"
 gem 'stimulus-rails'
 gem 'tinymce-rails'
 gem 'turbolinks', '~> 5'
-gem "tailwindcss-rails"
 gem 'u-struct'
 gem 'uuid'
 gem 'webpacker', '~> 5.0'

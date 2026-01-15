@@ -1,0 +1,1 @@
+json.partial! "administrador_grupo_acessos/administrador_grupo_acesso", administrador_grupo_acesso: @administrador_grupo_acesso

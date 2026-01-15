@@ -1,0 +1,128 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <%= link_to produtos_path, class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Voltar
+      <% end %>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white"><%= @produto.descricao_cupom %></h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Detalhes do produto</p>
+      </div>
+    </div>
+    <%= link_to edit_produto_path(@produto), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm' do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+      </svg>
+      Editar
+    <% end %>
+  </div>
+
+  <!-- Imagem do Produto -->
+  <% if @produto.imagem.attached? %>
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Imagem do Produto</h2>
+      <div class="flex justify-center">
+        <div class="w-64 h-64 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+          <%= image_tag @produto.imagem, class: 'w-full h-full object-cover' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Informações do Produto -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Card: Informações Básicas -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+        Informações Básicas
+      </h2>
+      <dl class="space-y-4">
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Descrição no Cupom</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white font-medium"><%= @produto.descricao_cupom %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Grupo do Produto</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @produto.grupo_produto.nome %></dd>
+        </div>
+        <% if @produto.preco.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Preço</dt>
+            <dd class="mt-1 text-lg font-bold text-emerald-600 dark:text-emerald-400"><%= @produto.preco %></dd>
+          </div>
+        <% end %>
+        <% if @produto.status.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</dt>
+            <dd class="mt-1">
+              <% if @produto.status == "ATIVO" %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                  ATIVO
+                </span>
+              <% else %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                  INATIVO
+                </span>
+              <% end %>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+
+    <!-- Card: Códigos e Estatísticas -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+        Códigos e Estatísticas
+      </h2>
+      <dl class="space-y-4">
+        <% if @produto.codigo_venda.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Código de Venda</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @produto.codigo_venda %></dd>
+          </div>
+        <% end %>
+        <% if @produto.codigo_ncm.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Código NCM</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @produto.codigo_ncm %></dd>
+          </div>
+        <% end %>
+        <% if @produto.codigo_cast.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Código CAST</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @produto.codigo_cast %></dd>
+          </div>
+        <% end %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Total de Vendas</dt>
+          <dd class="mt-1">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+              <%= @produto.vendas %> unidades
+            </span>
+          </dd>
+        </div>
+        <% if @produto.quantidade_alerta.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Quantidade de Alerta</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @produto.quantidade_alerta %></dd>
+          </div>
+        <% end %>
+        <% if @produto.quantidade_minima.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Quantidade Mínima</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @produto.quantidade_minima %></dd>
+          </div>
+        <% end %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Data de Criação</dt>
+          <dd class="mt-1 text-sm text-gray-500 dark:text-gray-400"><%= @produto.created_at.strftime("%d/%m/%Y às %H:%M") %></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>

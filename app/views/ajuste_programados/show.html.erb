@@ -1,0 +1,26 @@
+<div class="page-header">
+  <%= link_to ajuste_programados_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Voltar
+  <% end %>
+  <%= link_to edit_ajuste_programado_path(@ajuste_programado), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <h1>Mostrar ajuste_programado</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nome:</dt>
+  <dd><%= @ajuste_programado.nome %></dd>
+  <dt>Filial:</dt>
+  <dd><%= @ajuste_programado.filial %></dd>
+  <dt>Percentual reajuste:</dt>
+  <dd><%= @ajuste_programado.percentual_reajuste %></dd>
+  <dt>Arredondamento:</dt>
+  <dd><%= @ajuste_programado.arredondamento %></dd>
+  <dt>Status:</dt>
+  <dd><%= @ajuste_programado.status %></dd>
+  <dt>Administrador:</dt>
+  <dd><%= @ajuste_programado.administrador %></dd>
+</dl>

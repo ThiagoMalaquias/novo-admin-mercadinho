@@ -1,0 +1,204 @@
+<%= form_for(@produto, html: { class: "space-y-6", role: "form", multipart: true }) do |f| %>
+  <% if @produto.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4" role="alert">
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3 flex-1">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-200">Confira os erros abaixo:</h3>
+          <ul class="mt-2 text-sm text-red-700 dark:text-red-300 list-disc list-inside">
+            <% @produto.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Informações Básicas -->
+  <div>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      Informações Básicas
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <%= f.label :descricao_cupom, "Descrição no Cupom", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.text_field :descricao_cupom, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", required: true %>
+      </div>
+      <div>
+        <%= f.label :grupo_produto_id, "Grupo do Produto", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.select :grupo_produto_id, GrupoProduto.all.collect{|grupo_produto| [grupo_produto.nome, grupo_produto.id]}, {:selected => @produto.grupo_produto_id, :include_blank => false}, {:class => 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent'} %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Códigos -->
+  <div>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      Códigos
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <%= f.label :codigo_venda, "Código de Barras", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.text_field :codigo_venda, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+      <div>
+        <%= f.label :codigo_ncm, "Código NCM", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.text_field :codigo_ncm, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+      <div>
+        <%= f.label :codigo_cast, "Código CAST", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.text_field :codigo_cast, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preço e Quantidades -->
+  <div>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      Preço e Estoque
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <%= f.label :preco, "Preço", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.text_field :preco, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", id: "produto_preco", placeholder: "0,00" %>
+      </div>
+      <div>
+        <%= f.label :quantidade_alerta, "Quantidade de Alerta", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.number_field :quantidade_alerta, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", min: 0 %>
+      </div>
+      <div>
+        <%= f.label :quantidade_minima, "Quantidade Mínima", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.number_field :quantidade_minima, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", min: 0 %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Imagem -->
+  <div>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      Imagem do Produto
+    </h2>
+    <div class="space-y-4">
+      <!-- Preview da imagem atual (se existir) -->
+      <% if @produto.imagem.attached? %>
+        <div class="flex items-center gap-4">
+          <div class="w-32 h-32 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+            <%= image_tag @produto.imagem, class: 'w-full h-full object-cover', id: 'imagemPreview' %>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Imagem atual</p>
+            <p class="text-xs text-gray-500 dark:text-gray-500">Selecione uma nova imagem para substituir</p>
+          </div>
+        </div>
+      <% end %>
+      
+      <!-- Campo de upload -->
+      <div>
+        <%= f.label :imagem, 'Imagem do Produto', class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.file_field :imagem, accept: "image/*", class: "block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900 dark:file:text-blue-300 dark:hover:file:bg-blue-800 cursor-pointer", id: "produto_imagem" %>
+        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Formatos aceitos: JPG, PNG, GIF. Tamanho máximo recomendado: 2MB</p>
+      </div>
+      
+      <!-- Preview da nova imagem selecionada -->
+      <div id="novaImagemPreview" class="hidden">
+        <div class="flex items-center gap-4">
+          <div class="w-32 h-32 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+            <img id="previewImg" src="" alt="Preview" class="w-full h-full object-cover hidden">
+          </div>
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Nova imagem selecionada</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botão Submit -->
+  <div class="flex justify-end gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <%= link_to produtos_path, class: 'px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium' do %>
+      Cancelar
+    <% end %>
+    <%= f.submit "Salvar", class: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm" %>
+  </div>
+<% end %>
+
+<script>
+  // Função para mascarar moeda
+  function mascaraMoeda(campo, separadorDecimal, separadorMilhar, evento) {
+    var tecla = evento.keyCode || evento.which;
+    var valor = campo.value.replace(/[^\d]/g, '');
+    
+    if (tecla == 8) { // Backspace
+      return true;
+    }
+    
+    if (valor.length == 0) {
+      campo.value = '';
+      return false;
+    }
+    
+    if (valor.length == 1) {
+      campo.value = '0' + separadorDecimal + '0' + valor;
+    } else if (valor.length == 2) {
+      campo.value = '0' + separadorDecimal + valor;
+    } else {
+      var inteiro = valor.slice(0, -2);
+      var decimal = valor.slice(-2);
+      campo.value = inteiro.replace(/\B(?=(\d{3})+(?!\d))/g, separadorMilhar) + separadorDecimal + decimal;
+    }
+    
+    return false;
+  }
+
+  // Preview de imagem
+  function previewImagem(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      
+      reader.onload = function(e) {
+        var previewDiv = document.getElementById('novaImagemPreview');
+        var previewImg = document.getElementById('previewImg');
+        
+        previewImg.src = e.target.result;
+        previewImg.classList.remove('hidden');
+        previewDiv.classList.remove('hidden');
+      }
+      
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const precoInput = document.getElementById('produto_preco');
+    const imagemInput = document.getElementById('produto_imagem');
+    const form = document.querySelector('form');
+
+    // Máscara de moeda
+    if (precoInput) {
+      precoInput.addEventListener('keypress', function(e) {
+        return mascaraMoeda(this, ',', '.', e);
+      });
+    }
+
+    // Preview de imagem
+    if (imagemInput) {
+      imagemInput.addEventListener('change', function() {
+        previewImagem(this);
+      });
+    }
+
+    // Prevenir submissão do formulário ao pressionar Enter
+    if (form) {
+      form.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && event.target.tagName !== 'BUTTON' && event.target.type !== 'submit') {
+          event.preventDefault();
+        }
+      });
+    }
+  });
+</script>

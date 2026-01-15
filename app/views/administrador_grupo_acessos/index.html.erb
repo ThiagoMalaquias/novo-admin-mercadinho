@@ -1,0 +1,31 @@
+<div class="page-header">
+  <%= link_to new_administrador_grupo_acesso_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Novo Administrador grupo acesso
+  <% end %>
+  <h1>Listando administrador_grupo_acessos</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Administrador</th>
+            <th>Grupo acesso</th>
+            <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @administrador_grupo_acessos) do |administrador_grupo_acesso| %>
+            <td><%= administrador_grupo_acesso.administrador %></td>
+            <td><%= administrador_grupo_acesso.grupo_acesso %></td>
+            <td><%= link_to 'Mostrar', administrador_grupo_acesso %></td>
+        <td><%= link_to 'Editar', edit_administrador_grupo_acesso_path(administrador_grupo_acesso) %></td>
+        <td><%= link_to 'Apagar', administrador_grupo_acesso, method: :delete, data: { confirm: 'Confirma?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

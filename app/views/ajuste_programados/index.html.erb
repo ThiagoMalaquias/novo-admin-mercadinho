@@ -1,0 +1,42 @@
+<div class="page-header">
+  <%= link_to new_ajuste_programado_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Novo
+  <% end %>
+  <h1>Ajustes Programados</h1>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nome</th>
+        <th>Cadastro</th>
+        <th>Status</th>
+        <th>Data Status</th>
+        <th>Filial</th>
+        <th>Nº Produtos</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= content_tag_for(:tr, @ajuste_programados) do |ajuste_programado| %>
+        <td><%= ajuste_programado.id %></td>
+        <td><%= ajuste_programado.nome %></td>
+        <td><%= ajuste_programado.created_at.strftime("%d/%m/%Y") %></td>
+        <td><%= ajuste_programado.status %></td>
+        <td>---</td>
+        <td><%= ajuste_programado.filial.nome_fantasia %></td>
+        <td>0</td>
+        <td class="action-buttons">
+          <%= link_to edit_ajuste_programado_path(ajuste_programado), class: 'btn btn-warning' do %>
+            <span class="glyphicon glyphicon-pencil"></span>
+          <% end %>
+          <%= link_to ajuste_programado_path(ajuste_programado), method: :delete, data: { confirm: 'Confirma?' }, class: 'btn btn-danger' do %>
+            <span class="glyphicon glyphicon-trash"></span>
+          <% end %>
+        </td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

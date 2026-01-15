@@ -1,0 +1,16 @@
+<%= form_with(url: estoques_path, method: :get, local: true, html: { class: "space-y-4", role: "form" }) do %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= label_tag :filial_id, "Filial", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+      <%= select_tag :filial_id, options_for_select(Filial.all.collect { |filial| [filial.nome_fantasia, filial.id] }, selected: params[:filial_id]), include_blank: true, class: 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent' %>
+    </div>
+    <div>
+      <%= label_tag :produto_id, "Produto", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+      <%= select_tag :produto_id, options_for_select(Produto.all.collect { |produto| [produto.descricao_cupom, produto.id] }, selected: params[:produto_id]), include_blank: true, class: 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent' %>
+    </div>
+  </div>
+  <%= hidden_field_tag :local, params[:local] %>
+  <div class="flex justify-end">
+    <%= submit_tag "Buscar", class: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm" %>
+  </div>
+<% end %>

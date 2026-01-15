@@ -1,0 +1,46 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <%= link_to financeiros_path, class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Voltar
+      <% end %>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Movimentação Financeira</h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Detalhes da movimentação</p>
+      </div>
+    </div>
+    <%= link_to edit_financeiro_path(@financeiro), class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm' do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+      </svg>
+      Editar
+    <% end %>
+  </div>
+
+  <!-- Informações da Movimentação -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      Informações da Movimentação
+    </h2>
+    <dl class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Local</dt>
+        <dd class="mt-1 text-sm font-medium text-gray-900 dark:text-white"><%= @financeiro.local %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Data</dt>
+        <dd class="mt-1 text-sm text-gray-900 dark:text-white">
+          <%= @financeiro.data.strftime("%d/%m/%Y") rescue "-" %>
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Valor</dt>
+        <dd class="mt-1 text-2xl font-bold text-emerald-600 dark:text-emerald-400"><%= @financeiro.valor %></dd>
+      </div>
+    </dl>
+  </div>
+</div>

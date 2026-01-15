@@ -1,0 +1,212 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <% if params[:local] == "filial" %>
+        <%= link_to "/filiais/#{params[:filial_id]}/filial_produtos", class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Voltar
+        <% end %>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Estoque de <%= Produto.find(params[:produto_id]).descricao_cupom %>
+          </h1>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Filial: <%= Filial.find(params[:filial_id]).nome_fantasia %>
+          </p>
+        </div>
+      <% else %>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Estoques</h1>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Gerencie as movimentações de estoque</p>
+        </div>
+      <% end %>
+    </div>
+    <% unless params[:local] == "filial" %>
+      <div class="flex items-center gap-2">
+        <%= link_to new_estoque_path, class: 'inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm' do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          Novo Estoque
+        <% end %>
+        <button id="myBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors shadow-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+          </svg>
+          Ações
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Busca -->
+  <% unless params[:local] == "filial" %>
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <%= render "busca" %>
+    </div>
+  <% end %>
+
+  <!-- Card de Estatísticas -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <div class="flex items-center gap-4">
+      <div class="flex-shrink-0">
+        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+          <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="flex-1">
+        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total em estoque</p>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white"><%= number_to_currency(@valor_total) %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-900">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Filial</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Produto</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ação</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Lançamento</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Unitário</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Total</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Validade</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <% @estoques.each do |estoque| %>
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                <%= estoque.filial.nome_fantasia %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                <%= estoque.produto.descricao_cupom %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if estoque.acao == "entrada" %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    ENTRADA
+                  </span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                    SAÍDA
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <%= estoque.lancamento.strftime("%d/%m/%Y") rescue "-" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                <%= estoque.quantidade %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                <%= estoque.valor_unitario %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                <%= estoque.valor_total %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <%= estoque.validade.strftime("%d/%m/%Y") rescue "-" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <% if estoque.acao == "entrada" %>
+                  <%= link_to estoque_path(estoque), method: :delete, data: { confirm: 'Tem certeza que deseja excluir esta entrada de estoque?' }, class: 'p-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors', title: 'Excluir' do %>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination -->
+    <% if @estoques.respond_to?(:total_pages) && @estoques.total_pages > 1 %>
+      <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-center">
+          <%= will_paginate @estoques, container: false, class: 'flex items-center gap-2' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Formulário de Importação (oculto) -->
+<form id="formImportacao" action="/estoques/importar" enctype='multipart/form-data' method="post" style="display: none;">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <input type="file" name="arquivo" id="fileInput" accept=".xlsx,.xls"/>
+</form>
+
+<!-- Modal de Ações -->
+<div id="myModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full mx-4 p-6 relative">
+    <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" id="closeModal">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Ações de Estoque</h2>
+    <div class="space-y-3">
+      <a href="/modelo_estoque.xlsx" target="_blank" class="flex items-center gap-3 w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        Download Modelo Importação
+      </a>
+      <button onclick="importarArquivo()" class="flex items-center gap-3 w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors shadow-sm">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+        </svg>
+        Importar Movimentação XLSX
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let formImportacao = document.getElementById("formImportacao");
+  let fileInput = document.getElementById("fileInput");
+  let modal = document.getElementById("myModal");
+  let btn = document.getElementById("myBtn");
+  let closeBtn = document.getElementById("closeModal");
+
+  function importarArquivo() {
+    fileInput.click();
+  }
+
+  fileInput.addEventListener('input', (e) => {
+    if (e.target.files.length > 0) {
+      formImportacao.requestSubmit();
+    }
+  });
+
+  btn.onclick = function() {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  closeBtn.onclick = function() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  }
+</script>

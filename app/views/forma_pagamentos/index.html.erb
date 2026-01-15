@@ -1,0 +1,114 @@
+<div class="page-header">
+  <h1>Formas de Pagamento Tablet Varejo - PDV</h1>
+</div>
+<%= form_for(@forma_pagamento, html: { class: "form-horizontal", role: "form" }) do |f| %>
+  <% if @forma_pagamento.errors.any? %>
+    <div class="alert alert-danger alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4>Confira os erros abaixo:</h4>
+      <ul>
+        <% @forma_pagamento.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <div class="col-sm-6">
+      <%= f.label :nome, class: "control-label" %>
+      <%= f.text_field :nome, class: "form-control" %>
+    </div>
+    <div class="col-sm-6">
+      <%= f.label :classificacao, class: "control-label" %>
+      <select name="forma_pagamento[classificacao]" id="forma_pagamento_classificacao" class="form-control" required="required">
+        <option selected="selected" value="0">Selecione</option>
+        <option value="1">1-Dinheiro</option>
+        <option value="2">2-Cheque</option>
+        <option value="3">3-Cartão de Crédito</option>
+        <option value="4">4-Cartão de Débito</option>
+        <option value="5">5-Cartão da loja</option>
+        <option value="10">10-Vale Alimentação</option>
+        <option value="11">11-Vale Refeição</option>
+        <option value="12">12-Vale Presente</option>
+        <option value="13">13-Vale Combustível</option>
+        <option value="14">14-Duplicata Mercantil</option>
+        <option value="15">15-Boleto Bancário</option>
+        <option value="16">16-Depósito Bancário</option>
+        <option value="17">17-PIX - Dinâmico</option>
+        <option value="18">18-Transferência bancária</option>
+        <option value="19">19-Programa de fidelidade</option>
+        <option value="20">20-PIX – Estático</option>
+        <option value="21">21-Crédito em Loja</option>
+        <option value="22">22-Pagamento Eletrônico</option>
+        <option value="90">90-Sem pagamento</option>
+        <option value="99">99-Outros</option>
+      </select>
+    </div>
+    <div class="col-sm-6">
+      <%= f.label :permite_troco, class: "control-label" %>
+      <%= f.select(:permite_troco, options_for_select([
+            ['NÃO', 'nao'], 
+            ['SIM', 'sim']
+            ], :selected => @forma_pagamento.permite_troco), {:include_blank => false}, {class: "form-control"}) %>
+    </div>
+    <div class="col-sm-6">
+      <%= f.label :conta_assinada, class: "control-label" %>
+      <%= f.select(:conta_assinada, options_for_select([
+            ['NÃO', 'nao'], 
+            ['SIM', 'sim']
+            ], :selected => @forma_pagamento.conta_assinada), {:include_blank => false}, {class: "form-control"}) %>
+    </div>
+    <div class="col-sm-6">
+      <%= f.label :abre_gaveta, class: "control-label" %>
+      <%= f.select(:abre_gaveta, options_for_select([
+            ['SIM', 'sim'],
+            ['NÃO', 'nao'] 
+            ], :selected => @forma_pagamento.abre_gaveta), {:include_blank => false}, {class: "form-control"}) %>
+    </div>
+    <div class="col-sm-6">
+      <%= f.label :dias_acerto_caixa, class: "control-label" %>
+      <%= f.select(:dias_acerto_caixa, options_for_select([
+            ['Dia atual', 'Dia atual'],
+            ['Dia atual main um dia (D+1)', 'Dia atual main um dia (D+1)'] 
+            ], :selected => @forma_pagamento.dias_acerto_caixa), {:include_blank => false}, {class: "form-control"}) %>
+    </div>
+    <div class="col-sm-3">
+      <%= f.label :ativo, class: "control-label" %>
+      <%= f.select(:ativo, options_for_select([
+            ['SIM', 'sim'],
+            ['NÃO', 'nao'] 
+            ], :selected => @forma_pagamento.ativo), {:include_blank => false}, {class: "form-control"}) %>
+    </div>
+    <div class="col-sm-3">
+      <%= f.label :auto_atendimento, class: "control-label" %>
+      <%= f.select(:auto_atendimento, options_for_select([
+            ['NÃO', 'nao'], 
+            ['SIM', 'sim']
+            ], :selected => @forma_pagamento.auto_atendimento), {:include_blank => false}, {class: "form-control"}) %>
+    </div>
+    <div class="col-sm-6">
+      <%= f.label :meio_pagamento_integrado, class: "control-label" %>
+      <%= f.select(:meio_pagamento_integrado, options_for_select([
+            ['NÃO', 'nao'], 
+            ['SIM', 'sim']
+            ], :selected => @forma_pagamento.meio_pagamento_integrado), {:include_blank => false}, {class: "form-control"}) %>
+    </div>
+    <div class="col-sm-3">
+      <%= f.label :categoria_receita, class: "control-label" %>
+      <%= f.text_field :categoria_receita, class: "form-control" %>
+    </div>
+    <div class="col-sm-3">
+      <%= f.label :conta_bancaria_receita, class: "control-label" %>
+      <%= f.text_field :conta_bancaria_receita, class: "form-control" %>
+    </div>
+    <div class="col-sm-3">
+      <%= f.label :categoria_desapesa, class: "control-label" %>
+      <%= f.text_field :categoria_desapesa, class: "form-control" %>
+    </div>
+    <div class="col-sm-3">
+      <%= f.label :conta_bancaria_despesa, class: "control-label" %>
+      <%= f.text_field :conta_bancaria_despesa, class: "form-control" %>
+    </div>
+  </div>
+  <%= f.submit "Salvar", class: "btn btn-primary" %>
+<% end %>

@@ -1,0 +1,277 @@
+<%= form_for(@grupo_acesso, html: { class: "space-y-6", role: "form" }) do |f| %>
+  <% if @grupo_acesso.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4" role="alert">
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3 flex-1">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-200">Confira os erros abaixo:</h3>
+          <ul class="mt-2 text-sm text-red-700 dark:text-red-300 list-disc list-inside">
+            <% @grupo_acesso.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Informações Básicas -->
+  <div>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      Informações Básicas
+    </h2>
+    <div>
+      <%= f.label :nome, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+      <%= f.text_field :nome, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", required: true %>
+    </div>
+  </div>
+
+  <!-- Administradores -->
+  <div>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      Administradores
+    </h2>
+    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900/50 max-h-64 overflow-y-auto">
+      <div class="space-y-2">
+        <% @administradores.each do |adm| %>
+          <label class="flex items-center gap-3 p-2 hover:bg-white dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+            <% checked = @grupo_acesso.administradores.include?(adm.id) ? "checked" : "" %>
+            <input type="checkbox" name="grupo_acesso[administradores][]" <%= checked %> value="<%= adm.id %>" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <span class="text-sm text-gray-900 dark:text-white"><%= adm.nome %></span>
+            <span class="text-xs text-gray-500 dark:text-gray-400 ml-auto"><%= adm.email %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Acessos -->
+  <div>
+    <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+        Permissões e Acessos
+      </h2>
+      <div class="flex gap-2">
+        <button type="button" onclick="checkAcessos()" class="px-3 py-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
+          Selecionar Todos
+        </button>
+        <button type="button" onclick="uncheckAcessos()" class="px-3 py-1.5 text-sm bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors">
+          Remover Todos
+        </button>
+      </div>
+    </div>
+    
+    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900/50 max-h-96 overflow-y-auto">
+      <ul id="treeview" class="space-y-1">
+        <% @menu.each do |menu| %>
+          <li class="tree-item">
+            <div class="flex items-center gap-2 py-1">
+              <button type="button" class="tree-toggle text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" onclick="toggleTree(this)">
+                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
+              <% 
+              name = "#{menu[:nome]}"
+              checked = @grupo_acesso.acessos_actions.include?(name) ? "checked" : "" 
+              %>
+              <input type="checkbox" name="grupo_acesso[actions][]" <%= checked %> class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 check-acessos" value="<%= menu[:nome] %>" id="check-<%= menu[:nome].parameterize %>">
+              <label for="check-<%= menu[:nome].parameterize %>" class="text-sm font-medium text-gray-900 dark:text-white cursor-pointer"><%= menu[:nome] %></label>
+            </div>
+            <% menu[:itens].each do |item| %>
+              <ul class="ml-6 hidden tree-children">
+                <% item[:controllers].each do |controller| %>
+                  <li class="tree-item">
+                    <div class="flex items-center gap-2 py-1">
+                      <button type="button" class="tree-toggle text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" onclick="toggleTree(this)">
+                        <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                      </button>
+                      <%
+                      name = "#{menu[:nome]}::#{controller[:controller]}"
+                      checked = @grupo_acesso.acessos_actions.include?(name) ? "checked" : "" 
+                      %>
+                      <input type="checkbox" name="grupo_acesso[actions][]" <%= checked %> class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 check-acessos" value="<%= name %>" id="check-<%= name.parameterize %>">
+                      <label for="check-<%= name.parameterize %>" class="text-sm text-gray-900 dark:text-white cursor-pointer"><%= controller[:nome] %></label>
+                    </div>
+                    <ul class="ml-6 hidden tree-children">
+                      <% if controller[:actions].present? %>
+                        <% controller[:actions].each do |action| %>
+                          <li class="tree-item">
+                            <div class="flex items-center gap-2 py-1">
+                              <button type="button" class="tree-toggle text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" onclick="toggleTree(this)">
+                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                              </button>
+                              <% 
+                              name = "#{menu[:nome]}::#{controller[:controller]}::#{action[:action]}"
+                              checked = @grupo_acesso.acessos_actions.include?(name) ? "checked" : "" 
+                              %>
+                              <input type="checkbox" name="grupo_acesso[actions][]" <%= checked %> class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 check-acessos" value="<%= name %>" id="check-<%= name.parameterize %>">
+                              <label for="check-<%= name.parameterize %>" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"><%= action[:nome] %></label>
+                            </div>
+                            <ul class="ml-6 hidden tree-children">
+                              <% action[:views].each do |view| %>
+                                <li class="flex items-center gap-2 py-1">
+                                  <% 
+                                  name = "#{menu[:nome]}::#{controller[:controller]}::#{action[:action]}::#{view}"
+                                  checked = @grupo_acesso.acessos_actions.include?(name) ? "checked" : "" 
+                                  %>
+                                  <input type="checkbox" name="grupo_acesso[actions][]" <%= checked %> class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 check-acessos" value="<%= name %>" id="check-<%= name.parameterize %>">
+                                  <label for="check-<%= name.parameterize %>" class="text-xs text-gray-600 dark:text-gray-400 cursor-pointer"><%= view %></label>
+                                </li>
+                              <% end %>
+                            </ul>
+                          </li>
+                        <% end %>
+                      <% end %>
+                    </ul>
+
+                    <ul class="ml-6 hidden tree-children">
+                      <% if controller[:controllers].present? %>
+                        <% controller[:controllers].each do |controller2| %>
+                          <li class="tree-item">
+                            <div class="flex items-center gap-2 py-1">
+                              <button type="button" class="tree-toggle text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" onclick="toggleTree(this)">
+                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                              </button>
+                              <% 
+                              name = "#{menu[:nome]}::#{controller[:controller]}::#{controller2[:controller]}"
+                              checked = @grupo_acesso.acessos_actions.include?(name) ? "checked" : "" 
+                              %>
+                              <input type="checkbox" name="grupo_acesso[actions][]" <%= checked %> class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 check-acessos" value="<%= name %>" id="check-<%= name.parameterize %>">
+                              <label for="check-<%= name.parameterize %>" class="text-sm text-gray-900 dark:text-white cursor-pointer"><%= controller2[:nome] %></label>
+                            </div>
+                            <ul class="ml-6 hidden tree-children">
+                              <% controller2[:actions].each do |action| %>
+                                <li class="tree-item">
+                                  <div class="flex items-center gap-2 py-1">
+                                    <button type="button" class="tree-toggle text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" onclick="toggleTree(this)">
+                                      <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                      </svg>
+                                    </button>
+                                    <% 
+                                    name = "#{menu[:nome]}::#{controller[:controller]}::#{controller2[:controller]}::#{action[:action]}"
+                                    checked = @grupo_acesso.acessos_actions.include?(name) ? "checked" : "" 
+                                    %>
+                                    <input type="checkbox" name="grupo_acesso[actions][]" <%= checked %> class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 check-acessos" value="<%= name %>" id="check-<%= name.parameterize %>">
+                                    <label for="check-<%= name.parameterize %>" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"><%= action[:nome] %></label>
+                                  </div>
+                                  <ul class="ml-6 hidden tree-children">
+                                    <% action[:views].each do |view| %>
+                                      <li class="flex items-center gap-2 py-1">
+                                        <% 
+                                        name = "#{menu[:nome]}::#{controller[:controller]}::#{controller2[:controller]}::#{action[:action]}::#{view}"
+                                        checked = @grupo_acesso.acessos_actions.include?(name) ? "checked" : "" 
+                                        %>
+                                        <input type="checkbox" name="grupo_acesso[actions][]" <%= checked %> class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 check-acessos" value="<%= name %>" id="check-<%= name.parameterize %>">
+                                        <label for="check-<%= name.parameterize %>" class="text-xs text-gray-600 dark:text-gray-400 cursor-pointer"><%= view %></label>
+                                      </li>
+                                    <% end %>
+                                  </ul>
+                                </li>
+                              <% end %>
+                            </ul>
+                          </li>
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Botão Submit -->
+  <div class="flex justify-end gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <%= link_to grupo_acessos_path, class: 'px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium' do %>
+      Cancelar
+    <% end %>
+    <%= f.submit "Salvar", class: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm" %>
+  </div>
+<% end %>
+
+<style>
+  .tree-item {
+    list-style: none;
+  }
+  
+  .tree-children {
+    list-style: none;
+  }
+  
+  .tree-toggle svg {
+    transform: rotate(0deg);
+    transition: transform 0.2s;
+  }
+  
+  .tree-toggle.expanded svg {
+    transform: rotate(90deg);
+  }
+</style>
+
+<script>
+  function toggleTree(button) {
+    const children = button.closest('.tree-item').querySelector('.tree-children');
+    if (children) {
+      children.classList.toggle('hidden');
+      button.classList.toggle('expanded');
+    }
+  }
+
+  function checkAcessos() {
+    const checkboxes = document.querySelectorAll('.check-acessos');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = true;
+    });
+  }
+
+  function uncheckAcessos() {
+    const checkboxes = document.querySelectorAll('.check-acessos');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Expandir itens que têm checkboxes marcados
+    const checkedItems = document.querySelectorAll('.check-acessos:checked');
+    checkedItems.forEach(checkbox => {
+      let parent = checkbox.closest('.tree-item');
+      while (parent) {
+        const children = parent.querySelector('.tree-children');
+        if (children) {
+          children.classList.remove('hidden');
+          const toggle = parent.querySelector('.tree-toggle');
+          if (toggle) {
+            toggle.classList.add('expanded');
+          }
+        }
+        parent = parent.parentElement.closest('.tree-item');
+      }
+    });
+
+    // Prevenir submissão do formulário ao pressionar Enter
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && event.target.tagName !== 'BUTTON' && event.target.type !== 'submit') {
+          event.preventDefault();
+        }
+      });
+    }
+  });
+</script>

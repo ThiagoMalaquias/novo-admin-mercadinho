@@ -1,0 +1,389 @@
+<style>
+  #tabela_produtos{display: none}
+</style>
+
+<%= form_for(@estoque, html: { class: "space-y-6", role: "form" }) do |f| %>
+  <% if @estoque.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4" role="alert">
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3 flex-1">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-200">Confira os erros abaixo:</h3>
+          <ul class="mt-2 text-sm text-red-700 dark:text-red-300 list-disc list-inside">
+            <% @estoque.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Informações da Movimentação -->
+  <div>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+      Informações da Movimentação
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <%= f.label :acao, "Ação", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.select(:acao, options_for_select([
+              ['ENTRADA', 'entrada'], 
+              ['SAÍDA', 'saida']
+              ], :selected => @estoque.acao), {:include_blank => false}, {class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"}) %>
+      </div>
+      <div>
+        <%= f.label :lancamento, "Data de Lançamento", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.date_field :lancamento, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", value: @estoque.lancamento || Date.today %>
+      </div>
+      <div>
+        <%= f.label :filial_id, "Filial", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.select :filial_id, Filial.all.collect{|filial| [filial.nome_fantasia, filial.id]}, {:selected => @estoque.filial_id, :include_blank => false}, {:class => 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent'} %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção de Itens -->
+  <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-gray-50 dark:bg-gray-900/50">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Itens da Movimentação</h3>
+    
+    <!-- Busca por Código de Barras -->
+    <div class="mb-6">
+      <%= label_tag :codigo_barras, "Buscar por Código de Barras", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+      <%= text_field_tag :codigo_barras, nil, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", id: "codigo_barras", placeholder: "Digite o código e pressione Enter" %>
+      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Pressione Enter após digitar o código de barras para buscar automaticamente</p>
+    </div>
+
+    <!-- Campos para adicionar produto -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
+      <div class="md:col-span-4">
+        <%= f.label :produto_id, "Produto", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.select :produto_id, Produto.all.collect{|produto| [produto.descricao_cupom, produto.id]}, {:selected => @estoque.produto_id, :include_blank => true}, {:class => 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent', id: 'estoque_produto_id', onchange: 'buscarDados()'} %>
+      </div>
+      <div class="md:col-span-2">
+        <%= f.label :validade, "Validade", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.date_field :validade, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", id: "estoque_validade" %>
+      </div>
+      <div class="md:col-span-2">
+        <%= f.label :quantidade, "Quantidade", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.number_field :quantidade, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", id: "estoque_quantidade", min: 1 %>
+      </div>
+      <div class="md:col-span-2">
+        <%= f.label :valor_unitario, "Valor Unitário", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.text_field :valor_unitario, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", id: "estoque_valor_unitario", placeholder: "0,00" %>
+      </div>
+      <div class="md:col-span-2">
+        <%= f.label :valor_total, "Valor Total", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        <%= f.text_field :valor_total, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white cursor-not-allowed", id: "estoque_valor_total", readonly: true %>
+      </div>
+    </div>
+
+    <!-- Botão Adicionar -->
+    <div class="flex justify-end mb-6">
+      <button type="button" onclick="adicionarProduto()" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        Adicionar Produto
+      </button>
+    </div>
+
+    <!-- Mensagem quando não há itens -->
+    <div id="mensagem_nenhum_item" class="text-center py-8 text-gray-500 dark:text-gray-400">
+      <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+      </svg>
+      <p class="text-lg font-medium">Nenhum item cadastrado</p>
+      <p class="text-sm mt-1">Adicione produtos à movimentação usando o formulário acima</p>
+    </div>
+
+    <!-- Tabela de produtos -->
+    <div id="tabela_produtos" class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-800">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Código</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Produto</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Validade</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Unitário</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Total</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tabela_body" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+        </tbody>
+      </table>
+      
+      <div class="mt-6 flex justify-end">
+        <%= f.submit "Salvar Movimentação", class: "px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  // Função para mascarar moeda
+  function mascaraMoeda(campo, separadorDecimal, separadorMilhar, evento) {
+    var tecla = evento.keyCode || evento.which;
+    var valor = campo.value.replace(/[^\d]/g, '');
+    
+    if (tecla == 8) { // Backspace
+      return true;
+    }
+    
+    if (valor.length == 0) {
+      campo.value = '';
+      return false;
+    }
+    
+    if (valor.length == 1) {
+      campo.value = '0' + separadorDecimal + '0' + valor;
+    } else if (valor.length == 2) {
+      campo.value = '0' + separadorDecimal + valor;
+    } else {
+      var inteiro = valor.slice(0, -2);
+      var decimal = valor.slice(-2);
+      campo.value = inteiro.replace(/\B(?=(\d{3})+(?!\d))/g, separadorMilhar) + separadorDecimal + decimal;
+    }
+    
+    // Atualizar cálculo do valor total
+    atualizarValorTotal();
+    return false;
+  }
+
+  // Função para atualizar valor total
+  function atualizarValorTotal() {
+    const qtd = parseFloat(document.getElementById('estoque_quantidade').value.replace(",", ".")) || 0;
+    const valorUnitarioStr = document.getElementById('estoque_valor_unitario').value.replace(/\./g, '').replace(",", ".");
+    const valorUnitario = parseFloat(valorUnitarioStr) || 0;
+
+    if (qtd > 0 && valorUnitario > 0) {
+      const valorTotal = (qtd * valorUnitario).toFixed(2).replace(".", ",");
+      document.getElementById('estoque_valor_total').value = valorTotal;
+    } else {
+      document.getElementById('estoque_valor_total').value = "";
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const valorUnitarioInput = document.getElementById('estoque_valor_unitario');
+    const quantidadeInput = document.getElementById('estoque_quantidade');
+    const codigoBarrasInput = document.getElementById('codigo_barras');
+    const form = document.querySelector('form');
+    
+    // Máscara de moeda
+    if (valorUnitarioInput) {
+      valorUnitarioInput.addEventListener('keypress', function(e) {
+        return mascaraMoeda(this, ',', '.', e);
+      });
+      
+      valorUnitarioInput.addEventListener('keyup', atualizarValorTotal);
+    }
+    
+    // Atualizar valor total ao mudar quantidade
+    if (quantidadeInput) {
+      quantidadeInput.addEventListener('keyup', atualizarValorTotal);
+      quantidadeInput.addEventListener('change', atualizarValorTotal);
+    }
+
+    // Buscar produto por código de barras ao pressionar Enter
+    if (codigoBarrasInput) {
+      codigoBarrasInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          const codigoBarras = this.value;
+          if (codigoBarras.length > 0) {
+            buscarProduto(codigoBarras);
+          }
+        }
+      });
+    }
+
+    // Prevenir submissão do formulário ao pressionar Enter
+    if (form) {
+      form.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && event.target.tagName !== 'BUTTON' && event.target.type !== 'submit' && event.target.id !== 'codigo_barras') {
+          event.preventDefault();
+        }
+      });
+    }
+  });
+
+  function adicionarProduto() {
+    var produtoSelect = document.getElementById('estoque_produto_id');
+    var produtoId = produtoSelect.value;
+    var produtoText = produtoSelect.options[produtoSelect.selectedIndex].text;
+    var validade = document.getElementById('estoque_validade').value;
+    var quantidade = document.getElementById('estoque_quantidade').value;
+    var valorUnitario = document.getElementById('estoque_valor_unitario').value;
+    var valorTotal = document.getElementById('estoque_valor_total').value;
+
+    if(camposInvalidos(produtoId, quantidade, valorUnitario)){
+      alert('Adicione todos os campos obrigatórios');
+      return
+    }
+
+    if(produtoAdicionado(produtoId)){
+      alert('Produto já adicionado.');
+      return
+    }
+
+    var tabelaBody = document.getElementById('tabela_body');
+    var novaLinha = document.createElement('tr');
+    novaLinha.className = 'hover:bg-gray-50 dark:hover:bg-gray-700/50';
+
+    novaLinha.innerHTML = `
+      <td class="px-6 py-4 whitespace-nowrap">
+        <input class="w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm" type="number" name="estoque[produto][][id]" value="${produtoId}" readonly>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">${produtoText}</td>
+      <td class="px-6 py-4 whitespace-nowrap">
+        <input class="w-32 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm" type="date" name="estoque[produto][][validade]" value="${validade}" readonly>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap">
+        <input class="w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm" type="number" name="estoque[produto][][quantidade]" value="${quantidade}" readonly>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap">
+        <input class="w-24 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm" type="text" name="estoque[produto][][valor_unitario]" value="${valorUnitario}" readonly>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap">
+        <input class="w-24 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm" type="text" name="estoque[produto][][valor_total]" value="${valorTotal}" readonly>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+        <button onclick="removerProduto(this)" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+          <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </td>
+    `;
+
+    tabelaBody.appendChild(novaLinha);
+
+    visualizarTabelaProdutos()
+
+    // Limpar os campos após adicionar o produto
+    produtoSelect.value = '';
+    produtoSelect.disabled = false;
+    document.getElementById('estoque_validade').value = '';
+    document.getElementById('estoque_quantidade').value = '';
+    document.getElementById('estoque_valor_unitario').value = '';
+    document.getElementById('estoque_valor_total').value = '';
+    document.getElementById('codigo_barras').value = '';
+  };
+
+  function produtoAdicionado(produtoId){
+    let adicionado = false
+
+    var tabelaBody = document.getElementById('tabela_body');
+    var linhas = tabelaBody.getElementsByTagName('tr');
+    for (var i = 0; i < linhas.length; i++) {
+      var cols = linhas[i].getElementsByTagName('td');
+      if (cols.length > 0) {
+        var input = cols[0].querySelector('input');
+        if (input && input.value === produtoId) {
+          adicionado = true
+        }
+      }
+    }
+
+    return adicionado
+  }
+
+  function camposInvalidos(produtoId, quantidade, valorUnitario){
+    if(!produtoId || produtoId.length == 0){
+      return true
+    }
+
+    if(!quantidade || quantidade.length == 0){
+      return true
+    }
+
+    if(!valorUnitario || valorUnitario.length == 0){
+      return true
+    }
+
+    return false
+  }
+
+  function removerProduto(botao) {
+    var linha = botao.closest('tr');
+    linha.remove();
+
+    visualizarTabelaProdutos()
+  }
+
+  function visualizarTabelaProdutos(){
+    var tabelaBody = document.getElementById('tabela_body');
+    var tabelaProdutos = document.getElementById('tabela_produtos');
+    var mensagemNenhumItem = document.getElementById('mensagem_nenhum_item');
+    
+    if (tabelaBody.getElementsByTagName('tr').length === 0) {
+      tabelaProdutos.style.display = 'none';
+      mensagemNenhumItem.style.display = 'block';
+    }else{
+      tabelaProdutos.style.display = 'block';
+      mensagemNenhumItem.style.display = 'none';
+    }
+  }
+
+  function buscarProduto(codigoBarras){
+    fetch(`/produtos/por_codigo_barras.json?codigo_barras=${codigoBarras}`, {
+        method: 'GET'
+    })
+    .then(response => {
+        if (!response.ok) {
+          throw new Error('Produto não encontrado');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if(data.id){
+          atualizarCampos(data)
+        }
+    })
+    .catch(error => {
+        alert('Produto não encontrado')
+        console.error('Erro:', error);
+    });
+  }
+
+  function buscarDados() {
+    const produtoId = document.querySelector('#estoque_produto_id').value
+    if (!produtoId) return
+
+    fetch(`/produtos/${produtoId}.json`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      atualizarCampos(data)
+    })
+    .catch(error => {
+      alert('Produto não encontrado')
+      console.error('Erro ao buscar dados do produto:', error);
+    });
+  }
+
+  function atualizarCampos(data) {
+    document.getElementById('estoque_valor_unitario').value = data.preco || '';
+    document.getElementById('estoque_produto_id').value = data.id || '';
+    document.getElementById('codigo_barras').value = data.codigo_venda || '';
+    document.getElementById('estoque_validade').value = '';
+    document.getElementById('estoque_quantidade').value = '';
+    document.getElementById('estoque_valor_total').value = '';
+    
+    // Atualizar valor total se houver quantidade
+    if (document.getElementById('estoque_quantidade').value) {
+      atualizarValorTotal();
+    }
+  }
+</script>

@@ -1,0 +1,48 @@
+<%= form_for(@ajuste_programado, html: { class: "form-horizontal", role: "form" }) do |f| %>
+  <% if @ajuste_programado.errors.any? %>
+    <div class="alert alert-danger alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4>Confira os erros abaixo:</h4>
+      <ul>
+        <% @ajuste_programado.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <div class="col-sm-4">
+      <%= f.label :nome, class: "control-label" %>
+      <%= f.text_field :nome, class: "form-control" %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.label :filial, "Filial Origem", class: "control-label" %>
+      <%= f.select :filial_id, Filial.all.collect{|filial| [filial.nome_fantasia, filial.id]}, {:selected => @ajuste_programado.filial_id, :include_blank => false}, {:class =>'form-control'} %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.label :percentual_reajuste, "Percentual de reajuste", class: "control-label" %>
+      <%= f.text_field :percentual_reajuste, class: "form-control" %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.label :arredondamento, class: "control-label" %>
+      <%= f.select(:arredondamento, options_for_select([
+            ['Duas casas decimais', 'Duas casas decimais'], 
+            ['Uma casa decimal', 'Uma casa decimal'],
+            ['Unidade', 'Unidade']
+            ], :selected => @ajuste_programado.arredondamento), {:include_blank => false}, {class: "form-control"}) %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.label :status, class: "control-label" %>
+      <%= f.select(:status, options_for_select([
+            ['Em digitação', 'Em digitação'], 
+            ['Agendado', 'Agendado'],
+            ['Executado', 'Executado']
+            ], :selected => @ajuste_programado.status), {:include_blank => false}, {class: "form-control", disabled: true}) %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.label :administrador, "Responsável", class: "control-label" %>
+      <%= f.text_field :administrador, value: "#{@adm.nome}", class: "form-control", disabled: true %>
+    </div>
+  </div>
+  <%= f.submit "Salvar", class: "btn btn-primary" %>
+<% end %>
