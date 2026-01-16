@@ -13,6 +13,7 @@ gem "dalli"
 gem "image_processing", ">= 1.2"
 gem 'jbuilder', '~> 2.7'
 gem 'jwt'
+gem "nokogiri", "~> 1.17.2"
 gem 'pg'
 gem 'pry-rails'
 gem 'puma', '~> 5.0'
