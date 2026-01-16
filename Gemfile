@@ -10,6 +10,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem "cpf_cnpj"
 gem 'devise'
 gem "dalli"
+gem "ffi", "~> 1.16.3"
 gem "image_processing", ">= 1.2"
 gem 'jbuilder', '~> 2.7'
 gem 'jwt'
