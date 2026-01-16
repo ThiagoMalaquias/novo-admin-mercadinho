@@ -6,9 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <link rel="icon" href="/assets/images/logo.png">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
   </head>
   <body class="bg-gray-50 dark:bg-gray-900">
     <div class="flex h-screen overflow-hidden">
@@ -20,8 +24,23 @@
         <div class="flex flex-col h-full">
           <!-- Logo -->
           <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-800">
-            <h1 class="text-xl font-bold text-gray-900 dark:text-white">Skal Admin</h1>
-            <button onclick="closeSidebar()" class="lg:hidden text-gray-500 dark:text-gray-400">
+            <%= link_to root_path, class: 'flex items-center gap-3 flex-1 group' do %>
+              <div class="flex-shrink-0">
+                <img src="/assets/images/logo.png" alt="Logo" class="w-10 h-10 object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg items-center justify-center text-white font-bold text-lg hidden">
+                  SM
+                </div>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <span class="text-sm font-bold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  Skal Admin
+                </span>
+                <span class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                  Mercado 24hrs
+                </span>
+              </div>
+            <% end %>
+            <button onclick="closeSidebar()" class="lg:hidden p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
@@ -69,13 +88,41 @@
               </button>
 
               <!-- User Menu -->
-              <div class="flex items-center space-x-3">
-                <div class="text-right hidden sm:block">
-                  <p class="text-sm font-medium text-gray-900 dark:text-white">Admin User</p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">admin@skal.com</p>
-                </div>
-                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-                  AU
+              <div class="relative" id="user-menu-container">
+                <button 
+                  onclick="toggleUserMenu()" 
+                  class="flex items-center space-x-3 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  id="user-menu-button"
+                >
+                  <div class="text-right hidden sm:block">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white"><%= @adm.nome %></p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400"><%= @adm.email %></p>
+                  </div>
+                  <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+                    <% 
+                      nome_limpo = @adm.nome.to_s.gsub(/\s+/, "").upcase
+                      inicial1 = nome_limpo[0] || ""
+                      inicial2 = nome_limpo[1] || ""
+                    %>
+                    <%= inicial1 %><%= inicial2 %>
+                  </div>
+                </button>
+                
+                <!-- Dropdown Menu -->
+                <div 
+                  id="user-menu-dropdown" 
+                  class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50"
+                >
+                  <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 sm:hidden">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white"><%= @adm.nome %></p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 truncate"><%= @adm.email %></p>
+                  </div>
+                  <%= link_to "/sair", class: "flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors", id: "logout-link" do %>
+                    <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    <span class="font-medium">Sair</span>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -150,6 +197,23 @@
           if (darkMode !== null && darkMode !== 'false') {
             localStorage.setItem('darkMode', 'false');
           }
+        }
+      });
+
+      // User Menu Dropdown
+      function toggleUserMenu() {
+        const dropdown = document.getElementById('user-menu-dropdown');
+        dropdown.classList.toggle('hidden');
+      }
+
+      // Fechar dropdown ao clicar fora
+      document.addEventListener('click', function(event) {
+        const container = document.getElementById('user-menu-container');
+        const dropdown = document.getElementById('user-menu-dropdown');
+        const button = document.getElementById('user-menu-button');
+        
+        if (container && !container.contains(event.target) && !dropdown.classList.contains('hidden')) {
+          dropdown.classList.add('hidden');
         }
       });
     </script>

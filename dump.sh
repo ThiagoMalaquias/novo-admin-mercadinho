@@ -8,7 +8,7 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 # Defina o caminho completo do arquivo
-FILE="$DIRECTORY/ead"
+FILE="$DIRECTORY/pdv"
 
 # Cria o arquivo se ele não existir
 if [ ! -f "$FILE" ]; then
@@ -24,7 +24,7 @@ sudo systemctl restart postgresql.service
 
 # Execute as tarefas do Rails e restaure o banco de dados
 rails db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 db:create
-pg_restore --verbose --clean -U postgres -d admin_skal_mercado_24hrs_development "$FILE"
+pg_restore --verbose --clean -U postgres -d pdv_legal_development "$FILE"
 
 # Inicie o servidor Rails na porta 3001
 rails s -p 3001

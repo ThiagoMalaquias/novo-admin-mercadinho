@@ -1,0 +1,243 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <%= link_to root_path, class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Voltar
+      <% end %>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Formas de Recebimento</h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Análise de vendas por método de pagamento</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <%= render "busca", path: formas_recebimento_path %>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Chart Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-500 to-blue-600">
+        <div class="flex items-center gap-3">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+          </svg>
+          <h2 class="text-lg font-semibold text-white">Formas de Recebimento</h2>
+        </div>
+      </div>
+      <div class="p-6">
+        <canvas id="myChart" width="400" height="400"></canvas>
+      </div>
+    </div>
+
+    <!-- Summary Table Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Resumo por Método</h2>
+      </div>
+      <div class="p-6">
+        <div class="space-y-3">
+          <% 
+            metodos = [
+              { nome: 'CREDITO', valor: @vendas.credito.sum(:valor), cor: '#5B98B6' },
+              { nome: 'DEBITO', valor: @vendas.debito.sum(:valor), cor: '#FF6600' },
+              { nome: 'PIX', valor: @vendas.pix.sum(:valor), cor: '#5A736F' },
+              { nome: 'VA SODEXO', valor: @vendas.sodexo.sum(:valor), cor: '#FDD752' }
+            ]
+            total_geral = @vendas.sum(:valor)
+          %>
+          <% metodos.each do |metodo| %>
+            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-4 h-4 rounded" style="background-color: <%= metodo[:cor] %>"></div>
+                <span class="text-sm font-medium text-gray-900 dark:text-white"><%= metodo[:nome] %></span>
+              </div>
+              <div class="text-right">
+                <span class="text-sm font-semibold text-gray-900 dark:text-white">
+                  <%= number_to_currency(metodo[:valor]) %>
+                </span>
+                <% if total_geral > 0 %>
+                  <span class="text-xs text-gray-500 dark:text-gray-400 block">
+                    <%= number_with_precision((metodo[:valor] / total_geral * 100), precision: 1) %>%
+                  </span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+          
+          <!-- Total -->
+          <div class="flex items-center justify-between p-4 mt-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-2 border-blue-200 dark:border-blue-800">
+            <span class="text-base font-bold text-gray-900 dark:text-white">TOTAL</span>
+            <span class="text-lg font-bold text-blue-600 dark:text-blue-400">
+              <%= number_to_currency(total_geral) %>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vendas Table -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Lista de Vendas</h2>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-900">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Data</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nº Venda</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Filial</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Método</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nº Produtos</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <% if @vendas.any? %>
+            <% @vendas.each do |venda| %>
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                  <%= venda.created_at.strftime("%d/%m/%Y %H:%M") %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-white">
+                  <%= venda.id %>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">
+                  <%= venda.filial.nome_fantasia %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% 
+                    metodo_cor = case venda.metodo
+                      when 'CREDITO' then 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                      when 'DEBITO' then 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
+                      when 'PIX' then 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+                      when 'VA SODEXO' then 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                      else 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+                    end
+                  %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= metodo_cor %>">
+                    <%= venda.metodo %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold text-gray-900 dark:text-white">
+                  <%= number_to_currency(venda.valor) %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                    <%= venda.produtos.count %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <div class="flex items-center justify-end gap-2">
+                    <%= link_to venda_path(venda), class: 'p-2 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors', title: 'Visualizar' do %>
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                      </svg>
+                    <% end %>
+                    <%= link_to venda_path(venda), method: :delete, data: { confirm: 'Tem certeza que deseja excluir esta venda?' }, class: 'p-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors', title: 'Excluir' do %>
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                      </svg>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="7" class="px-6 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                Nenhuma venda encontrada para o período selecionado.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('myChart');
+    const isDark = document.documentElement.classList.contains('dark');
+    
+    const textColor = '#E5E7EB';
+    const gridColor = '#374151';
+
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: [
+          'CREDITO',
+          'DEBITO',
+          'PIX',
+          'VA SODEXO'
+        ],
+        datasets: [{
+          label: 'Valor',
+          data: [
+            <%= @vendas.credito.sum(:valor) %>,
+            <%= @vendas.debito.sum(:valor) %>,
+            <%= @vendas.pix.sum(:valor) %>,
+            <%= @vendas.sodexo.sum(:valor) %>
+          ],
+          backgroundColor: [
+            '#5B98B6',
+            '#FF6600',
+            '#5A736F',
+            '#FDD752'
+          ],
+          borderColor: isDark ? '#1F2937' : '#FFFFFF',
+          borderWidth: 2,
+          hoverOffset: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: textColor,
+              padding: 15,
+              font: {
+                size: 12
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: isDark ? '#1F2937' : '#FFFFFF',
+            titleColor: textColor,
+            bodyColor: textColor,
+            borderColor: gridColor,
+            borderWidth: 1,
+            padding: 12,
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.parsed || 0;
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                return label + ': ' + new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(value) + ' (' + percentage + '%)';
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+</script>

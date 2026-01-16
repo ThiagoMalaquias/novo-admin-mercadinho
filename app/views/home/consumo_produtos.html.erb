@@ -1,0 +1,118 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <%= link_to root_path, class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Voltar
+      <% end %>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Consumo de Produtos</h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Análise de consumo e vendas por produto</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <%= render "busca", path: consumo_produtos_path %>
+
+  <!-- Table -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-900">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Código</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nome</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Grupo</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Preço</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Vendido</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Média por Venda</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Estoque Atual</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <% if @produtos.any? %>
+            <% @produtos.each do |produto| %>
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-mono text-gray-900 dark:text-white">
+                    <%= produto.id %>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">
+                    <%= produto.descricao_cupom %>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 dark:text-white">
+                    <%= produto.grupo_produto.nome %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">
+                    <%= number_to_currency(produto.preco) %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                    <%= produto.total_vendido.to_i %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <div class="text-sm text-gray-900 dark:text-white">
+                    <%= number_with_precision(produto.media_vendido.to_f, precision: 2) %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <% if params[:filial_id].present? %>
+                    <% begin %>
+                      <% filial_produto = FilialProduto.find_by(filial_id: params[:filial_id], produto_id: produto.id) %>
+                      <% estoque = filial_produto ? filial_produto.quantidade : 0 %>
+                      <% quantidade_minima = filial_produto&.quantidade_minima %>
+                      <% quantidade_alerta = filial_produto&.quantidade_alerta %>
+                      <% 
+                        badge_classes = if quantidade_minima.present? && estoque <= quantidade_minima
+                                          'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                                        elsif quantidade_alerta.present? && estoque <= quantidade_alerta
+                                          'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
+                                        else
+                                          'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                        end
+                      %>
+                      <span class="<%= badge_classes %>">
+                        <%= estoque %>
+                      </span>
+                    <% rescue => e %>
+                      <span class="text-sm text-gray-400 dark:text-gray-500">0</span>
+                    <% end %>
+                  <% else %>
+                    <span class="text-sm text-gray-400 dark:text-gray-500 italic">Selecione uma Filial</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="7" class="px-6 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                Nenhum produto encontrado para o período selecionado.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <% if @produtos.respond_to?(:total_pages) && @produtos.total_pages > 1 %>
+    <div class="flex justify-center">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 px-4 py-3">
+        <%= will_paginate @produtos, container: false, class: 'flex items-center gap-2' %>
+      </div>
+    </div>
+  <% end %>
+</div>
