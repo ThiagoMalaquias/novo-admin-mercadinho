@@ -127,35 +127,6 @@
 <% end %>
 
 <script>
-  // Função para mascarar moeda
-  function mascaraMoeda(campo, separadorDecimal, separadorMilhar, evento) {
-    var tecla = evento.keyCode || evento.which;
-    var valor = campo.value.replace(/[^\d]/g, '');
-    
-    if (tecla == 8) { // Backspace
-      return true;
-    }
-    
-    if (valor.length == 0) {
-      campo.value = '';
-      return false;
-    }
-    
-    if (valor.length == 1) {
-      campo.value = '0' + separadorDecimal + '0' + valor;
-    } else if (valor.length == 2) {
-      campo.value = '0' + separadorDecimal + valor;
-    } else {
-      var inteiro = valor.slice(0, -2);
-      var decimal = valor.slice(-2);
-      campo.value = inteiro.replace(/\B(?=(\d{3})+(?!\d))/g, separadorMilhar) + separadorDecimal + decimal;
-    }
-    
-    // Atualizar cálculo do valor total
-    atualizarValorTotal();
-    return false;
-  }
-
   // Função para atualizar valor total
   function atualizarValorTotal() {
     const qtd = parseFloat(document.getElementById('estoque_quantidade').value.replace(",", ".")) || 0;

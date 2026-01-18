@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div data-controller="import-modal" class="space-y-6">
   <!-- Header -->
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
     <div class="flex items-center gap-4">
@@ -32,7 +32,11 @@
           </svg>
           Novo Estoque
         <% end %>
-        <button id="myBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors shadow-sm">
+        <button 
+          data-import-modal-target="openButton"
+          data-action="click->import-modal#open"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors shadow-sm"
+        >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
           </svg>
@@ -142,71 +146,58 @@
       </div>
     <% end %>
   </div>
-</div>
 
-<!-- Formulário de Importação (oculto) -->
-<form id="formImportacao" action="/estoques/importar" enctype='multipart/form-data' method="post" style="display: none;">
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <input type="file" name="arquivo" id="fileInput" accept=".xlsx,.xls"/>
-</form>
+  <!-- Formulário de Importação (oculto) -->
+  <form 
+    data-import-modal-target="form"
+    action="/estoques/importar" 
+    enctype='multipart/form-data' 
+    method="post" 
+    style="display: none;"
+  >
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <input 
+      type="file" 
+      name="arquivo" 
+      data-import-modal-target="fileInput"
+      accept=".xlsx,.xls"
+      data-action="change->import-modal#handleFileChange"
+    />
+  </form>
 
-<!-- Modal de Ações -->
-<div id="myModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
-  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full mx-4 p-6 relative">
-    <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" id="closeModal">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Ações de Estoque</h2>
-    <div class="space-y-3">
-      <a href="/modelo_estoque.xlsx" target="_blank" class="flex items-center gap-3 w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+  <!-- Modal de Ações -->
+  <div 
+    data-import-modal-target="modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50"
+  >
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full mx-4 p-6 relative">
+      <button 
+        data-import-modal-target="closeButton"
+        data-action="click->import-modal#close"
+        class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
-        Download Modelo Importação
-      </a>
-      <button onclick="importarArquivo()" class="flex items-center gap-3 w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors shadow-sm">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-        </svg>
-        Importar Movimentação XLSX
       </button>
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Ações de Estoque</h2>
+      <div class="space-y-3">
+        <a href="/modelo_estoque.xlsx" target="_blank" class="flex items-center gap-3 w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Download Modelo Importação
+        </a>
+        <button 
+          data-action="click->import-modal#importFile"
+          class="flex items-center gap-3 w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors shadow-sm"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+          </svg>
+          Importar Movimentação XLSX
+        </button>
+      </div>
     </div>
   </div>
 </div>
-
-<script>
-  let formImportacao = document.getElementById("formImportacao");
-  let fileInput = document.getElementById("fileInput");
-  let modal = document.getElementById("myModal");
-  let btn = document.getElementById("myBtn");
-  let closeBtn = document.getElementById("closeModal");
-
-  function importarArquivo() {
-    fileInput.click();
-  }
-
-  fileInput.addEventListener('input', (e) => {
-    if (e.target.files.length > 0) {
-      formImportacao.requestSubmit();
-    }
-  });
-
-  btn.onclick = function() {
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-  }
-
-  closeBtn.onclick = function() {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  }
-
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-  }
-</script>

@@ -9,3 +9,6 @@ application.register("dropdown", DropdownController)
 
 import HomeController from "./home_controller"
 application.register("home", HomeController)
+
+import ImportModalController from "./import_modal_controller"
+application.register("import-modal", ImportModalController)

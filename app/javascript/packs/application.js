@@ -17,4 +17,3 @@ ActiveStorageDragAndDrop.start()
 
 require("trix")
 require("@rails/actiontext")
-
