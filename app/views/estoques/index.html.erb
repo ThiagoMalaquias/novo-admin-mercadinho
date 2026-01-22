@@ -65,7 +65,7 @@
       </div>
       <div class="flex-1">
         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total em estoque</p>
-        <p class="text-3xl font-bold text-gray-900 dark:text-white"><%= number_to_currency(@valor_total) %></p>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white"><%= number_to_currency(@valor_total / 100.0, precision: 2) %></p>
       </div>
     </div>
   </div>
@@ -114,22 +114,29 @@
                 <%= estoque.quantidade %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                <%= estoque.valor_unitario %>
+                <%= number_to_currency(estoque.valor_unitario / 100.0, precision: 2)  %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                <%= estoque.valor_total %>
+                <%= number_to_currency(estoque.valor_total / 100.0, precision: 2) %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                 <%= estoque.validade.strftime("%d/%m/%Y") rescue "-" %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div class="flex items-center justify-end gap-2">
                 <% if estoque.acao == "entrada" %>
+                  <%= link_to edit_estoque_path(estoque), class: 'p-2 text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-lg transition-colors', title: 'Editar' do %>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                  <% end %>
                   <%= link_to estoque_path(estoque), method: :delete, data: { confirm: 'Tem certeza que deseja excluir esta entrada de estoque?' }, class: 'p-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors', title: 'Excluir' do %>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                     </svg>
                   <% end %>
-                <% end %>
+                  <% end %>
+                </div>
               </td>
             </tr>
           <% end %>
@@ -140,7 +147,7 @@
     <!-- Pagination -->
     <% if @estoques.respond_to?(:total_pages) && @estoques.total_pages > 1 %>
       <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
-        <div class="flex items-center justify-center">
+        <div class="apple_pagination flex items-center justify-center">
           <%= will_paginate @estoques, container: false, class: 'flex items-center gap-2' %>
         </div>
       </div>

@@ -30,7 +30,7 @@ class Xlsx::Importar::EstoqueService
     lancamento = 3
     quantidade = 4
     valor_unitario = 5
-    
+
     return if linha[cod_filial] == "Código Filial" || linha[cod_filial].nil? rescue return
 
     estoque = Estoque.new
@@ -39,13 +39,13 @@ class Xlsx::Importar::EstoqueService
     estoque.acao = linha[acao].to_s
     estoque.lancamento = linha[lancamento]
     estoque.quantidade = linha[quantidade].to_i
-    estoque.valor_unitario = Conversao.convert_comma_to_string(linha[valor_unitario])
+    estoque.valor_unitario = Conversao.convert_comma_to_float(linha[valor_unitario]) * 100.0
     estoque.valor_total = valor_total(linha[quantidade], linha[valor_unitario])
     estoque.save!
   end
 
   def valor_total(quantidade, valor_unitario)
-    total = valor_unitario * quantidade
-    Conversao.convert_comma_to_string(total)
+    total = Conversao.convert_comma_to_float(valor_unitario) * quantidade
+    total * 100.0
   end
 end

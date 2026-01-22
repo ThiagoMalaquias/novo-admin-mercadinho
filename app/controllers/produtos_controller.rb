@@ -31,6 +31,7 @@ class ProdutosController < ApplicationController
   def create
     @produto = Produto.new(produto_params)
     @produto.descricao_cupom = produto_params[:descricao_cupom].upcase.strip
+    @produto.preco = Conversao.convert_comma_to_float(produto_params[:preco]) * 100.0
 
     respond_to do |format|
       if @produto.save
@@ -46,6 +47,9 @@ class ProdutosController < ApplicationController
   def update
     respond_to do |format|
       if @produto.update(produto_params)
+        @produto.preco = Conversao.convert_comma_to_float(produto_params[:preco]) * 100.0
+        @produto.save
+
         format.html { redirect_to produtos_url, notice: 'Produto atualizado com sucesso.' }
         format.json { render :show, status: :ok, location: @produto }
       else

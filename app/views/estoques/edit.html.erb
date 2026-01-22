@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
     <div class="flex items-center gap-4">
-      <%= link_to estoques_path, class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
+      <%= link_to estoque_path(@estoque), class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>
@@ -13,10 +13,97 @@
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Atualize as informações da movimentação</p>
       </div>
     </div>
+    <%= link_to estoque_path(@estoque), class: 'inline-flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors' do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+      </svg>
+      Visualizar
+    <% end %>
   </div>
 
   <!-- Form Card -->
   <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-    <%= render 'form' %>
+    <%= form_for(@estoque, html: { class: "space-y-6", role: "form", data: { controller: "estoque-form", estoque_form_target: "form" } }) do |f| %>
+      <% if @estoque.errors.any? %>
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4" role="alert">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div class="ml-3 flex-1">
+              <h3 class="text-sm font-medium text-red-800 dark:text-red-200">Confira os erros abaixo:</h3>
+              <ul class="mt-2 text-sm text-red-700 dark:text-red-300 list-disc list-inside">
+                <% @estoque.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Informações da Movimentação -->
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+          Informações da Movimentação
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <%= f.label :acao, "Ação", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= f.select(:acao, options_for_select([
+                  ['ENTRADA', 'entrada'], 
+                  ['SAÍDA', 'saida']
+                  ], :selected => @estoque.acao), {:include_blank => false}, {class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"}) %>
+          </div>
+          <div>
+            <%= f.label :lancamento, "Data de Lançamento", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= f.date_field :lancamento, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", value: @estoque.lancamento&.strftime("%Y-%m-%d") || Date.today %>
+          </div>
+          <div>
+            <%= f.label :filial_id, "Filial", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= f.select :filial_id, Filial.all.collect{|filial| [filial.nome_fantasia, filial.id]}, {:selected => @estoque.filial_id, :include_blank => false}, {:class => 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent'} %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informações do Produto -->
+      <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-gray-50 dark:bg-gray-900/50">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Informações do Produto</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div class="md:col-span-4">
+            <%= f.label :produto_id, "Produto", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= f.select :produto_id, Produto.all.collect{|produto| [produto.descricao_cupom, produto.id]}, {:selected => @estoque.produto_id, :include_blank => false}, {:class => 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent', id: 'estoque_produto_id', data: { estoque_form_target: "produtoSelect", action: "change->estoque-form#buscarDados" } } %>
+          </div>
+          <div class="md:col-span-2">
+            <%= f.label :validade, "Validade", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= f.date_field :validade, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", id: "estoque_validade", value: @estoque.validade&.strftime("%Y-%m-%d"), data: { estoque_form_target: "validade" } %>
+          </div>
+          <div class="md:col-span-2">
+            <%= f.label :quantidade, "Quantidade", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= f.number_field :quantidade, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", id: "estoque_quantidade", min: 1, value: @estoque.quantidade, data: { estoque_form_target: "quantidade", action: "keyup->estoque-form#atualizarValorTotal change->estoque-form#atualizarValorTotal" } %>
+          </div>
+          <div class="md:col-span-2">
+            <%= f.label :valor_unitario, "Valor Unitário", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= f.text_field :valor_unitario, value: "#{number_to_currency(@estoque.valor_unitario / 100.0, precision: 2, unit: "").strip}", class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", placeholder: "0,00", value: @estoque.valor_unitario, data: { estoque_form_target: "valorUnitario", action: "keyup->estoque-form#atualizarValorTotal" } %>
+          </div>
+          <div class="md:col-span-2">
+            <%= f.label :valor_total, "Valor Total", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= f.text_field :valor_total, value: "#{number_to_currency(@estoque.valor_total / 100.0, precision: 2, unit: "").strip}", class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white cursor-not-allowed", id: "estoque_valor_total", readonly: true, value: @estoque.valor_total, data: { estoque_form_target: "valorTotal" } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <%= link_to estoque_path(@estoque), class: 'px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium' do %>
+          Cancelar
+        <% end %>
+        <%= f.submit "Atualizar Movimentação", class: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm" %>
+      </div>
+    <% end %>
   </div>
 </div>

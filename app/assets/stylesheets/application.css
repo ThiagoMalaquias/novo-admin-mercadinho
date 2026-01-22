@@ -15,46 +15,292 @@
  *= require active_storage_drag_and_drop
  */
 
-/* Will Pagination */
+/* Paginação moderna compatível com Tailwind CSS e Dark Mode */
 .apple_pagination {
-  margin: 20px 0;
-  background: #ffffff;
-  border: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
   text-align: center;
-  padding: 0.5em;
+  padding: 0;
   cursor: default;
-  font-size: .9rem;
 }
 
 .apple_pagination a,
 .apple_pagination span {
-  padding: 0.2em 0.3em;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  transition: all 0.2s ease-in-out;
 }
 
 .apple_pagination .disabled {
-  color: #aaaaaa;
+  color: #9ca3af;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dark .apple_pagination .disabled {
+  color: #4b5563;
 }
 
 .apple_pagination .current {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  font-weight: 600;
   font-style: normal;
-  font-weight: bold;
-  background-color: #bebebe;
-  display: inline-block;
-  min-width: 1.4em;
-  height: 1.4em;
-  line-height: 1.5;
-  -moz-border-radius: 1em;
-  -webkit-border-radius: 1em;
-  border-radius: 1em;
-  text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: none;
+}
+
+.dark .apple_pagination .current {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
 }
 
 .apple_pagination a {
+  color: #374151;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
   text-decoration: none;
-  color: black;
+}
+
+.dark .apple_pagination a {
+  color: #d1d5db;
+  background-color: #1f2937;
+  border-color: #4b5563;
 }
 
 .apple_pagination a:hover,
 .apple_pagination a:focus {
-  color: #495057;
+  color: #2563eb;
+  background-color: #eff6ff;
+  border-color: #93c5fd;
+  text-decoration: none;
+}
+
+.dark .apple_pagination a:hover,
+.dark .apple_pagination a:focus {
+  color: #60a5fa;
+  background-color: rgba(30, 58, 138, 0.2);
+  border-color: #2563eb;
+}
+
+.apple_pagination .previous_page,
+.apple_pagination .next_page {
+  padding: 0.5rem 1rem;
+}
+
+.apple_pagination .previous_page {
+  margin-right: 0;
+}
+
+.apple_pagination .next_page {
+  margin-left: 0;
+}
+
+
+/* Estilos para digg_pagination */
+.digg_pagination {
+  background: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  cursor: default;
+}
+
+.dark .digg_pagination {
+  background: #1f2937;
+}
+
+.digg_pagination a,
+.digg_pagination span,
+.digg_pagination em {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.25rem;
+}
+
+.digg_pagination .disabled {
+  color: #9ca3af;
+  border: 1px solid #d1d5db;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dark .digg_pagination .disabled {
+  color: #4b5563;
+  border-color: #4b5563;
+}
+
+.digg_pagination .current {
+  background-color: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+  font-style: normal;
+  border: 1px solid #2563eb;
+}
+
+.digg_pagination a {
+  color: #2563eb;
+  border: 1px solid #d1d5db;
+  text-decoration: none;
+}
+
+.dark .digg_pagination a {
+  color: #60a5fa;
+  border-color: #4b5563;
+}
+
+.digg_pagination a:hover,
+.digg_pagination a:focus {
+  color: #1e40af;
+  border-color: #93c5fd;
+}
+
+.dark .digg_pagination a:hover,
+.dark .digg_pagination a:focus {
+  color: #d1d5db;
+  border-color: #4b5563;
+}
+
+.digg_pagination .page_info {
+  background-color: #2563eb;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  width: auto;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.digg_pagination .page_info b {
+  color: #ffffff;
+  background-color: #1e40af;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.digg_pagination:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/* Estilos para flickr_pagination */
+.flickr_pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: 0.75rem;
+  cursor: default;
+}
+
+.flickr_pagination a,
+.flickr_pagination span,
+.flickr_pagination em {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+}
+
+.flickr_pagination .disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dark .flickr_pagination .disabled {
+  color: #4b5563;
+}
+
+.flickr_pagination .current {
+  color: #2563eb;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.dark .flickr_pagination .current {
+  color: #60a5fa;
+}
+
+.flickr_pagination a {
+  color: #374151;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  text-decoration: none;
+}
+
+.dark .flickr_pagination a {
+  color: #d1d5db;
+  border-color: #4b5563;
+  background-color: #1f2937;
+}
+
+.flickr_pagination a:hover,
+.flickr_pagination a:focus {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.dark .flickr_pagination a:hover,
+.dark .flickr_pagination a:focus {
+  border-color: #2563eb;
+  background-color: rgba(30, 58, 138, 0.2);
+  color: #60a5fa;
+}
+
+.flickr_pagination .page_info {
+  color: #6b7280;
+  padding-top: 0.75rem;
+}
+
+.dark .flickr_pagination .page_info {
+  color: #9ca3af;
+}
+
+.flickr_pagination .previous_page,
+.flickr_pagination .next_page {
+  border-width: 2px;
+}
+
+.flickr_pagination .previous_page {
+  margin-right: 0.5rem;
+}
+
+.flickr_pagination .next_page {
+  margin-left: 0.5rem;
 }

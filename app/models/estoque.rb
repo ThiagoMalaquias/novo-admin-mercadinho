@@ -12,11 +12,11 @@ class Estoque < ApplicationRecord
     saidas = estoques.saidas
 
     valor_total_entrada = entradas.sum do |entrada|
-      Conversao.convert_comma_to_float(entrada.valor_total)
+      entrada.valor_total
     end
 
     valor_total_saida = saidas.sum do |saida|
-      Conversao.convert_comma_to_float(saida.valor_total)
+      saida.valor_total
     end
 
     valor_total_entrada - valor_total_saida

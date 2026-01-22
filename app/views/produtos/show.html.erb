@@ -52,7 +52,7 @@
         <% if @produto.preco.present? %>
           <div>
             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Preço</dt>
-            <dd class="mt-1 text-lg font-bold text-emerald-600 dark:text-emerald-400"><%= @produto.preco %></dd>
+            <dd class="mt-1 text-lg font-bold text-emerald-600 dark:text-emerald-400"><%= number_to_currency(@produto.preco / 100.0, precision: 2) rescue "0,00" %></dd>
           </div>
         <% end %>
         <% if @produto.status.present? %>

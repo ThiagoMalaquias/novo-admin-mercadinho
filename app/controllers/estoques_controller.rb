@@ -86,10 +86,10 @@ class EstoquesController < ApplicationController
   end
 
   def total_per_page
-    params[:local] == "filial" ? @estoques.count : 20
+    params[:local] == "filial" ? @estoques.count : 10
   end
 
   def estoque_params
-    params.require(:estoque).permit(:filial_id, :acao, :lancamento, { produto: %i[id validade quantidade valor_unitario valor_total] })
+    params.require(:estoque).permit(:produto_id, :validade, :quantidade, :valor_unitario, :valor_total)
   end
 end

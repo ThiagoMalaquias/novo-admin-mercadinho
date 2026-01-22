@@ -31,7 +31,7 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div>
       <%= f.label :valor, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
-      <%= f.text_field :valor, class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", id: "filial_produto_valor", placeholder: "0,00" %>
+      <%= f.text_field :valor, value: "#{number_to_currency(@filial_produto.valor / 100.0, precision: 2, unit: "").strip}" , class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", onkeypress: "return(mascaraMoeda(this,'.',',',event));", placeholder: "0,00" %>
     </div>
     <div>
       <%= f.label :quantidade_alerta, "Quantidade de Alerta", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
@@ -51,42 +51,3 @@
     <%= f.submit "Salvar", class: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm" %>
   </div>
 <% end %>
-
-<script>
-  // Função para mascarar moeda
-  function mascaraMoeda(campo, separadorDecimal, separadorMilhar, evento) {
-    var tecla = evento.keyCode || evento.which;
-    var valor = campo.value.replace(/[^\d]/g, '');
-    
-    if (tecla == 8) { // Backspace
-      return true;
-    }
-    
-    if (valor.length == 0) {
-      campo.value = '';
-      return false;
-    }
-    
-    if (valor.length == 1) {
-      campo.value = '0' + separadorDecimal + '0' + valor;
-    } else if (valor.length == 2) {
-      campo.value = '0' + separadorDecimal + valor;
-    } else {
-      var inteiro = valor.slice(0, -2);
-      var decimal = valor.slice(-2);
-      campo.value = inteiro.replace(/\B(?=(\d{3})+(?!\d))/g, separadorMilhar) + separadorDecimal + decimal;
-    }
-    
-    return false;
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const valorInput = document.getElementById('filial_produto_valor');
-    
-    if (valorInput) {
-      valorInput.addEventListener('keypress', function(e) {
-        return mascaraMoeda(this, ',', '.', e);
-      });
-    }
-  });
-</script>

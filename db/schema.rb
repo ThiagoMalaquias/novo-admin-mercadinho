@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_30_122347) do
+ActiveRecord::Schema.define(version: 2025_08_30_122349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -86,11 +86,11 @@ ActiveRecord::Schema.define(version: 2024_08_30_122347) do
     t.string "acao"
     t.date "lancamento"
     t.integer "quantidade"
-    t.string "valor_unitario"
-    t.string "valor_total"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.date "validade"
+    t.integer "valor_unitario", default: 0, null: false
+    t.integer "valor_total", default: 0, null: false
     t.index ["filial_id"], name: "index_estoques_on_filial_id"
     t.index ["produto_id"], name: "index_estoques_on_produto_id"
   end
@@ -124,12 +124,12 @@ ActiveRecord::Schema.define(version: 2024_08_30_122347) do
   create_table "filial_produtos", force: :cascade do |t|
     t.bigint "filial_id", null: false
     t.bigint "produto_id", null: false
-    t.string "valor"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "quantidade_alerta"
     t.integer "quantidade_minima"
     t.string "status", default: "ATIVO"
+    t.integer "valor", default: 0, null: false
     t.index ["filial_id"], name: "index_filial_produtos_on_filial_id"
     t.index ["produto_id"], name: "index_filial_produtos_on_produto_id"
   end
@@ -137,9 +137,9 @@ ActiveRecord::Schema.define(version: 2024_08_30_122347) do
   create_table "financeiros", force: :cascade do |t|
     t.string "local"
     t.date "data"
-    t.string "valor"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "valor", default: 0, null: false
   end
 
   create_table "forma_pagamentos", force: :cascade do |t|
@@ -185,10 +185,10 @@ ActiveRecord::Schema.define(version: 2024_08_30_122347) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
-    t.string "preco"
     t.integer "quantidade_alerta"
     t.integer "quantidade_minima"
     t.text "imagem"
+    t.integer "preco", default: 0, null: false
     t.index ["grupo_produto_id"], name: "index_produtos_on_grupo_produto_id"
   end
 
@@ -196,11 +196,11 @@ ActiveRecord::Schema.define(version: 2024_08_30_122347) do
     t.bigint "venda_id", null: false
     t.bigint "produto_id", null: false
     t.integer "quantidade"
-    t.string "valor_unitario"
-    t.string "valor_total"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "total_estoque"
+    t.integer "valor_unitario", default: 0, null: false
+    t.integer "valor_total", default: 0, null: false
     t.index ["produto_id"], name: "index_venda_produtos_on_produto_id"
     t.index ["venda_id"], name: "index_venda_produtos_on_venda_id"
   end
@@ -211,7 +211,7 @@ ActiveRecord::Schema.define(version: 2024_08_30_122347) do
     t.string "metodo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "valor"
+    t.integer "valor", default: 0, null: false
     t.index ["filial_id"], name: "index_vendas_on_filial_id"
   end
 

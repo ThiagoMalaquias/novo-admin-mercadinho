@@ -17,7 +17,7 @@ class VendasController < ApplicationController
     @venda = Venda.new
     @venda.filial_id = venda_params[:filial_id]
     @venda.metodo = venda_params[:metodo]
-    @venda.valor = Conversao.convert_comma_to_float(venda_params[:valor])
+    @venda.valor = Conversao.convert_comma_to_float(venda_params[:valor]) * 100.0
      
     respond_to do |format|
       if @venda.save

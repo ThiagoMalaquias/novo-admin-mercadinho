@@ -1,6 +1,6 @@
 class FilialProdutosController < ApplicationController
   before_action :set_filial
-  before_action :set_filial_produto, only: %i[edit destroy alterar_status]
+  before_action :set_filial_produto, only: %i[edit update destroy alterar_status]
 
   def index
     @filial_produtos = @filial.filial_produtos.order("created_at desc")
@@ -20,6 +20,21 @@ class FilialProdutosController < ApplicationController
         format.json { render :show, status: :created, location: @filial_produto }
       else
         format.html { render :index }
+        format.json { render json: @filial_produto.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @filial_produto.update(filial_produto_params)
+        @filial_produto.valor = Conversao.convert_comma_to_float(filial_produto_params[:valor]) * 100.0
+        @filial_produto.save
+
+        format.html { redirect_to filial_filial_produtos_url(@filial), notice: 'Produto atualizado com sucesso.' }
+        format.json { render :show, status: :ok, location: @filial_produto }
+      else
+        format.html { render :edit }
         format.json { render json: @filial_produto.errors, status: :unprocessable_entity }
       end
     end
