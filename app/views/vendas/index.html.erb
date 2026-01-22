@@ -31,6 +31,9 @@
             <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
               Nº Produtos
             </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              Data
+            </th>
             <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
               Ações
             </th>
@@ -52,12 +55,17 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm font-semibold text-gray-900 dark:text-white">
-                    <%= number_to_currency(venda.valor) %>
+                    <%= number_to_currency(venda.valor / 100.0) %>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900 dark:text-white">
                     <%= venda.produtos.count %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">
+                    <%= venda.created_at.strftime("%d/%m/%Y %H:%M") %>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -93,5 +101,13 @@
         </tbody>
       </table>
     </div>
+
+    <% if @vendas.respond_to?(:total_pages) && @vendas.total_pages > 1 %>
+      <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="apple_pagination flex items-center justify-center">
+          <%= will_paginate @vendas, container: false, class: 'flex items-center gap-2' %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -2,7 +2,10 @@ class VendasController < ApplicationController
   before_action :set_venda, only: %i[show edit update destroy]
 
   def index
-    @vendas = Venda.all
+    @vendas = Venda.order(created_at: :desc)
+
+    options = { page: params[:page] || 1, per_page: 10 }
+    @vendas = @vendas.paginate(options)
   end
 
   def show; end
