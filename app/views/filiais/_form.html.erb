@@ -156,65 +156,9 @@
 <% end %>
 
 <script>
-  // Máscaras de entrada
-  function mascaraTelefone(input) {
-    let value = input.value.replace(/\D/g, '');
-    if (value.length <= 10) {
-      value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
-    } else {
-      value = value.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
-    }
-    input.value = value;
-  }
-
-  function mascaraCEP(input) {
-    let value = input.value.replace(/\D/g, '');
-    value = value.replace(/(\d{5})(\d{0,3})/, '$1-$2');
-    input.value = value;
-  }
-
-  function mascaraCPFCNPJ(input) {
-    let value = input.value.replace(/\D/g, '');
-    if (value.length <= 11) {
-      // CPF: 000.000.000-00
-      value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
-    } else {
-      // CNPJ: 00.000.000/0000-00
-      value = value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2})/, '$1.$2.$3/$4-$5');
-    }
-    input.value = value;
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const telefoneInput = document.getElementById('filial_telefone');
-    const celularInput = document.getElementById('filial_celular');
-    const cepInput = document.getElementById('filial_cep');
-    const cpfCnpjInput = document.getElementById('filial_cpf_cnpj');
-
-    if (telefoneInput) {
-      telefoneInput.addEventListener('input', function() {
-        mascaraTelefone(this);
-      });
-    }
-
-    if (celularInput) {
-      celularInput.addEventListener('input', function() {
-        mascaraTelefone(this);
-      });
-    }
-
-    if (cepInput) {
-      cepInput.addEventListener('input', function() {
-        mascaraCEP(this);
-      });
-      cepInput.setAttribute('maxlength', '9');
-    }
-
-    if (cpfCnpjInput) {
-      cpfCnpjInput.addEventListener('input', function() {
-        mascaraCPFCNPJ(this);
-      });
-      cpfCnpjInput.setAttribute('maxlength', '18');
-    }
+  $(document).ready(function() {
+    $('#filial_telefone').mask('(00) 00000-0000');
+    $('#filial_celular').mask('(00) 00000-0000');
+    $('#filial_cep').mask('00000-000');
   });
 </script>

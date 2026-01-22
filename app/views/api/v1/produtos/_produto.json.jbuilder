@@ -1,1 +1,4 @@
-json.extract! produto, :id, :descricao_cupom, :grupo_produto_id, :codigo_venda, :codigo_ncm, :codigo_cast, :preco
+json.extract! produto, :id, :grupo_produto_id, :codigo_venda, :descricao_cupom
+filial_produto = produto.filial_produtos.find_by(filial_id: @filial.id)
+json.preco filial_produto&.valor
+json.imagem url_for(produto.imagem) if produto.imagem.attached?

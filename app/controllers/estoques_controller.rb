@@ -32,8 +32,8 @@ class EstoquesController < ApplicationController
         lancamento: params[:estoque][:lancamento],
         validade: produto["validade"],
         quantidade: produto["quantidade"],
-        valor_unitario: produto["valor_unitario"],
-        valor_total: produto["valor_total"]
+        valor_unitario: Conversao.convert_comma_to_float(produto["valor_unitario"]) * 100.0,
+        valor_total: Conversao.convert_comma_to_float(produto["valor_total"]) * 100.0
       )
     end
 
@@ -47,6 +47,9 @@ class EstoquesController < ApplicationController
   def update
     respond_to do |format|
       if @estoque.update(estoque_params)
+        @estoque.valor_unitario = Conversao.convert_comma_to_float(params[:estoque][:valor_unitario]) * 100.0
+        @estoque.valor_total = Conversao.convert_comma_to_float(params[:estoque][:valor_total]) * 100.0
+        @estoque.save
         format.html { redirect_to estoques_url, notice: 'Movimentação atualizada com sucesso.' }
         format.json { render :show, status: :ok, location: @estoque }
       else
@@ -90,6 +93,6 @@ class EstoquesController < ApplicationController
   end
 
   def estoque_params
-    params.require(:estoque).permit(:produto_id, :validade, :quantidade, :valor_unitario, :valor_total)
+    params.require(:estoque).permit(:produto_id, :validade, :quantidade, :valor_unitario, :valor_total, :filial_id)
   end
 end

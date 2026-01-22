@@ -19,13 +19,6 @@ export default class extends Controller {
   }
 
   setupEventListeners() {
-    // Máscara de moeda no campo valor unitário
-    if (this.hasValorUnitarioTarget) {
-      this.valorUnitarioTarget.addEventListener('keypress', (e) => {
-        return window.mascaraMoeda(this.valorUnitarioTarget, ',', '.', e)
-      })
-    }
-
     // Prevenir submissão do formulário ao pressionar Enter
     if (this.hasFormTarget) {
       this.formTarget.addEventListener('keydown', (event) => {
@@ -116,7 +109,7 @@ export default class extends Controller {
   // Atualiza os campos do formulário com os dados do produto
   atualizarCampos(data) {
     if (this.hasValorUnitarioTarget) {
-      this.valorUnitarioTarget.value = data.preco || ''
+      this.valorUnitarioTarget.value = (data.preco / 100.0).toFixed(2).replace(".", ",") || ''
     }
     if (this.hasProdutoSelectTarget) {
       this.produtoSelectTarget.value = data.id || ''

@@ -2,7 +2,7 @@ class FiliaisController < ApplicationController
   before_action :set_filial, only: %i[show edit update destroy]
 
   def index
-    @filiais = Filial.all
+    @filiais = Filial.all.order(created_at: :asc)
   end
 
   def show; end

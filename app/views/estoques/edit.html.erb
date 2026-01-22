@@ -88,11 +88,11 @@
           </div>
           <div class="md:col-span-2">
             <%= f.label :valor_unitario, "Valor Unitário", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
-            <%= f.text_field :valor_unitario, value: "#{number_to_currency(@estoque.valor_unitario / 100.0, precision: 2, unit: "").strip}", class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", placeholder: "0,00", value: @estoque.valor_unitario, data: { estoque_form_target: "valorUnitario", action: "keyup->estoque-form#atualizarValorTotal" } %>
+            <%= f.text_field :valor_unitario, value: "#{number_to_currency(@estoque.valor_unitario / 100.0, precision: 2, unit: "").strip}", class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", placeholder: "0,00", data: { estoque_form_target: "valorUnitario", action: "keyup->estoque-form#atualizarValorTotal" }, onkeypress: "return mascaraMoeda(this,'.',',', event)" %>
           </div>
           <div class="md:col-span-2">
             <%= f.label :valor_total, "Valor Total", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
-            <%= f.text_field :valor_total, value: "#{number_to_currency(@estoque.valor_total / 100.0, precision: 2, unit: "").strip}", class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white cursor-not-allowed", id: "estoque_valor_total", readonly: true, value: @estoque.valor_total, data: { estoque_form_target: "valorTotal" } %>
+            <%= f.text_field :valor_total, value: "#{number_to_currency(@estoque.valor_total / 100.0, precision: 2, unit: "").strip}", class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white cursor-not-allowed", id: "estoque_valor_total", readonly: true, data: { estoque_form_target: "valorTotal" } %>
           </div>
         </div>
       </div>

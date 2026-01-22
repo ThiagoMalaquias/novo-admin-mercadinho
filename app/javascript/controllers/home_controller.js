@@ -56,8 +56,8 @@ export default class extends Controller {
     if (!ctx) return
 
     const isDarkMode = document.documentElement.classList.contains('dark')
-    const textColor = isDarkMode ? '#e5e7eb' : '#111827'
-    const gridColor = isDarkMode ? '#374151' : '#e5e7eb'
+    const textColor = '#e5e7eb'
+    const gridColor = '#374151'
 
     this.revenueChart = new Chart(ctx, {
       type: 'bar',

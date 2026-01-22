@@ -2,7 +2,7 @@ class GrupoProdutosController < ApplicationController
   before_action :set_grupo_produto, only: %i[show edit update destroy]
 
   def index
-    @grupo_produtos = GrupoProduto.all
+    @grupo_produtos = GrupoProduto.all.order(created_at: :asc)
   end
 
   def show; end
