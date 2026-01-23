@@ -21,7 +21,12 @@
   <!-- Charts Section -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Chart Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
+         data-controller="formas-recebimento-chart"
+         data-formas-recebimento-chart-credito-value="<%= @vendas.credito.sum(:valor) %>"
+         data-formas-recebimento-chart-debito-value="<%= @vendas.debito.sum(:valor) %>"
+         data-formas-recebimento-chart-pix-value="<%= @vendas.pix.sum(:valor) %>"
+         data-formas-recebimento-chart-sodexo-value="<%= @vendas.sodexo.sum(:valor) %>">
       <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-500 to-blue-600">
         <div class="flex items-center gap-3">
           <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +37,7 @@
         </div>
       </div>
       <div class="p-6">
-        <canvas id="myChart" width="400" height="400"></canvas>
+        <canvas data-formas-recebimento-chart-target="canvas" width="400" height="400"></canvas>
       </div>
     </div>
 
@@ -60,7 +65,7 @@
               </div>
               <div class="text-right">
                 <span class="text-sm font-semibold text-gray-900 dark:text-white">
-                  <%= number_to_currency(metodo[:valor]) %>
+                  <%= number_to_currency(metodo[:valor] / 100.0) %>
                 </span>
                 <% if total_geral > 0 %>
                   <span class="text-xs text-gray-500 dark:text-gray-400 block">
@@ -75,7 +80,7 @@
           <div class="flex items-center justify-between p-4 mt-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-2 border-blue-200 dark:border-blue-800">
             <span class="text-base font-bold text-gray-900 dark:text-white">TOTAL</span>
             <span class="text-lg font-bold text-blue-600 dark:text-blue-400">
-              <%= number_to_currency(total_geral) %>
+              <%= number_to_currency(total_geral / 100.0) %>
             </span>
           </div>
         </div>
@@ -129,7 +134,7 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold text-gray-900 dark:text-white">
-                  <%= number_to_currency(venda.valor) %>
+                  <%= number_to_currency(venda.valor / 100.0) %>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right">
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
@@ -165,79 +170,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const ctx = document.getElementById('myChart');
-    const isDark = document.documentElement.classList.contains('dark');
-    
-    const textColor = '#E5E7EB';
-    const gridColor = '#374151';
-
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: [
-          'CREDITO',
-          'DEBITO',
-          'PIX',
-          'VA SODEXO'
-        ],
-        datasets: [{
-          label: 'Valor',
-          data: [
-            <%= @vendas.credito.sum(:valor) %>,
-            <%= @vendas.debito.sum(:valor) %>,
-            <%= @vendas.pix.sum(:valor) %>,
-            <%= @vendas.sodexo.sum(:valor) %>
-          ],
-          backgroundColor: [
-            '#5B98B6',
-            '#FF6600',
-            '#5A736F',
-            '#FDD752'
-          ],
-          borderColor: isDark ? '#1F2937' : '#FFFFFF',
-          borderWidth: 2,
-          hoverOffset: 8
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              color: textColor,
-              padding: 15,
-              font: {
-                size: 12
-              }
-            }
-          },
-          tooltip: {
-            backgroundColor: isDark ? '#1F2937' : '#FFFFFF',
-            titleColor: textColor,
-            bodyColor: textColor,
-            borderColor: gridColor,
-            borderWidth: 1,
-            padding: 12,
-            callbacks: {
-              label: function(context) {
-                const label = context.label || '';
-                const value = context.parsed || 0;
-                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                return label + ': ' + new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(value) + ' (' + percentage + '%)';
-              }
-            }
-          }
-        }
-      }
-    });
-  });
-</script>

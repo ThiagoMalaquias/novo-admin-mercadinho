@@ -1,10 +1,18 @@
 class HomeController < ApplicationController
   before_action :set_datas
-  def index
-    @vendas = Venda.periodo_data(params[:data_inicio], params[:data_fim])
-    @vendas = @vendas.where(filial_id: params[:filial_id]) if params[:filial_id].present?
 
-    @tiket_medio = @vendas.count.positive? ? @vendas.sum(:valor) / @vendas.count : 0
+  def index
+    @vendas = Venda.includes(:filial, :produtos).order(created_at: :desc).limit(5)
+
+    todas_vendas = Venda.all
+    @receita_total = todas_vendas.sum(:valor) || 0
+    @total_vendas = todas_vendas.count
+
+    produtos_ativos_query = FilialProduto.ativos.select(:produto_id).distinct
+    produtos_ativos_query = produtos_ativos_query.where(filial_id: params[:filial_id]) if params[:filial_id].present?
+    @produtos_ativos = produtos_ativos_query.count
+
+    @total_filiais = Filial.count
   end
 
   def produtos_mais_vendidos

@@ -4,7 +4,7 @@ class ProdutosController < ApplicationController
   def index
     @produtos = Produto.order(created_at: :desc)
 
-    options = { page: params[:page] || 1, per_page: 15 }
+    options = { page: params[:page] || 1, per_page: 10 }
     @produtos = @produtos.paginate(options)
   end
 

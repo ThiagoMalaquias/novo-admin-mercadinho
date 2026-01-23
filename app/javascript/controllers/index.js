@@ -15,3 +15,6 @@ application.register("home", HomeController)
 
 import ImportModalController from "./import_modal_controller"
 application.register("import-modal", ImportModalController)
+
+import FormasRecebimentoChartController from "./formas_recebimento_chart_controller"
+application.register("formas-recebimento-chart", FormasRecebimentoChartController)

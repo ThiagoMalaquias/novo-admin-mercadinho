@@ -54,7 +54,7 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right">
                   <div class="text-sm font-medium text-gray-900 dark:text-white">
-                    <%= number_to_currency(produto.preco) %>
+                    <%= number_to_currency(produto.preco / 100.0) %>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right">
@@ -109,7 +109,7 @@
 
   <!-- Pagination -->
   <% if @produtos.respond_to?(:total_pages) && @produtos.total_pages > 1 %>
-    <div class="flex justify-center">
+    <div class="dark flex justify-center">
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 px-4 py-3">
         <%= will_paginate @produtos, container: false, class: 'flex items-center gap-2' %>
       </div>
