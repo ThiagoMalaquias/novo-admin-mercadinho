@@ -11,5 +11,7 @@ class Api::V1::ProdutosController < Api::V1::ApplicationController
                        .where(filial_produtos: { status: "ATIVO", filial_id: @filial.id })
                        .where(id: produtos_com_estoque)
                        .includes(:filial_produtos)
+
+    @produtos = @produtos.where(codigo_venda: params[:codigo_barras]) if params[:codigo_barras].present?
   end
 end
