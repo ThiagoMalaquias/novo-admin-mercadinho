@@ -7,6 +7,8 @@ gem 'active_storage_drag_and_drop'
 gem 'awesome_print'
 gem 'aws-sdk'
 gem 'bcrypt', '~> 3.1.7'
+gem "caxlsx"
+gem "caxlsx_rails"
 gem "cpf_cnpj"
 gem 'devise'
 gem "dalli"

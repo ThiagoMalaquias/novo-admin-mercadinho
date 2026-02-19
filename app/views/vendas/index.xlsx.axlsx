@@ -1,0 +1,15 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Vendas") do |sheet|
+  sheet.add_row ["ID", "Filial", "Data", "Método Pagamento", "Total"]
+
+  @vendas.find_each do |venda|
+    sheet.add_row [
+      venda.id,
+      venda.filial&.nome_fantasia,
+      venda.created_at.strftime("%d/%m/%Y %H:%M"),              
+      venda.metodo, 
+      number_to_currency(venda.valor.to_f / 100.0, unit: "R$", separator: ",", delimiter: ".")
+    ]
+  end
+end

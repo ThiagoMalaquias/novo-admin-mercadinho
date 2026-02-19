@@ -3,9 +3,30 @@ class VendasController < ApplicationController
 
   def index
     @vendas = Venda.order(created_at: :desc)
+    @vendas = @vendas.where(filial_id: params[:filial_id]) if params[:filial_id].present?
+    @vendas = @vendas.where(metodo: params[:metodo]) if params[:metodo].present?
 
-    options = { page: params[:page] || 1, per_page: 10 }
-    @vendas = @vendas.paginate(options)
+    if params[:data_inicio].present? && params[:data_fim].present?
+      @vendas = @vendas.periodo_data(params[:data_inicio], params[:data_fim])
+    end
+
+    if params[:format] != "xlsx" && params[:format] != "pdf"
+      options = { page: params[:page] || 1, per_page: 10 }
+      @vendas = @vendas.paginate(options)
+    end
+
+    respond_to do |format|
+      format.html
+      format.xlsx do
+        response.headers['Content-Disposition'] = 'attachment; filename="vendas.xlsx"'
+      end
+      format.pdf do
+        render pdf: "vendas",
+               template: "vendas/index_pdf",
+               layout: "pdf",
+               encoding: "UTF-8"
+      end
+    end
   end
 
   def show; end

@@ -1,0 +1,67 @@
+<% content_for :title do %>
+  Relatório de Vendas
+<% end %>
+
+<% total_centavos  = @vendas.sum(:valor) %>
+<% total_registros = @vendas.size %>
+
+<div style="border-bottom: 2px solid #333; padding-bottom: 8px; margin-bottom: 12px;">
+  <h1 style="margin: 0; font-size: 20px;">Relatório de Vendas</h1>
+  <p style="margin: 4px 0 0 0; font-size: 11px; color: #555;">
+    Gerado em: <strong><%= I18n.l(Time.current, format: :short) %></strong>
+  </p>
+</div>
+
+<div style="border: 1px solid #ddd; border-radius: 4px; padding: 8px 10px; font-size: 11px; margin-bottom: 12px; background-color: #fafafa;">
+  <strong>Filtros aplicados</strong><br />
+  <% if params[:filial_id].present? %>
+    Filial:
+    <strong><%= Filial.find(params[:filial_id]).nome_fantasia rescue "N/A" %></strong><br />
+  <% end %>
+  <% if params[:metodo].present? %>
+    Método de pagamento:
+    <strong><%= params[:metodo] %></strong><br />
+  <% end %>
+  <% if params[:data_inicio].present? && params[:data_fim].present? %>
+    Período:
+    <strong><%= params[:data_inicio] %> a <%= params[:data_fim] %></strong><br />
+  <% end %>
+  <% if !params[:filial_id].present? && !params[:metodo].present? && !(params[:data_inicio].present? && params[:data_fim].present?) %>
+    <span style="color: #777;">Nenhum filtro aplicado.</span>
+  <% end %>
+</div>
+
+<table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid #ccc; padding: 4px 6px; background-color: #f0f0f0;">ID</th>
+      <th style="border: 1px solid #ccc; padding: 4px 6px; background-color: #f0f0f0;">Data</th>
+      <th style="border: 1px solid #ccc; padding: 4px 6px; background-color: #f0f0f0;">Filial</th>
+      <th style="border: 1px solid #ccc; padding: 4px 6px; background-color: #f0f0f0;">Método</th>
+      <th style="border: 1px solid #ccc; padding: 4px 6px; background-color: #f0f0f0; text-align: right;">Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @vendas.each do |venda| %>
+      <tr style="<%= cycle('', 'background-color: #f9f9f9;') %>">
+        <td style="border: 1px solid #ddd; padding: 4px 6px;"><%= venda.id %></td>
+        <td style="border: 1px solid #ddd; padding: 4px 6px;"><%= venda.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+        <td style="border: 1px solid #ddd; padding: 4px 6px;"><%= venda.filial&.nome_fantasia %></td>
+        <td style="border: 1px solid #ddd; padding: 4px 6px;"><%= venda.metodo %></td>
+        <td style="border: 1px solid #ddd; padding: 4px 6px; text-align: right;">
+          <%= number_to_currency(venda.valor.to_f / 100.0, unit: "R$", separator: ",", delimiter: ".") %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div style="margin-top: 10px; border-top: 1px solid #ccc; padding-top: 6px; font-size: 11px;">
+  <p style="margin: 0 0 2px 0;">
+    <strong>Total de registros nesta página:</strong> <%= total_registros %>
+  </p>
+  <p style="margin: 0;">
+    <strong>Total em vendas nesta página:</strong>
+    <%= number_to_currency(total_centavos.to_f / 100.0, unit: "R$", separator: ",", delimiter: ".") %>
+  </p>
+</div>
