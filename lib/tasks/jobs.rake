@@ -4,14 +4,18 @@ namespace :jobs do
     original_adapter = ActiveJob::Base.queue_adapter
     ActiveJob::Base.queue_adapter = :inline
     puts "Deleting all data from the database..."
-    VendaProduto.destroy_all
-    Venda.destroy_all
-    Estoque.destroy_all
-    FilialProduto.destroy_all
-    Produto.destroy_all
-    GrupoProduto.destroy_all
-  ensure
-    ActiveJob::Base.queue_adapter = original_adapter
+    
+    ActiveStorage::Attachment.delete_all
+    ActiveStorage::Blob.delete_all
+  
+    VendaProduto.delete_all
+    Venda.delete_all
+    Estoque.delete_all
+    FilialProduto.delete_all
+    Produto.delete_all
+    GrupoProduto.delete_all
+  
+    puts "Done."
   end
 
   desc "Import products from xlsx file"
