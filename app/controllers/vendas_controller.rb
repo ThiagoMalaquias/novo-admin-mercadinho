@@ -2,14 +2,13 @@ class VendasController < ApplicationController
   before_action :set_venda, only: %i[show edit update destroy]
 
   def index
-    @vendas = Venda.order(created_at: :desc)
+    params[:data_inicio] ||= Time.zone.today.beginning_of_month.strftime("%Y-%m-%d")
+    params[:data_fim] ||= Time.zone.today.end_of_month.strftime("%Y-%m-%d")
+    
+    @vendas = Venda.periodo_data(params[:data_inicio], params[:data_fim]).order(created_at: :desc)
     @vendas = @vendas.where(filial_id: params[:filial_id]) if params[:filial_id].present?
     @vendas = @vendas.where(metodo: params[:metodo]) if params[:metodo].present?
-
-    if params[:data_inicio].present? && params[:data_fim].present?
-      @vendas = @vendas.periodo_data(params[:data_inicio], params[:data_fim])
-    end
-
+    
     if params[:format] != "xlsx" && params[:format] != "pdf"
       options = { page: params[:page] || 1, per_page: 10 }
       @vendas = @vendas.paginate(options)
