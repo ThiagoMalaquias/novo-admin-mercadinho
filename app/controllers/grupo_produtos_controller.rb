@@ -5,7 +5,11 @@ class GrupoProdutosController < ApplicationController
     @grupo_produtos = GrupoProduto.all.order(created_at: :asc)
   end
 
-  def show; end
+  def show
+    @produtos = @grupo_produto.produtos.order(created_at: :asc)
+    options = { page: params[:page] || 1, per_page: 12 }
+    @produtos = @produtos.paginate(options)
+  end
 
   def new
     @grupo_produto = GrupoProduto.new

@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div class="space-y-6" data-controller="pagination-scroll">
   <!-- Header -->
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
     <div class="flex items-center gap-4">
@@ -97,30 +97,36 @@
   </div>
 
   <!-- Lista de Produtos (se houver) -->
-  <% if @grupo_produto.produtos.any? %>
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
-        Produtos neste Grupo (<%= @grupo_produto.produtos.count %>)
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <% @grupo_produto.produtos.limit(12).each do |produto| %>
-          <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-            <%= link_to produto_path(produto), class: 'block' do %>
-              <p class="text-sm font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                <%= produto.descricao_cupom %>
-              </p>
-              <% if produto.preco.present? %>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400"><%= produto.preco %></p>
-              <% end %>
-            <% end %>
-          </div>
-        <% end %>
+  <% if @produtos.any? %>
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div class="p-6 pb-4">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white pb-2 border-b border-gray-200 dark:border-gray-700">
+          Produtos neste Grupo (<%= @produtos.total_entries %>)
+        </h2>
       </div>
-      <% if @grupo_produto.produtos.count > 12 %>
-        <div class="mt-4 text-center">
-          <p class="text-sm text-gray-500 dark:text-gray-400">
-            E mais <%= @grupo_produto.produtos.count - 12 %> produto(s)...
-          </p>
+      <div class="px-6 pb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <% @produtos.each do |produto| %>
+            <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+              <%= link_to produto_path(produto), class: 'block' do %>
+                <p class="text-sm font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  <%= produto.descricao_cupom %>
+                </p>
+                <% if produto.preco.present? %>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    <%= number_to_currency(produto.preco / 100.0, unit: "R$", separator: ",", delimiter: ".") %>
+                  </p>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <% if @produtos.respond_to?(:total_pages) && @produtos.total_pages > 1 %>
+        <div class="dark px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+          <div class="apple_pagination flex items-center justify-center">
+            <%= will_paginate @produtos, container: false, class: 'flex items-center gap-2' %>
+          </div>
         </div>
       <% end %>
     </div>
