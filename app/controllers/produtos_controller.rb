@@ -4,6 +4,14 @@ class ProdutosController < ApplicationController
   def index
     @produtos = Produto.order(created_at: :asc)
 
+    if params[:q].present?
+      termo = "%#{params[:q].strip}%"
+      @produtos = @produtos.where(
+        "descricao_cupom ILIKE :termo OR codigo_venda ILIKE :termo OR CAST(id AS TEXT) ILIKE :termo",
+        termo: termo
+      )
+    end
+
     options = { page: params[:page] || 1, per_page: 10 }
     @produtos = @produtos.paginate(options)
   end
