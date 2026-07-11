@@ -21,3 +21,6 @@ application.register("formas-recebimento-chart", FormasRecebimentoChartControlle
 
 import PaginationScrollController from "./pagination_scroll_controller"
 application.register("pagination-scroll", PaginationScrollController)
+
+import ProdutoFormController from "./produto_form_controller"
+application.register("produto-form", ProdutoFormController)
