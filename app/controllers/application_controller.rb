@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
           
     if administrador.present?
       return if instance_of?(::HomeController)
+      return if instance_of?(::RelatoriosController)
 
       if administrador.acessos.blank?
          flash[:error] = "Usuário sem acesso a página"

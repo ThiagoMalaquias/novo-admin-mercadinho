@@ -111,6 +111,23 @@ class GrupoAcessosController < ApplicationController
     }
 
     @menu << prepare_item_subs(item)
+
+    item = {
+      nome: "Relatórios",
+      itens: [
+        {
+          controllers: [
+            {
+              controller: "RelatoriosController",
+              nome: "Relatórios",
+              actions: []
+            }
+          ]
+        }
+      ]
+    }
+
+    @menu << prepare_item_subs(item)
     
     item = {
       nome: "Filiais",
@@ -235,6 +252,7 @@ class GrupoAcessosController < ApplicationController
       edit: "Mostrar tela de edição",
       importar: "Importar",
       produtos_mais_vendidos: "Produtos mais vendidos",
+      gerar_xlsx_produtos_mais_vendidos: "Gerar XLSX produtos mais vendidos",
       alterar_status: "Alterar status",
       por_codigo_barras: "Buscar por código de barras"
     }

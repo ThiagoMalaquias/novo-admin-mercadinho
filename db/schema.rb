@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_08_30_122349) do
+ActiveRecord::Schema.define(version: 2026_07_14_190000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -192,6 +192,23 @@ ActiveRecord::Schema.define(version: 2025_08_30_122349) do
     t.index ["grupo_produto_id"], name: "index_produtos_on_grupo_produto_id"
   end
 
+  create_table "relatorios", force: :cascade do |t|
+    t.string "tipo", null: false
+    t.string "status", default: "pendente", null: false
+    t.jsonb "filtros", default: {}, null: false
+    t.string "arquivo_url"
+    t.string "arquivo_nome"
+    t.text "erro_mensagem"
+    t.datetime "processado_em"
+    t.bigint "administrador_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "nome"
+    t.index ["administrador_id"], name: "index_relatorios_on_administrador_id"
+    t.index ["status"], name: "index_relatorios_on_status"
+    t.index ["tipo"], name: "index_relatorios_on_tipo"
+  end
+
   create_table "venda_produtos", force: :cascade do |t|
     t.bigint "venda_id", null: false
     t.bigint "produto_id", null: false
@@ -226,6 +243,7 @@ ActiveRecord::Schema.define(version: 2025_08_30_122349) do
   add_foreign_key "filial_produtos", "filiais"
   add_foreign_key "filial_produtos", "produtos"
   add_foreign_key "produtos", "grupo_produtos"
+  add_foreign_key "relatorios", "administradores"
   add_foreign_key "venda_produtos", "produtos"
   add_foreign_key "venda_produtos", "vendas"
   add_foreign_key "vendas", "filiais"

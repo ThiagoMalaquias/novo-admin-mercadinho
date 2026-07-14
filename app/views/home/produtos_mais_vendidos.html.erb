@@ -18,6 +18,17 @@
   <!-- Search Form -->
   <%= render "busca", path: produtos_mais_vendidos_path %>
 
+  <div class="flex flex-wrap items-center gap-3">
+    <%= form_with url: gerar_xlsx_produtos_mais_vendidos_path, method: :post, local: true, html: { class: "inline" } do %>
+      <%= hidden_field_tag :data_inicio, params[:data_inicio] %>
+      <%= hidden_field_tag :data_fim, params[:data_fim] %>
+      <%= hidden_field_tag :filial_id, params[:filial_id] %>
+      <%= submit_tag "Gerar XLSX",
+                     class: "inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors cursor-pointer",
+                     data: { disable_with: "Enfileirando..." } %>
+    <% end %>
+  </div>
+
   <!-- Table -->
   <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
     <div class="overflow-x-auto">
@@ -41,9 +52,7 @@
                   </div>
                 </td>
                 <td class="px-6 py-4">
-                  <div class="text-sm font-medium text-gray-900 dark:text-white">
-                    <%= mais_vendido.descricao_cupom %>
-                  </div>
+                  <%= link_to mais_vendido.descricao_cupom, produto_path(mais_vendido.produto_id), class: 'text-sm font-medium text-gray-900 dark:text-white hover:text-blue-700 dark:hover:text-blue-300' %>
                 </td>
                 <td class="px-6 py-4">
                   <div class="text-sm text-gray-900 dark:text-white">
@@ -80,4 +89,13 @@
       </table>
     </div>
   </div>
+
+  <!-- Pagination -->
+  <% if @mais_vendidos.respond_to?(:total_pages) && @mais_vendidos.total_pages > 1 %>
+      <div class="dark px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="apple_pagination flex items-center justify-center">
+          <%= will_paginate @mais_vendidos, container: false, class: 'flex items-center gap-2' %>
+        </div>
+      </div>
+    <% end %>
 </div>

@@ -26,5 +26,7 @@ sudo systemctl restart postgresql.service
 rails db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 db:create
 pg_restore --verbose --clean -U "$USER"  -d pdv_legal_development "$FILE"
 
+rm -rf "$FILE"
+
 # Inicie o servidor Rails na porta 3001
 rails s -p 3001

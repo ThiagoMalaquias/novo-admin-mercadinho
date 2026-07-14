@@ -28,10 +28,12 @@ Rails.application.routes.draw do
   end
   resources :administradores
   resources :grupo_acessos
+  resources :relatorios, only: [:index, :create]
 
   root to: 'home#index'
 
   get "/produtos_mais_vendidos", to: 'home#produtos_mais_vendidos'
+  post "/produtos_mais_vendidos/gerar_xlsx", to: 'home#gerar_xlsx_produtos_mais_vendidos', as: :gerar_xlsx_produtos_mais_vendidos
   get "/formas_recebimento", to: 'home#formas_recebimento'
   get "/faturamento_filial", to: 'home#faturamento_filial'
   get "/consumo_produtos", to: 'home#consumo_produtos'

@@ -24,6 +24,29 @@ class HomeController < ApplicationController
                      .order("total_quantidade DESC")
 
     @mais_vendidos = @mais_vendidos.joins(:venda).where(venda: { filial_id: params[:filial_id] }) if params[:filial_id].present?
+
+    # Subquery evita contagem errada do AR com GROUP BY em várias colunas
+    count_sql = @mais_vendidos.except(:order).select("venda_produtos.produto_id").to_sql
+    total_entries = VendaProduto.connection.select_value("SELECT COUNT(*) FROM (#{count_sql}) AS count_table").to_i
+
+    @mais_vendidos = @mais_vendidos.paginate(page: params[:page] || 1, per_page: 15, total_entries: total_entries)
+  end
+
+  def gerar_xlsx_produtos_mais_vendidos
+    Relatorio.create!(
+      tipo: Relatorio::TIPOS[:produtos_mais_vendidos],
+      nome: Relatorio.nome_para(:produtos_mais_vendidos),
+      filtros: {
+        data_inicio: params[:data_inicio],
+        data_fim: params[:data_fim],
+        filial_id: params[:filial_id].presence
+      }.compact,
+      administrador: administrador,
+      status: Relatorio::STATUSES[:pendente]
+    )
+
+    redirect_to relatorios_path,
+                notice: "Relatório solicitado com sucesso. Quando estiver pronto, ficará mostrado aqui."
   end
 
   def formas_recebimento
