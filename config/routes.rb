@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
   resources :administradores
   resources :grupo_acessos
-  resources :relatorios, only: [:index, :create]
+  resources :relatorios, only: [:index, :create, :destroy]
 
   root to: 'home#index'
 
