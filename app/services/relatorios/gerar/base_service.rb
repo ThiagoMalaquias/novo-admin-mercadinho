@@ -32,13 +32,11 @@ class Relatorios::Gerar::BaseService
   end
 
   def blob_url
-    host = Rails.application.routes.default_url_options[:host].presence ||
-           ENV.fetch("APP_HOST", "localhost:3001")
-
-    Rails.application.routes.url_helpers.rails_blob_url(
+    # Path relativo: funciona em qualquer host (local/prod) sem gravar localhost
+    Rails.application.routes.url_helpers.rails_blob_path(
       relatorio.arquivo,
-      host: host,
-      protocol: host.include?("localhost") ? "http" : "https"
+      disposition: "attachment",
+      only_path: true
     )
   end
 

@@ -34,10 +34,15 @@ class Relatorio < ApplicationRecord
   end
 
   def link_download
-    return arquivo_url if arquivo_url.present?
-    return Rails.application.routes.url_helpers.rails_blob_path(arquivo, disposition: "attachment", only_path: true) if arquivo.attached?
+    if arquivo.attached?
+      return Rails.application.routes.url_helpers.rails_blob_path(
+        arquivo,
+        disposition: "attachment",
+        only_path: true
+      )
+    end
 
-    nil
+    arquivo_url.presence
   end
 
   def processar!
