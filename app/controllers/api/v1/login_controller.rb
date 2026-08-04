@@ -3,9 +3,14 @@ class Api::V1::LoginController < Api::V1::ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[sign_in]
 
   def sign_in
-    filial = Filial.find_by(email: login_params[:email], telefone: login_params[:telefone])
-    if filial.present?
-      render json: filial, status: :ok
+    usuario = FilialUsuario.find_by(email: login_params[:email], telefone: login_params[:telefone])
+    if usuario.present?
+      render json: {
+        usuario_id: usuario.id,
+        filial_id: usuario.filial_id,
+        nome: usuario.nome,
+        email: usuario.email
+      }, status: :ok
     else
       render json: { message: "Usuário ou senha inválidos" }, status: :unauthorized
     end

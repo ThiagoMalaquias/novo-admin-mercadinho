@@ -128,7 +128,24 @@ class GrupoAcessosController < ApplicationController
     }
 
     @menu << prepare_item_subs(item)
-    
+
+    item = {
+      nome: "Tokens TLS",
+      itens: [
+        {
+          controllers: [
+            {
+              controller: "TlsTokensController",
+              nome: "Tokens TLS",
+              actions: []
+            }
+          ]
+        }
+      ]
+    }
+
+    @menu << prepare_item_subs(item)
+
     item = {
       nome: "Filiais",
       itens: [
@@ -142,6 +159,11 @@ class GrupoAcessosController < ApplicationController
             {
               controller: "FilialProdutosController",
               nome: "Filial Produtos",
+              actions: []
+            },
+            {
+              controller: "FilialUsuariosController",
+              nome: "Filial Usuários",
               actions: []
             }
           ]

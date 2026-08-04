@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :vendas
       resources :produtos
       resources :grupo_produtos
+      resources :filial_usuarios, only: [:show]
       resources :login do
         post "sign_in", on: :collection
       end
@@ -25,10 +26,12 @@ Rails.application.routes.draw do
     resources :filial_produtos do
       get "alterar_status", on: :member
     end
+    resources :filial_usuarios
   end
   resources :administradores
   resources :grupo_acessos
   resources :relatorios, only: [:index, :create, :destroy]
+  resources :tls_tokens
 
   root to: 'home#index'
 

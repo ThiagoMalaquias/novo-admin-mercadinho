@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_07_14_190000) do
+ActiveRecord::Schema.define(version: 2026_08_04_150000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -134,6 +134,19 @@ ActiveRecord::Schema.define(version: 2026_07_14_190000) do
     t.index ["produto_id"], name: "index_filial_produtos_on_produto_id"
   end
 
+  create_table "filial_usuarios", force: :cascade do |t|
+    t.bigint "filial_id", null: false
+    t.string "nome", null: false
+    t.string "email", null: false
+    t.string "telefone"
+    t.bigint "token_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_filial_usuarios_on_email"
+    t.index ["filial_id"], name: "index_filial_usuarios_on_filial_id"
+    t.index ["token_id"], name: "index_filial_usuarios_on_token_id"
+  end
+
   create_table "financeiros", force: :cascade do |t|
     t.string "local"
     t.date "data"
@@ -209,6 +222,14 @@ ActiveRecord::Schema.define(version: 2026_07_14_190000) do
     t.index ["tipo"], name: "index_relatorios_on_tipo"
   end
 
+  create_table "tls_tokens", force: :cascade do |t|
+    t.string "codigo", null: false
+    t.integer "quantidade_acessos", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["codigo"], name: "index_tls_tokens_on_codigo", unique: true
+  end
+
   create_table "venda_produtos", force: :cascade do |t|
     t.bigint "venda_id", null: false
     t.bigint "produto_id", null: false
@@ -242,6 +263,8 @@ ActiveRecord::Schema.define(version: 2026_07_14_190000) do
   add_foreign_key "estoques", "produtos"
   add_foreign_key "filial_produtos", "filiais"
   add_foreign_key "filial_produtos", "produtos"
+  add_foreign_key "filial_usuarios", "filiais"
+  add_foreign_key "filial_usuarios", "tls_tokens", column: "token_id"
   add_foreign_key "produtos", "grupo_produtos"
   add_foreign_key "relatorios", "administradores"
   add_foreign_key "venda_produtos", "produtos"
