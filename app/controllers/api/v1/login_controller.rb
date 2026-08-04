@@ -9,7 +9,8 @@ class Api::V1::LoginController < Api::V1::ApplicationController
         usuario_id: usuario.id,
         filial_id: usuario.filial_id,
         nome: usuario.nome,
-        email: usuario.email
+        email: usuario.email,
+        nome_fantasia: usuario.filial.nome_fantasia
       }, status: :ok
     else
       render json: { message: "Usuário ou senha inválidos" }, status: :unauthorized

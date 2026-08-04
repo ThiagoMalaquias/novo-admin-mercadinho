@@ -8,6 +8,14 @@ class Api::V1::ProdutosController < Api::V1::ApplicationController
     @produtos = @produtos.where(codigo_venda: params[:codigo_barras]) if params[:codigo_barras].present?
     @produtos = @produtos.where(grupo_produto_id: params[:grupo_produto_id]) if params[:grupo_produto_id].present?
 
+    if params[:search].present?
+      termo = "%#{params[:search].strip}%"
+      @produtos = @produtos.where(
+        "produtos.descricao_cupom ILIKE :termo OR produtos.codigo_venda ILIKE :termo",
+        termo: termo
+      )
+    end
+
     options = { page: params[:page], per_page: params[:per_page] }
     @produtos = @produtos.paginate(options)
   end
