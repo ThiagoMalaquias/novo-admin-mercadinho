@@ -125,6 +125,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.singular /^([a-zA-z]*)ois$/i, '\1ol'
   inflect.singular /^([a-zA-z]*)uis$/i, '\1ul'
 
+
   #armazens - armazem
   #portagens - portagem
   inflect.singular /^([a-zA-z]*)ns$/i, '\1m'
@@ -137,4 +138,11 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.singular /^([a-zA-z]*)oes$/i, '\1ao'
   inflect.singular /^([a-zA-z]*)aes$/i, '\1ao'
   inflect.singular /^([a-zA-z]*)aos$/i, '\1ao'
+
+
+  # MUST be last: singular() unshifts, so later rules win over ns→m (tokens→tokem)
+  inflect.irregular 'tls_token', 'tls_tokens'
+  inflect.irregular 'filial_usuario', 'filial_usuarios'
+  inflect.singular(/^tls_tokens$/i, 'tls_token')
+  inflect.plural(/^tls_token$/i, 'tls_tokens')
 end

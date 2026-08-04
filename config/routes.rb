@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   resources :administradores
   resources :grupo_acessos
   resources :relatorios, only: [:index, :create, :destroy]
-  resources :tls_tokens
+  resources :tls_tokens, singular: "tls_token"
 
   root to: 'home#index'
 
