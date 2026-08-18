@@ -14,10 +14,8 @@
       </div>
     </div>
   </div>
-
   <!-- Search Form -->
   <%= render "busca", path: consumo_produtos_path %>
-
   <!-- Table -->
   <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
     <div class="overflow-x-auto">
@@ -86,7 +84,7 @@
                       <span class="<%= badge_classes %>">
                         <%= estoque %>
                       </span>
-                    <% rescue => e %>
+                      <% rescue => e %>
                       <span class="text-sm text-gray-400 dark:text-gray-500">0</span>
                     <% end %>
                   <% else %>
@@ -106,11 +104,10 @@
       </table>
     </div>
   </div>
-
   <!-- Pagination -->
   <% if @produtos.respond_to?(:total_pages) && @produtos.total_pages > 1 %>
-    <div class="dark flex justify-center">
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 px-4 py-3">
+    <div class="dark px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="apple_pagination flex items-center justify-center">
         <%= will_paginate @produtos, container: false, class: 'flex items-center gap-2' %>
       </div>
     </div>

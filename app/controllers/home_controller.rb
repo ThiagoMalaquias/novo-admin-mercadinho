@@ -50,8 +50,12 @@ class HomeController < ApplicationController
   end
 
   def formas_recebimento
-    @vendas = Venda.periodo_data(params[:data_inicio], params[:data_fim]).order(created_at: :desc)
-    @vendas = @vendas.where(filial_id: params[:filial_id]) if params[:filial_id].present?
+    vendas_base = Venda.periodo_data(params[:data_inicio], params[:data_fim])
+    vendas_base = vendas_base.where(filial_id: params[:filial_id]) if params[:filial_id].present?
+
+    @vendas_resumo = vendas_base
+    @vendas = vendas_base.includes(:filial, :produtos).order(created_at: :desc)
+    @vendas = @vendas.paginate(page: params[:page] || 1, per_page: 15)
   end
 
   def faturamento_filial
@@ -63,6 +67,8 @@ class HomeController < ApplicationController
               .order("vendas.filial_id asc")
 
     @vendas = @vendas.where(filial_id: params[:filial_id]) if params[:filial_id].present?
+
+    @vendas = @vendas.paginate(page: params[:page] || 1, per_page: 15)
   end
 
   def consumo_produtos

@@ -14,19 +14,17 @@
       </div>
     </div>
   </div>
-
   <!-- Search Form -->
   <%= render "busca", path: formas_recebimento_path %>
-
   <!-- Charts Section -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Chart Card -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
          data-controller="formas-recebimento-chart"
-         data-formas-recebimento-chart-credito-value="<%= @vendas.credito.sum(:valor) %>"
-         data-formas-recebimento-chart-debito-value="<%= @vendas.debito.sum(:valor) %>"
-         data-formas-recebimento-chart-pix-value="<%= @vendas.pix.sum(:valor) %>"
-         data-formas-recebimento-chart-sodexo-value="<%= @vendas.sodexo.sum(:valor) %>">
+         data-formas-recebimento-chart-credito-value="<%= @vendas_resumo.credito.sum(:valor) %>"
+         data-formas-recebimento-chart-debito-value="<%= @vendas_resumo.debito.sum(:valor) %>"
+         data-formas-recebimento-chart-pix-value="<%= @vendas_resumo.pix.sum(:valor) %>"
+         data-formas-recebimento-chart-sodexo-value="<%= @vendas_resumo.sodexo.sum(:valor) %>">
       <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-500 to-blue-600">
         <div class="flex items-center gap-3">
           <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,7 +38,6 @@
         <canvas data-formas-recebimento-chart-target="canvas" width="400" height="400"></canvas>
       </div>
     </div>
-
     <!-- Summary Table Card -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
       <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -50,12 +47,12 @@
         <div class="space-y-3">
           <% 
             metodos = [
-              { nome: 'CREDITO', valor: @vendas.credito.sum(:valor), cor: '#5B98B6' },
-              { nome: 'DEBITO', valor: @vendas.debito.sum(:valor), cor: '#FF6600' },
-              { nome: 'PIX', valor: @vendas.pix.sum(:valor), cor: '#5A736F' },
-              { nome: 'VA SODEXO', valor: @vendas.sodexo.sum(:valor), cor: '#FDD752' }
+              { nome: 'CREDITO', valor: @vendas_resumo.credito.sum(:valor), cor: '#5B98B6' },
+              { nome: 'DEBITO', valor: @vendas_resumo.debito.sum(:valor), cor: '#FF6600' },
+              { nome: 'PIX', valor: @vendas_resumo.pix.sum(:valor), cor: '#5A736F' },
+              { nome: 'VA SODEXO', valor: @vendas_resumo.sodexo.sum(:valor), cor: '#FDD752' }
             ]
-            total_geral = @vendas.sum(:valor)
+            total_geral = @vendas_resumo.sum(:valor)
           %>
           <% metodos.each do |metodo| %>
             <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
@@ -75,7 +72,6 @@
               </div>
             </div>
           <% end %>
-          
           <!-- Total -->
           <div class="flex items-center justify-between p-4 mt-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-2 border-blue-200 dark:border-blue-800">
             <span class="text-base font-bold text-gray-900 dark:text-white">TOTAL</span>
@@ -87,7 +83,6 @@
       </div>
     </div>
   </div>
-
   <!-- Vendas Table -->
   <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -169,4 +164,11 @@
       </table>
     </div>
   </div>
+  <% if @vendas.respond_to?(:total_pages) && @vendas.total_pages > 1 %>
+    <div class="dark px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="apple_pagination flex items-center justify-center">
+        <%= will_paginate @vendas, container: false, class: 'flex items-center gap-2' %>
+      </div>
+    </div>
+  <% end %>
 </div>

@@ -3,232 +3,228 @@
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
     <div>
       <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Bem-vindo de volta! Aqui está um resumo das suas atividades.</p>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Bem-vindo ao sistema de controle de vendas! Aqui está um resumo das suas atividades.</p>
     </div>
   </div>
-
-  <!-- Stats Cards -->
-  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-    <!-- Total Revenue -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
-      <div class="flex items-center justify-between">
-        <div class="flex-1">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Receita Total</p>
-          <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-            <%= number_to_currency(@receita_total / 100.0) %>
-          </p>
+  <% if @adm.acessos_include?("HomeController") %>
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Total Revenue -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Receita Total</p>
+            <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+              <%= number_to_currency(@receita_total / 100.0) %>
+            </p>
+          </div>
+          <div class="ml-4 flex-shrink-0">
+            <div class="flex items-center justify-center w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg">
+              <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
         </div>
-        <div class="ml-4 flex-shrink-0">
-          <div class="flex items-center justify-center w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg">
-            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
+      </div>
+      <!-- New Orders -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total de Vendas</p>
+            <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+              <%= number_with_delimiter(@total_vendas) %>
+            </p>
+          </div>
+          <div class="ml-4 flex-shrink-0">
+            <div class="flex items-center justify-center w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg">
+              <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Active Products -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Produtos Ativos</p>
+            <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+              <%= number_with_delimiter(@produtos_ativos) %>
+            </p>
+          </div>
+          <div class="ml-4 flex-shrink-0">
+            <div class="flex items-center justify-center w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg">
+              <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Total Filiais -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total de Filiais</p>
+            <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+              <%= number_with_delimiter(@total_filiais) %>
+            </p>
+          </div>
+          <div class="ml-4 flex-shrink-0">
+            <div class="flex items-center justify-center w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg">
+              <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- New Orders -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
-      <div class="flex items-center justify-between">
-        <div class="flex-1">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total de Vendas</p>
-          <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-            <%= number_with_delimiter(@total_vendas) %>
-          </p>
-        </div>
-        <div class="ml-4 flex-shrink-0">
-          <div class="flex items-center justify-center w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg">
-            <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-            </svg>
-          </div>
-        </div>
+    <!-- Recent Sales Table -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Vendas Recentes</h3>
+        <%= link_to vendas_path, class: 'text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium' do %>
+          Ver todos
+        <% end %>
       </div>
-    </div>
-
-    <!-- Active Products -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
-      <div class="flex items-center justify-between">
-        <div class="flex-1">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Produtos Ativos</p>
-          <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-            <%= number_with_delimiter(@produtos_ativos) %>
-          </p>
-        </div>
-        <div class="ml-4 flex-shrink-0">
-          <div class="flex items-center justify-center w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg">
-            <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Total Filiais -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
-      <div class="flex items-center justify-between">
-        <div class="flex-1">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total de Filiais</p>
-          <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-            <%= number_with_delimiter(@total_filiais) %>
-          </p>
-        </div>
-        <div class="ml-4 flex-shrink-0">
-          <div class="flex items-center justify-center w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg">
-            <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Recent Sales Table -->
-  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Vendas Recentes</h3>
-      <%= link_to vendas_path, class: 'text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium' do %>
-        Ver todos
-      <% end %>
-    </div>
-    <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-        <thead class="bg-gray-50 dark:bg-gray-900">
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Filial</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Método</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nº Produtos</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Data</th>
-            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ações</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-          <% if @vendas.any? %>
-            <% @vendas.each do |venda| %>
-              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-white">
-                  #<%= venda.id %>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                  <%= venda.filial.nome_fantasia %>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <% 
-                    metodo_cor = case venda.metodo
-                      when 'CREDITO' then 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                      when 'DEBITO' then 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
-                      when 'PIX' then 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
-                      when 'VA SODEXO' then 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                      else 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
-                    end
-                  %>
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= metodo_cor %>">
-                    <%= venda.metodo %>
-                  </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">
-                  <%= number_to_currency(venda.valor / 100.0) %>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                    <%= venda.produtos.count %>
-                  </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                  <%= venda.created_at.strftime("%d/%m/%Y %H:%M") %>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <div class="flex items-center justify-end gap-2">
-                    <%= link_to venda_path(venda), class: 'p-2 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors', title: 'Visualizar' do %>
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                      </svg>
-                    <% end %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-900">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Filial</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Método</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nº Produtos</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Data</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ações</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <% if @vendas.any? %>
+              <% @vendas.each do |venda| %>
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-white">
+                    #<%= venda.id %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                    <%= venda.filial.nome_fantasia %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <% 
+                      metodo_cor = case venda.metodo
+                        when 'CREDITO' then 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                        when 'DEBITO' then 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
+                        when 'PIX' then 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+                        when 'VA SODEXO' then 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                        else 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+                      end
+                    %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= metodo_cor %>">
+                      <%= venda.metodo %>
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">
+                    <%= number_to_currency(venda.valor / 100.0) %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                      <%= venda.produtos.count %>
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    <%= venda.created_at.strftime("%d/%m/%Y %H:%M") %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div class="flex items-center justify-end gap-2">
+                      <%= link_to venda_path(venda), class: 'p-2 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors', title: 'Visualizar' do %>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="7" class="px-6 py-12 text-center">
+                  <div class="flex flex-col items-center justify-center">
+                    <svg class="w-12 h-12 text-gray-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Nenhuma venda encontrada</p>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Comece criando uma nova venda</p>
                   </div>
                 </td>
               </tr>
             <% end %>
-          <% else %>
-            <tr>
-              <td colspan="7" class="px-6 py-12 text-center">
-                <div class="flex flex-col items-center justify-center">
-                  <svg class="w-12 h-12 text-gray-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                  </svg>
-                  <p class="text-sm font-medium text-gray-900 dark:text-white">Nenhuma venda encontrada</p>
-                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Comece criando uma nova venda</p>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-
-  <!-- Quick Actions - Relatórios -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <!-- Produtos Mais Vendidos -->
-    <%= link_to produtos_mais_vendidos_path, class: 'bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-all hover:scale-105' do %>
-      <div class="flex items-center justify-between mb-4">
-        <h4 class="text-lg font-semibold">Produtos Mais <br> Vendidos</h4>
-        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg>
-      </div>
-      <p class="text-blue-100 text-sm mb-4">Relatório de produtos com maior volume de vendas</p>
-      <div class="w-full bg-white text-blue-600 px-4 py-2 rounded-lg font-medium text-center">
-        Ver Relatório
-      </div>
-    <% end %>
-
-    <!-- Formas de Recebimento -->
-    <%= link_to formas_recebimento_path, class: 'bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-all hover:scale-105' do %>
-      <div class="flex items-center justify-between mb-4">
-        <h4 class="text-lg font-semibold">Formas de <br> Recebimento</h4>
-        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-      </div>
-      <p class="text-green-100 text-sm mb-4">Análise de vendas por método de pagamento</p>
-      <div class="w-full bg-white text-green-600 px-4 py-2 rounded-lg font-medium text-center">
-        Ver Relatório
-      </div>
-    <% end %>
-
-    <!-- Faturamento por Filial -->
-    <%= link_to faturamento_filial_path, class: 'bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-all hover:scale-105' do %>
-      <div class="flex items-center justify-between mb-4">
-        <h4 class="text-lg font-semibold">Faturamento por <br> Filial</h4>
-        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-        </svg>
-      </div>
-      <p class="text-purple-100 text-sm mb-4">Relatório de faturamento agrupado por filial</p>
-      <div class="w-full bg-white text-purple-600 px-4 py-2 rounded-lg font-medium text-center">
-        Ver Relatório
-      </div>
-    <% end %>
-
-    <!-- Consumo de Produtos -->
-    <%= link_to consumo_produtos_path, class: 'bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-all hover:scale-105' do %>
-      <div class="flex items-center justify-between mb-4">
-        <h4 class="text-lg font-semibold">Consumo de <br> Produtos</h4>
-        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-        </svg>
-      </div>
-      <p class="text-orange-100 text-sm mb-4">Análise de consumo e vendas por produto</p>
-      <div class="w-full bg-white text-orange-600 px-4 py-2 rounded-lg font-medium text-center">
-        Ver Relatório
-      </div>
-    <% end %>
-  </div>
+    <!-- Quick Actions - Relatórios -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Produtos Mais Vendidos -->
+      <%= link_to produtos_mais_vendidos_path, class: 'bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-all hover:scale-105' do %>
+        <div class="flex items-center justify-between mb-4">
+          <h4 class="text-lg font-semibold">Produtos Mais <br>
+            Vendidos</h4>
+          <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+        </div>
+        <p class="text-blue-100 text-sm mb-4">Relatório de produtos com maior volume de vendas</p>
+        <div class="w-full bg-white text-blue-600 px-4 py-2 rounded-lg font-medium text-center">
+          Ver Relatório
+        </div>
+      <% end %>
+      <!-- Formas de Recebimento -->
+      <%= link_to formas_recebimento_path, class: 'bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-all hover:scale-105' do %>
+        <div class="flex items-center justify-between mb-4">
+          <h4 class="text-lg font-semibold">Formas de <br>
+            Recebimento</h4>
+          <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <p class="text-green-100 text-sm mb-4">Análise de vendas por método de pagamento</p>
+        <div class="w-full bg-white text-green-600 px-4 py-2 rounded-lg font-medium text-center">
+          Ver Relatório
+        </div>
+      <% end %>
+      <!-- Faturamento por Filial -->
+      <%= link_to faturamento_filial_path, class: 'bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-all hover:scale-105' do %>
+        <div class="flex items-center justify-between mb-4">
+          <h4 class="text-lg font-semibold">Faturamento por <br>
+            Filial</h4>
+          <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+        </div>
+        <p class="text-purple-100 text-sm mb-4">Relatório de faturamento agrupado por filial</p>
+        <div class="w-full bg-white text-purple-600 px-4 py-2 rounded-lg font-medium text-center">
+          Ver Relatório
+        </div>
+      <% end %>
+      <!-- Consumo de Produtos -->
+      <%= link_to consumo_produtos_path, class: 'bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-6 text-white hover:shadow-xl transition-all hover:scale-105' do %>
+        <div class="flex items-center justify-between mb-4">
+          <h4 class="text-lg font-semibold">Consumo de <br>
+            Produtos</h4>
+          <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <p class="text-orange-100 text-sm mb-4">Análise de consumo e vendas por produto</p>
+        <div class="w-full bg-white text-orange-600 px-4 py-2 rounded-lg font-medium text-center">
+          Ver Relatório
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
