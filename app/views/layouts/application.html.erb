@@ -63,9 +63,14 @@
                 </svg>
               </button>
               <!-- Search -->
-              <%= form_with url: produtos_path, method: :get, local: true, html: { class: "hidden md:block relative flex-1 max-w-2xl" } do %>
+              <%
+                busca_na_filial = controller_name == "filial_produtos" && @filial.present?
+                busca_url = busca_na_filial ? filial_filial_produtos_path(@filial) : produtos_path
+                busca_placeholder = busca_na_filial ? "Buscar produtos da filial" : "Buscar Produtos"
+              %>
+              <%= form_with url: busca_url, method: :get, local: true, html: { class: "hidden md:block relative flex-1 max-w-2xl" } do %>
                 <%= text_field_tag :q, params[:q],
-                  placeholder: "Buscar Produtos",
+                  placeholder: busca_placeholder,
                   class: "w-full pl-10 pr-4 py-2.5 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" %>
                 <button type="submit" class="absolute left-3 top-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Buscar produtos">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

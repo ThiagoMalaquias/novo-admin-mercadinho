@@ -3,7 +3,15 @@ class FilialProdutosController < ApplicationController
   before_action :set_filial_produto, only: %i[edit update destroy alterar_status]
 
   def index
-    @filial_produtos = @filial.filial_produtos.order("created_at desc")
+    @filial_produtos = @filial.filial_produtos.includes(:produto).order("filial_produtos.created_at desc")
+
+    if params[:q].present?
+      termo = "%#{params[:q].strip}%"
+      @filial_produtos = @filial_produtos.joins(:produto).where(
+        "produtos.descricao_cupom ILIKE :termo OR produtos.codigo_venda ILIKE :termo OR CAST(produtos.id AS TEXT) ILIKE :termo",
+        termo: termo
+      )
+    end
 
     options = { page: params[:page] || 1, per_page: 10 }
     @filial_produtos = @filial_produtos.paginate(options)
