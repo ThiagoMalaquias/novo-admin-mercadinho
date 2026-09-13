@@ -7,6 +7,7 @@ class Produto < ApplicationRecord
   has_many :filial_produtos, dependent: :destroy
   
   validates :descricao_cupom, uniqueness: true
+  validates :preco, numericality: { greater_than: 0, message: "deve ser maior que zero" }
 
   after_create :adicionar_filial
 

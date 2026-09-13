@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["imagemInput", "previewContainer", "previewImg"]
+  static targets = ["imagemInput", "previewContainer", "previewImg", "preco"]
 
   preventEnterSubmit(event) {
     if (event.key !== "Enter" && event.keyCode !== 13) return
@@ -13,6 +13,29 @@ export default class extends Controller {
     if (tag === "BUTTON" || type === "submit") return
 
     event.preventDefault()
+  }
+
+  validarPreco(event) {
+    if (!this.hasPrecoTarget) return
+
+    const valor = this.precoTarget.value
+      .replace(/\./g, "")
+      .replace(",", ".")
+      .trim()
+
+    if (!valor || Number(valor) <= 0) {
+      event.preventDefault()
+      this.precoTarget.setCustomValidity("Informe um preço maior que zero")
+      this.precoTarget.reportValidity()
+      return
+    }
+
+    this.precoTarget.setCustomValidity("")
+  }
+
+  limparErroPreco() {
+    if (!this.hasPrecoTarget) return
+    this.precoTarget.setCustomValidity("")
   }
 
   previewImagem() {
