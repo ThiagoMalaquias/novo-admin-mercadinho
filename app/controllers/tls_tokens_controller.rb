@@ -5,7 +5,9 @@ class TlsTokensController < ApplicationController
     @tls_tokens = TlsToken.order(created_at: :desc)
   end
 
-  def show; end
+  def show
+    @filial_usuarios = @tls_token.filial_usuarios.includes(:filial).order(:nome)
+  end
 
   def new
     @tls_token = TlsToken.new(quantidade_acessos: 0)
