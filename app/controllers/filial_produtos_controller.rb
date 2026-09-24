@@ -62,6 +62,7 @@ class FilialProdutosController < ApplicationController
     @filial_produto.status = status
     @filial_produto.save
 
+    flash[:notice] = "Status do produto alterado com sucesso."
     redirect_to filial_filial_produtos_url(@filial)
   end
 
