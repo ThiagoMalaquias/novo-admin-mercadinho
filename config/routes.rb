@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get "/produtos_mais_vendidos", to: 'home#produtos_mais_vendidos'
   post "/produtos_mais_vendidos/gerar_xlsx", to: 'home#gerar_xlsx_produtos_mais_vendidos', as: :gerar_xlsx_produtos_mais_vendidos
   get "/formas_recebimento", to: 'home#formas_recebimento'
+  post "/formas_recebimento/gerar_xlsx", to: 'home#gerar_xlsx_formas_recebimento', as: :gerar_xlsx_formas_recebimento
   get "/faturamento_filial", to: 'home#faturamento_filial'
   get "/consumo_produtos", to: 'home#consumo_produtos'
 

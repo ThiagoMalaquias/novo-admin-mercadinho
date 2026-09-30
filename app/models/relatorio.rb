@@ -3,11 +3,13 @@ class Relatorio < ApplicationRecord
   has_one_attached :arquivo
 
   TIPOS = {
-    produtos_mais_vendidos: "produtos_mais_vendidos"
+    produtos_mais_vendidos: "produtos_mais_vendidos",
+    formas_recebimento: "formas_recebimento"
   }.freeze
 
   NOMES = {
-    produtos_mais_vendidos: "Produtos mais vendidos"
+    produtos_mais_vendidos: "Produtos mais vendidos",
+    formas_recebimento: "Formas de recebimento"
   }.freeze
 
   STATUSES = {
@@ -67,6 +69,8 @@ class Relatorio < ApplicationRecord
     case tipo
     when TIPOS[:produtos_mais_vendidos]
       Relatorios::Gerar::ProdutosMaisVendidosService
+    when TIPOS[:formas_recebimento]
+      Relatorios::Gerar::FormasRecebimentoService
     else
       raise "Tipo de relatório não suportado: #{tipo}"
     end

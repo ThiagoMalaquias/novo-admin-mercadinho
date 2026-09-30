@@ -275,6 +275,8 @@ class GrupoAcessosController < ApplicationController
       importar: "Importar",
       produtos_mais_vendidos: "Produtos mais vendidos",
       gerar_xlsx_produtos_mais_vendidos: "Gerar XLSX produtos mais vendidos",
+      formas_recebimento: "Formas de recebimento",
+      gerar_xlsx_formas_recebimento: "Gerar XLSX formas de recebimento",
       alterar_status: "Alterar status",
       por_codigo_barras: "Buscar por código de barras"
     }

@@ -58,6 +58,23 @@ class HomeController < ApplicationController
     @vendas = @vendas.paginate(page: params[:page] || 1, per_page: 15)
   end
 
+  def gerar_xlsx_formas_recebimento
+    Relatorio.create!(
+      tipo: Relatorio::TIPOS[:formas_recebimento],
+      nome: Relatorio.nome_para(:formas_recebimento),
+      filtros: {
+        data_inicio: params[:data_inicio],
+        data_fim: params[:data_fim],
+        filial_id: params[:filial_id].presence
+      }.compact,
+      administrador: administrador,
+      status: Relatorio::STATUSES[:pendente]
+    )
+
+    redirect_to relatorios_path,
+                notice: "Relatório solicitado com sucesso. Quando estiver pronto, ficará mostrado aqui."
+  end
+
   def faturamento_filial
     @vendas = Venda
               .select("vendas.filial_id, filiais.nome_fantasia, COUNT(*) AS quantidade_vendas, SUM(valor) AS faturamento_total")

@@ -16,6 +16,17 @@
   </div>
   <!-- Search Form -->
   <%= render "busca", path: formas_recebimento_path %>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <%= form_with url: gerar_xlsx_formas_recebimento_path, method: :post, local: true, html: { class: "inline" } do %>
+      <%= hidden_field_tag :data_inicio, params[:data_inicio] %>
+      <%= hidden_field_tag :data_fim, params[:data_fim] %>
+      <%= hidden_field_tag :filial_id, params[:filial_id] %>
+      <%= submit_tag "Gerar XLSX",
+                     class: "inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors cursor-pointer",
+                     data: { disable_with: "Enfileirando..." } %>
+    <% end %>
+  </div>
   <!-- Charts Section -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Chart Card -->
@@ -66,7 +77,7 @@
                 </span>
                 <% if total_geral > 0 %>
                   <span class="text-xs text-gray-500 dark:text-gray-400 block">
-                    <%= number_with_precision((metodo[:valor] / total_geral * 100), precision: 1) %>%
+                    <%= number_with_precision((metodo[:valor].to_f / total_geral * 100), precision: 1) %>%
                   </span>
                 <% end %>
               </div>
