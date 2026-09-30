@@ -38,7 +38,8 @@ class ProdutosController < ApplicationController
 
   def create
     @produto = Produto.new(produto_params.except(:preco))
-    @produto.descricao_cupom = produto_params[:descricao_cupom].upcase.strip
+    @produto.descricao_cupom = produto_params[:descricao_cupom].to_s.upcase.strip
+    @produto.codigo_venda = produto_params[:codigo_venda].to_s.strip
     @produto.preco = Conversao.convert_comma_to_float(produto_params[:preco]) * 100.0
 
     respond_to do |format|
@@ -54,7 +55,8 @@ class ProdutosController < ApplicationController
 
   def update
     @produto.assign_attributes(produto_params.except(:preco))
-    @produto.descricao_cupom = produto_params[:descricao_cupom].upcase.strip if produto_params[:descricao_cupom].present?
+    @produto.descricao_cupom = produto_params[:descricao_cupom].to_s.upcase.strip
+    @produto.codigo_venda = produto_params[:codigo_venda].to_s.strip
     @produto.preco = Conversao.convert_comma_to_float(produto_params[:preco]) * 100.0
 
     respond_to do |format|

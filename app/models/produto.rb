@@ -6,8 +6,9 @@ class Produto < ApplicationRecord
   has_many :estoques, dependent: :destroy
   has_many :filial_produtos, dependent: :destroy
   
-  validates :descricao_cupom, uniqueness: true
-  validates :preco, numericality: { greater_than: 0, message: "deve ser maior que zero" }
+  validates :descricao_cupom, presence: true, uniqueness: true
+  validates :codigo_venda, presence: true, uniqueness: { message: "já está cadastrado em outro produto" }
+  validates :preco, presence: true, numericality: { greater_than: 0, message: "deve ser maior que zero" }
 
   after_create :adicionar_filial
 

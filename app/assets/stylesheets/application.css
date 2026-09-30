@@ -122,6 +122,37 @@
   margin-left: 0;
 }
 
+.apple_pagination {
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .apple_pagination {
+    gap: 0.25rem;
+  }
+
+  .apple_pagination a,
+  .apple_pagination span,
+  .apple_pagination .current {
+    padding: 0.25rem 0.5rem;
+    min-width: 2rem;
+    height: 2rem;
+    font-size: 0.75rem;
+  }
+
+  .apple_pagination .previous_page,
+  .apple_pagination .next_page {
+    padding: 0.25rem 0.625rem;
+  }
+
+  .apple_pagination .gap {
+    min-width: auto;
+    padding: 0.25rem 0.125rem;
+  }
+}
+
 
 /* Estilos para digg_pagination */
 .digg_pagination {
